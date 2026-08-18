@@ -63,6 +63,13 @@ function initFAQAccordion() {
   });
 }
 
+function extractFirstImageUrl(post) {
+  const featured = post._embedded?.['wp:featuredmedia'];
+  if (Array.isArray(featured) && featured[0]?.source_url) return featured[0].source_url;
+  const match = (post.content?.rendered || '').match(/<img[^>]+src="(https:\/\/[^"?]+[^"]*?)"/i);
+  return match ? match[1] : '';
+}
+
 async function fetchBlogPosts() {
   const container = document.getElementById('blog-posts');
   if (!container) return;
@@ -83,7 +90,7 @@ async function fetchBlogPosts() {
       const date    = new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
       const rawExcerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 130) + '…';
       const excerpt = escapeHTML(rawExcerpt);
-      const imgRaw  = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+      const imgRaw  = extractFirstImageUrl(post);
       const safeImg = imgRaw.startsWith('https://') ? escapeHTML(imgRaw) : '';
       const title   = escapeHTML(post.title.rendered.replace(/<[^>]+>/g, ''));
       const safeLink = post.link.startsWith('https://') ? escapeHTML(post.link) : '#';
