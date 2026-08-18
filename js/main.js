@@ -89,9 +89,45 @@ async function fetchBlogPosts() {
   }
 }
 
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Enviando…';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(new FormData(form)).toString(),
+      });
+
+      if (res.ok) {
+        form.innerHTML = `
+          <div class="text-center py-12">
+            <div class="text-5xl mb-4">🎉</div>
+            <p class="text-xl font-bold text-gray-900 mb-2">¡Mensaje enviado!</p>
+            <p class="text-gray-500">Te respondo en menos de 24 horas.</p>
+          </div>`;
+      } else {
+        throw new Error('Error en Netlify Forms');
+      }
+    } catch {
+      btn.textContent = 'Enviar mensaje';
+      btn.disabled = false;
+      alert('Error al enviar. Escríbeme directamente a info@eduardomarin.es o por WhatsApp.');
+    }
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initMobileMenu();
   initFAQAccordion();
   fetchBlogPosts();
+  initContactForm();
 });
