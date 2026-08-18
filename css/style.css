@@ -120,3 +120,21 @@
 .faq-icon.open {
   transform: rotate(45deg);
 }
+
+/* Accesibilidad: respeta preferencia de movimiento reducido */
+@media (prefers-reduced-motion: reduce) {
+  .badge-float,
+  #whatsapp-float {
+    animation: none;
+  }
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .card-hover,
+  .faq-answer,
+  .faq-icon {
+    transition: none;
+  }
+}

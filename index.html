@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edu Marín · Community Manager en Priego de Córdoba | Gestión de Redes Sociales</title>
-  <meta name="description" content="Asesor y gestor de redes sociales con más de 12 años de experiencia. Gestiono Instagram, Facebook y Google Business para negocios locales en Córdoba y toda España. Consultoría 1:1 disponible.">
+  <title>Edu Marín · Community Manager en Priego de Córdoba</title>
+  <meta name="description" content="Asesor y gestor de redes sociales con 12+ años de experiencia en Córdoba y toda España. Instagram, Facebook, Google Business y consultoría 1:1 para negocios locales.">
   <meta name="author" content="Eduardo Marín Arjona">
   <meta name="robots" content="index, follow">
   <meta name="keywords" content="community manager Priego de Córdoba, gestión redes sociales Córdoba, asesor redes sociales Andalucía, Eduardo Marín community manager">
@@ -18,6 +18,7 @@
   <meta property="og:image" content="https://eduardomarin.es/assets/img/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Eduardo Marín Arjona, Community Manager en Priego de Córdoba">
   <meta property="og:locale" content="es_ES">
   <meta property="og:site_name" content="Edu Marín Community Manager">
 
@@ -49,6 +50,7 @@
     }
   </script>
   <link rel="icon" href="data:,">
+  <link rel="alternate" type="text/plain" href="/llms.txt">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body class="font-sans antialiased text-gray-900">
@@ -482,7 +484,7 @@
         -->
         <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="return false;" aria-label="Formulario de suscripción a la newsletter">
           <label for="newsletter-email" class="sr-only">Dirección de email</label>
-          <input type="email" id="newsletter-email" placeholder="tu@email.com" required
+          <input type="email" id="newsletter-email" placeholder="tu@email.com" required autocomplete="email"
                  class="flex-1 px-5 py-3.5 rounded-full text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white/50">
           <button type="submit"
                   class="bg-white text-brand-red font-bold px-7 py-3.5 rounded-full text-sm hover:bg-gray-100 transition-colors whitespace-nowrap">
@@ -750,6 +752,6 @@
 }
 </script>
 
-<script src="js/main.js"></script>
+<script src="js/main.js" defer></script>
 </body>
 </html>

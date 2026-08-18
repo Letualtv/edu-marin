@@ -20,4 +20,7 @@ Allow: /
 User-agent: Applebot-Extended
 Allow: /
 
+User-agent: OAI-SearchBot
+Allow: /
+
 Sitemap: https://eduardomarin.es/sitemap.xml
