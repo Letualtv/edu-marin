@@ -15,13 +15,8 @@ function initNavScroll() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      navbar.classList.add('bg-gray-950', 'shadow-lg');
-    } else {
-      navbar.classList.remove('bg-gray-950', 'shadow-lg');
-    }
-  });
-  navbar.classList.add('bg-transparent');
+    navbar.classList.toggle('shadow-lg', window.scrollY > 60);
+  }, { passive: true });
 }
 
 function initMobileMenu() {
@@ -66,7 +61,7 @@ function initFAQAccordion() {
 function extractFirstImageUrl(post) {
   const featured = post._embedded?.['wp:featuredmedia'];
   if (Array.isArray(featured) && featured[0]?.source_url) return featured[0].source_url;
-  const match = (post.content?.rendered || '').match(/<img[^>]+src="(https:\/\/[^"?]+[^"]*?)"/i);
+  const match = (post.content?.rendered || '').match(/<img[^>]+src="(https:\/\/[^"]+)"/i);
   return match ? match[1] : '';
 }
 
