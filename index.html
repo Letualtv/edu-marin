@@ -598,9 +598,152 @@
     </div>
   </section>
 
-  <!-- secciones posteriores se añaden aquí -->
 </main>
 
-  <script src="js/main.js"></script>
+<!-- ── FOOTER ── -->
+<footer class="bg-gray-950 text-white py-14">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
+
+      <!-- Col 1: Marca -->
+      <div>
+        <p class="text-xl font-bold mb-2">Edu <span class="gradient-text">Marín</span></p>
+        <p class="text-gray-400 text-sm leading-relaxed">Community Manager · Asesor y gestor de redes sociales en Priego de Córdoba. Toda España.</p>
+      </div>
+
+      <!-- Col 2: Navegación -->
+      <div>
+        <p class="font-semibold mb-4 text-sm uppercase tracking-widest text-gray-500">Navegación</p>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#inicio"    class="text-gray-400 hover:text-white transition-colors">Inicio</a></li>
+          <li><a href="#sobre-mi"  class="text-gray-400 hover:text-white transition-colors">Sobre mí</a></li>
+          <li><a href="#servicios" class="text-gray-400 hover:text-white transition-colors">Servicios</a></li>
+          <li><a href="#blog"      class="text-gray-400 hover:text-white transition-colors">Blog</a></li>
+          <li><a href="#contacto"  class="text-gray-400 hover:text-white transition-colors">Contacto</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Redes -->
+      <div>
+        <p class="font-semibold mb-4 text-sm uppercase tracking-widest text-gray-500">Redes</p>
+        <div class="flex gap-3">
+          <a href="https://www.instagram.com/eduardomarin_es/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
+             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-base">📸</a>
+          <a href="https://www.linkedin.com/in/-eduardomarin/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
+             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-base">💼</a>
+          <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer" aria-label="Blog"
+             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-base">✍️</a>
+          <a href="https://wa.me/34744743209" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+             class="w-9 h-9 bg-white/10 hover:bg-green-600 rounded-lg flex items-center justify-center transition-all duration-300 text-base">💬</a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-xs">
+      <p>© 2026 Eduardo Marín Arjona · <a href="mailto:info@eduardomarin.es" class="hover:text-white transition-colors">info@eduardomarin.es</a> · Diseñado con ❤️ en Priego de Córdoba</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ── SCHEMA JSON-LD (GEO + SEO) ── -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": "https://eduardomarin.es/#person",
+      "name": "Eduardo Marín Arjona",
+      "alternateName": "Edu Marín",
+      "jobTitle": "Community Manager",
+      "url": "https://eduardomarin.es",
+      "email": "info@eduardomarin.es",
+      "telephone": "+34744743209",
+      "image": "https://eduardomarin.es/assets/img/edu-marin.jpg",
+      "description": "Asesor y gestor de redes sociales con más de 12 años de experiencia. Especializado en Instagram, Facebook y Google Business Profile para negocios locales en Córdoba y toda España.",
+      "sameAs": [
+        "https://www.instagram.com/eduardomarin_es/",
+        "https://www.linkedin.com/in/-eduardomarin/",
+        "https://numero13elblog.wordpress.com"
+      ],
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Priego de Córdoba",
+        "addressRegion": "Andalucía",
+        "addressCountry": "ES"
+      },
+      "knowsAbout": ["Gestión de redes sociales","Marketing digital","Creación de contenido","Canva","Inteligencia artificial","Google Business Profile","Instagram","Facebook"]
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://eduardomarin.es/#service",
+      "name": "Edu Marín Community Manager",
+      "url": "https://eduardomarin.es",
+      "telephone": "+34744743209",
+      "email": "info@eduardomarin.es",
+      "description": "Asesoría y gestión integral de redes sociales para negocios locales y marcas. Creación de contenido visual, estrategia digital y consultoría 1:1.",
+      "provider": { "@id": "https://eduardomarin.es/#person" },
+      "areaServed": [
+        { "@type": "City", "name": "Priego de Córdoba" },
+        { "@type": "AdministrativeArea", "name": "Córdoba" },
+        { "@type": "AdministrativeArea", "name": "Andalucía" },
+        { "@type": "Country", "name": "España" }
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Servicios de Community Manager",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Gestión integral de redes sociales" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Creación de contenido visual con Canva" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Consultoría 1:1 de redes sociales" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Auditoría de perfiles sociales" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Estrategia de comunicación digital" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Integración de IA en marketing digital" } }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "¿En qué redes sociales trabaja Edu Marín?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eduardo Marín gestiona principalmente Instagram, Facebook y Google Business Profile. También asesora en LinkedIn y otras plataformas según las necesidades de cada negocio."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Cómo funciona la consultoría 1:1 de Edu Marín?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La consultoría 1:1 se realiza con cita previa. Consiste en una sesión personalizada donde se analiza la situación actual de tus redes sociales y se definen estrategias concretas para mejorar tu presencia digital."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Dónde ofrece sus servicios Eduardo Marín Community Manager?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eduardo Marín está basado en Priego de Córdoba, Andalucía, pero ofrece sus servicios de gestión y asesoría de redes sociales a negocios de toda España de forma remota."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "¿Qué herramientas utiliza Edu Marín para crear contenido?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Eduardo Marín utiliza Canva para la creación de contenido visual, Meta Business Suite para la gestión de Facebook e Instagram, Google Business Profile y herramientas de inteligencia artificial."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+
+<script src="js/main.js"></script>
 </body>
 </html>
