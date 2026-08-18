@@ -2,8 +2,18 @@
    EDU MARÍN — JS
    ====================== */
 
+function escapeHTML(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function initNavScroll() {
   const navbar = document.getElementById('navbar');
+  if (!navbar) return;
   window.addEventListener('scroll', () => {
     if (window.scrollY > 60) {
       navbar.classList.add('bg-gray-950', 'shadow-lg');
@@ -18,9 +28,16 @@ function initMobileMenu() {
   const btn  = document.getElementById('menu-btn');
   const menu = document.getElementById('mobile-menu');
   if (!btn || !menu) return;
-  btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+  btn.addEventListener('click', () => {
+    const isOpen = !menu.classList.contains('hidden');
+    menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!isOpen));
+  });
   menu.querySelectorAll('a').forEach(link =>
-    link.addEventListener('click', () => menu.classList.add('hidden'))
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+    })
   );
 }
 
@@ -32,6 +49,7 @@ function initFAQAccordion() {
       const isOpen = answer.classList.contains('open');
 
       // Cerrar todos
+      document.querySelectorAll('.faq-question').forEach(b => b.setAttribute('aria-expanded', 'false'));
       document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
       document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
 
@@ -39,6 +57,7 @@ function initFAQAccordion() {
       if (!isOpen) {
         answer.classList.add('open');
         icon.classList.add('open');
+        button.setAttribute('aria-expanded', 'true');
       }
     });
   });
@@ -51,26 +70,33 @@ async function fetchBlogPosts() {
   const API = 'https://public-api.wordpress.com/wp/v2/sites/numero13elblog.wordpress.com/posts'
             + '?per_page=3&_fields=id,title,excerpt,date,link,jetpack_featured_media_url';
 
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 8000);
+
   try {
-    const res = await fetch(API);
+    const res = await fetch(API, { signal: controller.signal });
+    clearTimeout(timeout);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const posts = await res.json();
 
     container.innerHTML = posts.map(post => {
       const date    = new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
-      const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 130) + '…';
+      const rawExcerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 130) + '…';
+      const excerpt = escapeHTML(rawExcerpt);
       const img     = post.jetpack_featured_media_url || 'assets/img/blog-placeholder.jpg';
-      const title   = post.title.rendered.replace(/<[^>]+>/g, '');
+      const safeImg = img.startsWith('https://') ? escapeHTML(img) : '';
+      const title   = escapeHTML(post.title.rendered.replace(/<[^>]+>/g, ''));
+      const safeLink = post.link.startsWith('https://') ? escapeHTML(post.link) : '#';
 
       return `
         <article class="bg-white rounded-2xl overflow-hidden shadow-sm card-hover group">
-          <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="block">
+          <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="block">
             <div class="overflow-hidden h-48 bg-gray-100">
-              <img src="${img}" alt="${title}" loading="lazy"
-                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              ${safeImg ? `<img src="${safeImg}" alt="${title}" loading="lazy"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : ''}
             </div>
             <div class="p-6">
-              <p class="text-xs text-gray-400 mb-2">${date}</p>
+              <p class="text-xs text-gray-400 mb-2">${escapeHTML(date)}</p>
               <h3 class="font-bold text-gray-900 text-base leading-snug mb-3 line-clamp-2">${title}</h3>
               <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">${excerpt}</p>
               <span class="inline-block mt-4 gradient-text font-semibold text-sm hover:underline">Leer más →</span>
@@ -79,7 +105,9 @@ async function fetchBlogPosts() {
         </article>`;
     }).join('');
 
-  } catch {
+  } catch (e) {
+    clearTimeout(timeout);
+    console.error('fetchBlogPosts error:', e);
     container.innerHTML = `
       <div class="col-span-3 text-center py-10">
         <p class="text-gray-500 mb-3">No se pudieron cargar los artículos en este momento.</p>
@@ -116,7 +144,8 @@ function initContactForm() {
       } else {
         throw new Error('Error en Netlify Forms');
       }
-    } catch {
+    } catch (e) {
+      console.error('initContactForm error:', e);
       btn.textContent = 'Enviar mensaje';
       btn.disabled = false;
       alert('Error al enviar. Escríbeme directamente a info@eduardomarin.es o por WhatsApp.');

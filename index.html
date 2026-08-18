@@ -83,7 +83,7 @@
         </a>
       </nav>
 
-      <button id="menu-btn" class="md:hidden text-white p-2 -mr-2" aria-label="Abrir menú">
+      <button id="menu-btn" class="md:hidden text-white p-2 -mr-2" aria-label="Abrir menú" aria-expanded="false">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         </svg>
@@ -301,7 +301,7 @@
         <div class="space-y-3">
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
               <span>¿En qué redes sociales trabajas?</span>
               <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
@@ -313,7 +313,7 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
               <span>¿Cómo funciona la consultoría 1:1?</span>
               <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
@@ -325,7 +325,7 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
               <span>¿Ofreces servicios para toda España?</span>
               <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
@@ -337,7 +337,7 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
               <span>¿Qué necesito para empezar?</span>
               <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
@@ -480,8 +480,9 @@
           2. Genera el embed de formulario.
           3. Sustituye el bloque siguiente por el código embed del proveedor elegido.
         -->
-        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="return false;">
-          <input type="email" placeholder="tu@email.com" required
+        <form class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" onsubmit="return false;" aria-label="Formulario de suscripción a la newsletter">
+          <label for="newsletter-email" class="sr-only">Dirección de email</label>
+          <input type="email" id="newsletter-email" placeholder="tu@email.com" required
                  class="flex-1 px-5 py-3.5 rounded-full text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white/50">
           <button type="submit"
                   class="bg-white text-brand-red font-bold px-7 py-3.5 rounded-full text-sm hover:bg-gray-100 transition-colors whitespace-nowrap">
@@ -660,7 +661,6 @@
       "url": "https://eduardomarin.es",
       "email": "info@eduardomarin.es",
       "telephone": "+34744743209",
-      "image": "https://eduardomarin.es/assets/img/edu-marin.jpg",
       "description": "Asesor y gestor de redes sociales con más de 12 años de experiencia. Especializado en Instagram, Facebook y Google Business Profile para negocios locales en Córdoba y toda España.",
       "sameAs": [
         "https://www.instagram.com/eduardomarin_es/",
@@ -684,6 +684,12 @@
       "email": "info@eduardomarin.es",
       "description": "Asesoría y gestión integral de redes sociales para negocios locales y marcas. Creación de contenido visual, estrategia digital y consultoría 1:1.",
       "provider": { "@id": "https://eduardomarin.es/#person" },
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Priego de Córdoba",
+        "addressRegion": "Andalucía",
+        "addressCountry": "ES"
+      },
       "areaServed": [
         { "@type": "City", "name": "Priego de Córdoba" },
         { "@type": "AdministrativeArea", "name": "Córdoba" },
