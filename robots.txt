@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Crawlers de IA (GEO)
+User-agent: GPTBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://eduardomarin.es/sitemap.xml
