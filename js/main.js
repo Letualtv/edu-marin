@@ -44,8 +44,54 @@ function initFAQAccordion() {
   });
 }
 
+async function fetchBlogPosts() {
+  const container = document.getElementById('blog-posts');
+  if (!container) return;
+
+  const API = 'https://public-api.wordpress.com/wp/v2/sites/numero13elblog.wordpress.com/posts'
+            + '?per_page=3&_fields=id,title,excerpt,date,link,jetpack_featured_media_url';
+
+  try {
+    const res = await fetch(API);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const posts = await res.json();
+
+    container.innerHTML = posts.map(post => {
+      const date    = new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+      const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim().slice(0, 130) + '…';
+      const img     = post.jetpack_featured_media_url || 'assets/img/blog-placeholder.jpg';
+      const title   = post.title.rendered.replace(/<[^>]+>/g, '');
+
+      return `
+        <article class="bg-white rounded-2xl overflow-hidden shadow-sm card-hover group">
+          <a href="${post.link}" target="_blank" rel="noopener noreferrer" class="block">
+            <div class="overflow-hidden h-48 bg-gray-100">
+              <img src="${img}" alt="${title}" loading="lazy"
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-gray-400 mb-2">${date}</p>
+              <h3 class="font-bold text-gray-900 text-base leading-snug mb-3 line-clamp-2">${title}</h3>
+              <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">${excerpt}</p>
+              <span class="inline-block mt-4 gradient-text font-semibold text-sm hover:underline">Leer más →</span>
+            </div>
+          </a>
+        </article>`;
+    }).join('');
+
+  } catch {
+    container.innerHTML = `
+      <div class="col-span-3 text-center py-10">
+        <p class="text-gray-500 mb-3">No se pudieron cargar los artículos en este momento.</p>
+        <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer"
+           class="text-brand-red font-semibold hover:underline">Visitar el blog directamente →</a>
+      </div>`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initMobileMenu();
   initFAQAccordion();
+  fetchBlogPosts();
 });
