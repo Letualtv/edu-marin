@@ -24,7 +24,28 @@ function initMobileMenu() {
   );
 }
 
+function initFAQAccordion() {
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const answer = button.nextElementSibling;
+      const icon   = button.querySelector('.faq-icon');
+      const isOpen = answer.classList.contains('open');
+
+      // Cerrar todos
+      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+      document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+
+      // Abrir el pulsado si estaba cerrado
+      if (!isOpen) {
+        answer.classList.add('open');
+        icon.classList.add('open');
+      }
+    });
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initNavScroll();
   initMobileMenu();
+  initFAQAccordion();
 });
