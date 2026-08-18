@@ -3,6 +3,7 @@
 **Fecha:** 2026-08-18
 **Proyecto:** Web personal / landing de captación para Eduardo Marín Arjona, Community Manager
 **Stack:** HTML + Tailwind CSS CDN + JavaScript vanilla
+**Despliegue:** Netlify (free tier) — hosting estático con HTTPS automático y dominio personalizado
 
 ---
 
@@ -139,7 +140,7 @@ Gradiente principal (hero, cards, botones CTA): `linear-gradient(135deg, #E53E3E
 ### 6.8 Contacto (`#contacto`)
 - Fondo gris suave
 - Dos columnas: formulario (izq) + info de contacto (der)
-- **Formulario:** nombre, email, mensaje, botón enviar → Formspree (`action` con ID placeholder)
+- **Formulario:** nombre, email, mensaje, botón enviar → Netlify Forms (atributo `netlify` en el `<form>`, sin backend, 100 envíos/mes gratis)
 - **Info:** icono WhatsApp `744 74 32 09`, icono email `info@eduardomarin.es`, ubicación (Priego de Córdoba)
 - Botón WhatsApp grande y destacado: abre `https://wa.me/34744743209` con mensaje predefinido
 
@@ -247,17 +248,32 @@ Fichero que describe quién es Edu Marín, sus servicios, redes y URLs relevante
 
 ---
 
-## 10. Pendiente / Segunda fase
+## 10. Despliegue
+
+**Plataforma:** Netlify (free tier)
+- Conectar el repo de GitHub a Netlify → despliegue automático en cada push a `main`
+- HTTPS automático con Let's Encrypt
+- Dominio personalizado: apuntar `eduardomarin.es` a Netlify DNS
+- Netlify Forms gestiona el formulario de contacto sin backend (se reciben por email)
+- `netlify.toml` con configuración mínima: directorio de publicación raíz `/`, sin build command
+
+```toml
+# netlify.toml
+[build]
+  publish = "."
+```
+
+## 11. Pendiente / Segunda fase
 
 - Integración de plugins SEO/GEO de la comunidad (a definir)
 - Conexión del newsletter a Mailchimp o Brevo (cuando Edu lo decida)
 - Foto profesional de Edu (placeholder por ahora)
-- ID de formulario Formspree real
+- Cuenta Netlify creada y repo conectado
 - Plugins SEO/GEO de la comunidad de superpowers
 
 ---
 
-## 11. Criterios de éxito
+## 12. Criterios de éxito
 
 - La landing carga en menos de 2 segundos en móvil
 - El formulario de contacto funciona y envía email
