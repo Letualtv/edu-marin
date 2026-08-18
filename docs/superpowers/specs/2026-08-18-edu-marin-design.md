@@ -140,8 +140,8 @@ Gradiente principal (hero, cards, botones CTA): `linear-gradient(135deg, #E53E3E
 - Fondo gris suave
 - Dos columnas: formulario (izq) + info de contacto (der)
 - **Formulario:** nombre, email, mensaje, botón enviar → Formspree (`action` con ID placeholder)
-- **Info:** icono WhatsApp con número, icono email, ubicación (Priego de Córdoba)
-- Botón WhatsApp grande y destacado: abre `https://wa.me/34XXXXXXXXX` con mensaje predefinido
+- **Info:** icono WhatsApp `744 74 32 09`, icono email `info@eduardomarin.es`, ubicación (Priego de Córdoba)
+- Botón WhatsApp grande y destacado: abre `https://wa.me/34744743209` con mensaje predefinido
 
 ### 6.9 Footer
 - Fondo muy oscuro (`#0a0a0a`)
@@ -175,7 +175,7 @@ Gradiente principal (hero, cards, botones CTA): `linear-gradient(135deg, #E53E3E
 ```html
 <title>Edu Marín · Community Manager en Priego de Córdoba | Gestión de Redes Sociales</title>
 <meta name="description" content="Asesor y gestor de redes sociales con 12 años de experiencia. Gestiono Instagram, Facebook y Google Business para negocios locales en Córdoba y toda España. Consultoría 1:1 disponible.">
-<link rel="canonical" href="https://eduardomarin.es/">
+<link rel="canonical" href="https://eduardomarin.es/"> <!-- dominio real confirmado -->
 ```
 
 ### Open Graph / Twitter Card
@@ -208,6 +208,8 @@ Tres bloques:
   "alternateName": "Edu Marín",
   "jobTitle": "Community Manager",
   "url": "https://eduardomarin.es",
+  "email": "info@eduardomarin.es",
+  "telephone": "+34744743209",
   "sameAs": [
     "https://www.instagram.com/eduardomarin_es/",
     "https://www.linkedin.com/in/-eduardomarin/",
@@ -249,10 +251,8 @@ Fichero que describe quién es Edu Marín, sus servicios, redes y URLs relevante
 
 - Integración de plugins SEO/GEO de la comunidad (a definir)
 - Conexión del newsletter a Mailchimp o Brevo (cuando Edu lo decida)
-- Número de WhatsApp real de Edu (placeholder en el código)
 - Foto profesional de Edu (placeholder por ahora)
 - ID de formulario Formspree real
-- URL de dominio definitivo (placeholder `eduardomarin.es`)
 - Plugins SEO/GEO de la comunidad de superpowers
 
 ---
