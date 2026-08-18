@@ -2,7 +2,121 @@
    EDU MARÍN — Estilos
    ====================== */
 
-/* 1. Gradientes */
-/* 2. Animaciones */
-/* 3. Utilidades */
-/* 4. Componentes */
+/* ── 1. Gradientes ── */
+.gradient-text {
+  background: linear-gradient(135deg, #E53E3E, #F97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #E53E3E, #F97316);
+}
+
+.gradient-border-wrap {
+  background: linear-gradient(135deg, #E53E3E, #F97316);
+  padding: 3px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+/* ── 2. Animaciones ── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.badge-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+
+#whatsapp-float {
+  animation: pulse-ring 2.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.5s infinite linear;
+  border-radius: 8px;
+}
+
+/* ── 3. Fade-in (IntersectionObserver) ── */
+.fade-in {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── 4. Utilidades ── */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* Hero pattern background */
+.hero-bg {
+  background-color: #111111;
+  background-image:
+    radial-gradient(ellipse at 20% 50%, rgba(229, 62, 62, 0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 10%, rgba(249, 115, 22, 0.12) 0%, transparent 45%);
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Smooth underline on nav active */
+.nav-link.active {
+  color: #F97316;
+}
+
+/* FAQ transitions */
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+
+.faq-answer.open {
+  max-height: 300px;
+}
+
+.faq-icon {
+  transition: transform 0.3s ease;
+}
+
+.faq-icon.open {
+  transform: rotate(45deg);
+}
