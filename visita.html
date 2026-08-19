@@ -12,145 +12,188 @@
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } }
-    }
+    tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } } }
   </script>
   <link rel="icon" href="data:,">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" crossorigin="anonymous">
 
   <style>
     :root {
-      --bg:       #101010;
-      --surface:  #1a1a1a;
-      --surface2: #222222;
-      --sh:       #2a2a2a;
-      --lime:     #CBFF3D;
-      --ink:      #F4F4F0;
-      --muted:    #8C8C86;
-      --border:   #2A2A2A;
+      --bg:      #101010; --surface: #1a1a1a; --surface2: #222;
+      --sh:      #2a2a2a; --lime:    #CBFF3D; --ink:      #F4F4F0;
+      --muted:   #8C8C86; --border:  #2A2A2A;
     }
-
     * { box-sizing: border-box; }
-
     body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
-    /* ── Cabecera ── */
-    .v-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
-    .v-logo { font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+    /* Header */
+    .v-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; gap: 10px; }
+    .v-logo { font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; white-space: nowrap; }
     .v-logo span { background: linear-gradient(135deg,#E53E3E,#F97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .v-header-right { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
     .v-tabs { display: flex; gap: 4px; }
-    .v-tab { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+    .v-tab { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; white-space: nowrap; }
     .v-tab:hover { color: var(--ink); border-color: #444; }
     .v-tab.active { background: var(--lime); color: #101010; border-color: var(--lime); }
+    .v-icon-btn { background: none; border: 1px solid var(--border); border-radius: 8px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--muted); cursor: pointer; font-size: 13px; transition: all 0.15s; flex-shrink: 0; }
+    .v-icon-btn:hover { color: var(--ink); border-color: #444; }
+    .v-sync-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); display: inline-block; }
+    .v-sync-dot.ok { background: #4ade80; }
+    .v-sync-dot.warn { background: #facc15; }
 
-    /* ── Widget ── */
-    .v-card { background: var(--surface); border-radius: 16px; max-width: 580px; margin: 24px auto; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
-    .v-card-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+    /* Card */
+    .v-card { background: var(--surface); border-radius: 16px; max-width: 560px; margin: 20px auto; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .v-card-header { padding: 18px 22px 14px; border-bottom: 1px solid var(--border); }
     .v-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
     .v-eyebrow b { color: var(--lime); }
     .v-track { height: 3px; background: var(--border); border-radius: 4px; overflow: hidden; }
     .v-fill { height: 100%; background: var(--lime); border-radius: 4px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
-    .v-body { padding: 24px; }
-    .v-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin: 0 0 16px; line-height: 1.3; }
-    .v-hint { font-size: 12px; color: var(--muted); margin: -10px 0 16px; }
+    .v-body { padding: 22px; }
+    .v-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin: 0 0 14px; line-height: 1.3; }
 
-    /* ── Inputs ── */
+    /* Inputs */
     .v-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; margin-top: 12px; }
     .v-label:first-child { margin-top: 0; }
-    .v-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 11px 13px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 14px; display: block; }
+    .v-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 13px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 14px; display: block; }
     .v-input:focus { outline: none; border-color: var(--lime); }
     .v-input::placeholder { color: var(--muted); }
-    .v-textarea { min-height: 80px; resize: vertical; }
+    .v-textarea { min-height: 75px; resize: vertical; }
     .v-date { color-scheme: dark; }
 
-    /* ── Chips de plataforma ── */
-    .v-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
-    .v-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 999px; padding: 7px 13px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px; }
+    /* Chips */
+    .v-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .v-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 999px; padding: 6px 12px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 5px; }
     .v-chip:hover { border-color: #444; color: var(--ink); }
-    .v-chip.active { background: rgba(203,255,61,0.12); border-color: var(--lime); color: var(--lime); }
+    .v-chip.active { background: rgba(203,255,61,0.1); border-color: var(--lime); color: var(--lime); }
 
-    /* ── Opciones radio ── */
-    .v-options { display: flex; flex-direction: column; gap: 7px; }
-    .v-opt { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 11px 14px; font-size: 13px; font-weight: 500; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.12s; font-family: 'Inter', sans-serif; text-align: left; width: 100%; }
+    /* Opciones radio */
+    .v-options { display: flex; flex-direction: column; gap: 6px; }
+    .v-opt { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 13px; font-size: 13px; font-weight: 500; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 9px; transition: all 0.12s; font-family: 'Inter', sans-serif; text-align: left; width: 100%; }
     .v-opt:hover { border-color: #444; background: var(--sh); }
     .v-opt.active { background: rgba(203,255,61,0.08); border-color: var(--lime); }
-    .v-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--muted); flex-shrink: 0; position: relative; }
+    .v-dot { width: 13px; height: 13px; border-radius: 50%; border: 1.5px solid var(--muted); flex-shrink: 0; position: relative; }
     .v-opt.active .v-dot { border-color: var(--lime); }
     .v-opt.active .v-dot::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--lime); }
 
-    /* ── Navegación ── */
-    .v-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    /* Nav */
+    .v-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
     .v-btn-back { background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; padding: 8px 4px; font-family: 'Inter', sans-serif; }
     .v-btn-back:hover { color: var(--ink); }
-    .v-btn-next { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity 0.15s, transform 0.1s; }
+    .v-btn-next { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 10px 20px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity 0.15s, transform 0.1s; }
     .v-btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
     .v-btn-next:not(:disabled):hover { transform: translateY(-1px); }
 
-    /* ── Pantalla unlock ── */
-    .v-unlock { max-width: 380px; margin: 60px auto; padding: 0 20px; text-align: center; }
-    .v-unlock h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; margin-bottom: 8px; }
-    .v-unlock p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-    .v-unlock-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 16px; color: var(--ink); font-size: 16px; text-align: center; letter-spacing: 0.1em; font-family: 'Inter', sans-serif; margin-bottom: 12px; }
+    /* Unlock */
+    .v-unlock { max-width: 340px; margin: 60px auto; padding: 0 20px; text-align: center; }
+    .v-unlock h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; margin-bottom: 6px; }
+    .v-unlock p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
+    .v-unlock-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--ink); font-size: 16px; text-align: center; letter-spacing: 0.1em; font-family: 'Inter', sans-serif; margin-bottom: 10px; }
     .v-unlock-input:focus { outline: none; border-color: var(--lime); }
-    .v-unlock-btn { width: 100%; background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 13px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
-    .v-unlock-err { color: #f87171; font-size: 13px; margin-top: 8px; display: none; }
+    .v-unlock-btn { width: 100%; background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-err { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
 
-    /* ── Historial ── */
-    .v-history { max-width: 580px; margin: 24px auto; padding: 0 16px 40px; }
-    .v-history-empty { text-align: center; color: var(--muted); padding: 60px 20px; font-size: 14px; }
-    .v-visit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+    /* Setup Sheets */
+    .v-setup { max-width: 560px; margin: 20px auto; padding: 0 16px 40px; }
+    .v-setup-card { background: var(--surface); border-radius: 14px; padding: 22px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .v-setup-step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+    .v-setup-step:last-child { margin-bottom: 0; }
+    .v-step-num { background: var(--lime); color: #101010; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .v-step-text { font-size: 13px; line-height: 1.6; color: var(--ink); }
+    .v-step-text strong { color: var(--lime); }
+    .v-code-block { background: #0a0a0a; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: 'Courier New', monospace; font-size: 11px; color: #a3e635; margin: 8px 0; max-height: 200px; overflow-y: auto; white-space: pre; line-height: 1.5; }
+    .v-btn-copy { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 4px; transition: all 0.15s; }
+    .v-btn-copy:hover { color: var(--ink); border-color: #444; }
+    .v-btn-copy.copied { color: var(--lime); border-color: var(--lime); }
+    .v-url-row { display: flex; gap: 8px; margin-top: 8px; }
+    .v-url-input { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 13px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 13px; }
+    .v-url-input:focus { outline: none; border-color: var(--lime); }
+    .v-url-input::placeholder { color: var(--muted); }
+    .v-btn-save-url { background: var(--lime); color: #101010; border: none; border-radius: 9px; padding: 10px 16px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif; }
+    .v-skip-link { text-align: center; margin-top: 14px; }
+    .v-skip-link button { background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: underline; }
+    .v-skip-link button:hover { color: var(--ink); }
+
+    /* Historial */
+    .v-history { max-width: 560px; margin: 20px auto; padding: 0 16px 40px; }
+    .v-history-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; flex-wrap: wrap; gap: 8px; }
+    .v-search { background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px 8px 36px; font-size: 13px; color: var(--ink); font-family: 'Inter', sans-serif; width: 200px; position: relative; }
+    .v-search:focus { outline: none; border-color: var(--lime); }
+    .v-search::placeholder { color: var(--muted); }
+    .v-search-wrap { position: relative; }
+    .v-search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 12px; pointer-events: none; }
+    .v-filter-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+    .v-filter { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 5px 10px; font-size: 11px; font-weight: 600; color: var(--muted); cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.12s; white-space: nowrap; }
+    .v-filter:hover { color: var(--ink); }
+    .v-filter.active { background: var(--lime); color: #101010; border-color: var(--lime); }
+    .v-history-empty { text-align: center; color: var(--muted); padding: 50px 20px; font-size: 14px; }
+    .v-sync-bar { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); flex-wrap: wrap; gap: 8px; }
+    .v-btn-syncall { background: none; border: 1px solid var(--lime); color: var(--lime); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-syncall:hover { background: rgba(203,255,61,0.1); }
+
+    /* Tarjetas visita */
+    .v-visit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s; }
     .v-visit-card:hover { border-color: #3a3a3a; }
     .v-visit-card.expanded { border-color: var(--lime); }
-    .v-visit-head { display: flex; align-items: flex-start; gap: 12px; }
+    .v-visit-head { display: flex; align-items: flex-start; gap: 10px; }
     .v-status-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
     .v-visit-main { flex: 1; min-width: 0; }
-    .v-visit-name { font-weight: 700; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .v-visit-name { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .v-visit-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .v-visit-meta { font-size: 11px; color: var(--muted); margin-top: 6px; display: flex; gap: 10px; flex-wrap: wrap; }
-    .v-visit-meta span { display: flex; align-items: center; gap: 4px; }
-    .v-visit-detail { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.7; display: none; }
+    .v-visit-meta { font-size: 11px; color: var(--muted); margin-top: 5px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .v-visit-meta span { display: flex; align-items: center; gap: 3px; }
+    .v-follow-alert { color: #f87171; font-weight: 600; }
+    .v-visit-detail { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.7; display: none; }
     .v-visit-card.expanded .v-visit-detail { display: block; }
     .v-detail-row { margin-bottom: 8px; }
-    .v-detail-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
-    .v-detail-val { color: var(--ink); }
-    .v-visit-actions { display: flex; gap: 8px; margin-top: 14px; }
-    .v-btn-del { background: none; border: 1px solid #3f2020; color: #f87171; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-detail-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 1px; }
+    .v-visit-actions { display: flex; gap: 7px; margin-top: 12px; flex-wrap: wrap; }
+    .v-btn-del { background: none; border: 1px solid #3f2020; color: #f87171; border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
     .v-btn-del:hover { background: rgba(248,113,113,0.1); }
-    .v-btn-wa { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .v-btn-wa { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 600; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
     .v-btn-wa:hover { color: var(--ink); border-color: #444; }
+    .v-btn-edit { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-edit:hover { color: var(--ink); border-color: #444; }
 
-    /* ── Pantalla guardado ── */
-    .v-saved { text-align: center; padding: 40px 24px; }
-    .v-saved-icon { font-size: 48px; margin-bottom: 16px; }
-    .v-saved h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--lime); margin-bottom: 8px; }
-    .v-saved p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
-    .v-saved-actions { display: flex; flex-direction: column; gap: 10px; max-width: 240px; margin: 0 auto; }
-    .v-btn-primary { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
-    .v-btn-secondary { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 11px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    /* Guardado */
+    .v-saved { text-align: center; padding: 36px 22px; }
+    .v-saved-icon { font-size: 44px; margin-bottom: 14px; }
+    .v-saved h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--lime); margin-bottom: 6px; }
+    .v-saved p { color: var(--muted); font-size: 13px; margin-bottom: 6px; }
+    .v-sync-status { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; padding: 5px 12px; border-radius: 999px; margin-bottom: 20px; }
+    .v-sync-status.ok   { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.3); }
+    .v-sync-status.local { background: rgba(250,204,21,0.1); color: #facc15; border: 1px solid rgba(250,204,21,0.3); }
+    .v-saved-actions { display: flex; flex-direction: column; gap: 8px; max-width: 200px; margin: 0 auto; }
+    .v-btn-primary { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 11px 18px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-secondary { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
     .v-btn-secondary:hover { color: var(--ink); border-color: #444; }
 
-    .v-screen { animation: vIn 0.25s ease; }
-    @keyframes vIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+    /* Config URL */
+    .v-config { max-width: 560px; margin: 20px auto; padding: 0 16px 40px; }
 
+    .v-screen { animation: vIn 0.22s ease; }
+    @keyframes vIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
     @media (max-width: 480px) {
-      .v-card { margin: 12px; border-radius: 12px; }
-      .v-body { padding: 18px; }
-      .v-history { padding: 0 12px 40px; }
-      .v-tabs .v-tab { padding: 6px 10px; font-size: 11px; }
+      .v-card { margin: 10px; border-radius: 12px; }
+      .v-body { padding: 16px; }
+      .v-history, .v-setup, .v-config { padding: 0 10px 40px; }
+      .v-search { width: 140px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
   <header class="v-header">
     <a href="index.html" class="v-logo">Edu <span>Marín</span></a>
-    <div class="v-tabs" id="vTabs" style="display:none;">
-      <button class="v-tab active" id="tabNueva" type="button">+ Nueva visita</button>
-      <button class="v-tab" id="tabHistorial" type="button">Historial <span id="vCount"></span></button>
+    <div class="v-header-right">
+      <div class="v-tabs" id="vTabs" style="display:none">
+        <button class="v-tab active" id="tabNueva"    type="button">+ Nueva</button>
+        <button class="v-tab"        id="tabHistorial" type="button">Historial <span id="vCount"></span></button>
+      </div>
+      <button class="v-icon-btn" id="btnConfig" title="Configurar Google Sheets" style="display:none">
+        <i class="fa-solid fa-gear" aria-hidden="true"></i>
+      </button>
     </div>
   </header>
 
@@ -162,96 +205,159 @@
 
     const PASS    = 'edu2026';
     const SK      = 'visitas_edu';
-    const WA_NUM  = '34744743209';
+    const SK_URL  = 'visitas_sheet_url';
 
     /* ── Helpers ── */
     function esc(s) {
-      return String(s || '')
-        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
-    function today() {
-      return new Date().toISOString().slice(0, 10);
-    }
-    function fmtDate(iso) {
-      if (!iso) return '—';
-      const [y, m, d] = iso.split('-');
-      return `${d}/${m}/${y}`;
-    }
-    function uid() {
-      return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    function today()    { return new Date().toISOString().slice(0,10); }
+    function fmtDate(d) { if (!d) return '—'; const [y,m,dd] = d.split('-'); return `${dd}/${m}/${y}`; }
+    function uid()      { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+    function isPast(d)  { return d && d < today(); }
+    function isToday(d) { return d && d === today(); }
+
+    /* ── Storage ── */
+    function loadAll()    { try { return JSON.parse(localStorage.getItem(SK)||'[]'); } catch { return []; } }
+    function saveAll(arr) { localStorage.setItem(SK, JSON.stringify(arr)); }
+    function addVisit(v)  { const a = loadAll(); a.unshift(v); saveAll(a); }
+    function delVisit(id) { saveAll(loadAll().filter(v=>v.id!==id)); }
+    function updateVisit(v) { saveAll(loadAll().map(x => x.id === v.id ? v : x)); }
+    function getSheetURL() { return localStorage.getItem(SK_URL) || ''; }
+    function setSheetURL(u) { localStorage.setItem(SK_URL, u.trim()); }
+
+    /* ── Google Sheets sync ── */
+    async function syncToSheets(v, url) {
+      if (!url) return false;
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify(v),
+        });
+        return true;
+      } catch { return false; }
     }
 
-    /* ── Almacenamiento ── */
-    function loadAll() {
-      try { return JSON.parse(localStorage.getItem(SK) || '[]'); } catch { return []; }
-    }
-    function saveAll(arr) {
-      localStorage.setItem(SK, JSON.stringify(arr));
-    }
-    function saveVisit(v) {
+    async function syncAllToSheets() {
+      const url = getSheetURL();
+      if (!url) return 0;
       const all = loadAll();
-      all.unshift(v);
-      saveAll(all);
-    }
-    function deleteVisit(id) {
-      saveAll(loadAll().filter(v => v.id !== id));
+      let ok = 0;
+      for (const v of all) {
+        const sent = await syncToSheets(v, url);
+        if (sent) ok++;
+      }
+      return ok;
     }
 
     /* ── Estado global ── */
-    const main    = document.getElementById('vMain');
-    const tabs    = document.getElementById('vTabs');
-    const tabN    = document.getElementById('tabNueva');
-    const tabH    = document.getElementById('tabHistorial');
-    const vCount  = document.getElementById('vCount');
-    let   screen  = 'unlock'; // unlock | new | saved | history
-    let   step    = 1;        // 1 | 2 | 3
+    const mainEl   = document.getElementById('vMain');
+    const tabs     = document.getElementById('vTabs');
+    const tabN     = document.getElementById('tabNueva');
+    const tabH     = document.getElementById('tabHistorial');
+    const vCount   = document.getElementById('vCount');
+    const btnCfg   = document.getElementById('btnConfig');
 
-    let draft = freshDraft();
+    let screen     = 'unlock';
+    let step       = 1;
+    let lastSynced = false;
+    let expandedId = null;
+    let filterPaso = 'todos';
+    let draft      = freshDraft();
+
     function freshDraft() {
       return {
-        id:       uid(),
-        fechaVisita: today(),
-        cliente:  { nombre: '', negocio: '', email: '', telefono: '' },
-        situacion:{ plataformas: [], estadoActual: '', necesidades: '' },
-        acuerdo:  { servicio: '', presupuesto: '', proximoPaso: '', fechaSeg: '', notas: '' },
+        id: uid(), fechaVisita: today(),
+        cliente:   { nombre:'', negocio:'', email:'', telefono:'' },
+        situacion: { plataformas:[], estadoActual:'', necesidades:'' },
+        acuerdo:   { servicio:'', presupuesto:'', proximoPaso:'', fechaSeg:'', notas:'' },
         createdAt: new Date().toISOString(),
       };
     }
 
     /* ── Datos estáticos ── */
     const PLATAFORMAS = [
-      { key: 'instagram', label: 'Instagram',      icon: 'fa-brands fa-instagram' },
-      { key: 'facebook',  label: 'Facebook',        icon: 'fa-brands fa-facebook-f' },
-      { key: 'google',    label: 'Google Business', icon: 'fa-brands fa-google' },
-      { key: 'linkedin',  label: 'LinkedIn',        icon: 'fa-brands fa-linkedin-in' },
-      { key: 'tiktok',    label: 'TikTok',          icon: 'fa-brands fa-tiktok' },
-      { key: 'ninguna',   label: 'Ninguna',         icon: 'fa-solid fa-xmark' },
+      { key:'instagram', label:'Instagram',      icon:'fa-brands fa-instagram' },
+      { key:'facebook',  label:'Facebook',        icon:'fa-brands fa-facebook-f' },
+      { key:'google',    label:'Google Business', icon:'fa-brands fa-google' },
+      { key:'linkedin',  label:'LinkedIn',        icon:'fa-brands fa-linkedin-in' },
+      { key:'tiktok',    label:'TikTok',          icon:'fa-brands fa-tiktok' },
+      { key:'ninguna',   label:'Ninguna',         icon:'fa-solid fa-xmark' },
     ];
-    const SERVICIOS = ['Express (desde 60€)', 'DIAGNÓSTICO (150€–400€)', 'REDES (150€–600€/mes)', 'Consultoría 1:1', 'Sin definir aún'];
-    const PRESUPUESTOS = ['Menos de 120€', '150€ – 400€ (pago único)', '150€ – 600€ / mes', 'No lo tiene claro'];
-    const PASOS = ['Enviar propuesta', 'Segunda reunión', 'Firmar / cerrar contrato', 'En espera de respuesta', 'Cliente descartado'];
-
-    const PASO_COLOR = {
-      'Enviar propuesta':           '#CBFF3D',
-      'Segunda reunión':            '#60a5fa',
-      'Firmar / cerrar contrato':   '#4ade80',
-      'En espera de respuesta':     '#facc15',
-      'Cliente descartado':         '#6B7280',
+    const SERVICIOS    = ['Express (desde 60€)','DIAGNÓSTICO (150€–400€)','REDES (150€–600€/mes)','Consultoría 1:1','Sin definir aún'];
+    const PRESUPUESTOS = ['Menos de 120€','150€ – 400€ (pago único)','150€ – 600€ / mes','No lo tiene claro'];
+    const PASOS        = ['Enviar propuesta','Segunda reunión','Firmar / cerrar contrato','En espera de respuesta','Cliente descartado'];
+    const PASO_COLOR   = {
+      'Enviar propuesta':         '#CBFF3D',
+      'Segunda reunión':          '#60a5fa',
+      'Firmar / cerrar contrato': '#4ade80',
+      'En espera de respuesta':   '#facc15',
+      'Cliente descartado':       '#6B7280',
     };
+
+    const GS_CODE = `// ── Pega este código en Apps Script y haz clic en Implementar ──
+
+const COLS = [
+  'Fecha visita','Nombre','Negocio','Email','Teléfono',
+  'Plataformas','Situación actual','Necesidades',
+  'Servicio','Presupuesto','Próximo paso',
+  'Fecha seguimiento','Notas','Guardado el'
+];
+
+function doPost(e) {
+  try {
+    const d     = JSON.parse(e.postData.contents);
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    if (sheet.getLastRow() === 0) sheet.appendRow(COLS);
+    sheet.appendRow([
+      d.fechaVisita               || '',
+      d.cliente?.nombre           || '',
+      d.cliente?.negocio          || '',
+      d.cliente?.email            || '',
+      d.cliente?.telefono         || '',
+      (d.situacion?.plataformas||[]).join(', '),
+      d.situacion?.estadoActual   || '',
+      d.situacion?.necesidades    || '',
+      d.acuerdo?.servicio         || '',
+      d.acuerdo?.presupuesto      || '',
+      d.acuerdo?.proximoPaso      || '',
+      d.acuerdo?.fechaSeg         || '',
+      d.acuerdo?.notas            || '',
+      new Date().toLocaleString('es-ES'),
+    ]);
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:true}))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch(err) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ok:false,error:err.message}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet() {
+  return ContentService
+    .createTextOutput(JSON.stringify({ok:true}))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
 
     /* ── Render principal ── */
     function render() {
-      updateTabs();
-      if      (screen === 'unlock')  renderUnlock();
-      else if (screen === 'new')     renderStep();
-      else if (screen === 'saved')   renderSaved();
-      else if (screen === 'history') renderHistory();
+      updateHeader();
+      if      (screen === 'unlock')   renderUnlock();
+      else if (screen === 'setup')    renderSetup();
+      else if (screen === 'new')      renderStep();
+      else if (screen === 'saved')    renderSaved();
+      else if (screen === 'history')  renderHistory();
+      else if (screen === 'config')   renderConfig();
     }
 
-    function updateTabs() {
+    function updateHeader() {
       const unlocked = screen !== 'unlock';
-      tabs.style.display = unlocked ? 'flex' : 'none';
+      tabs.style.display   = unlocked ? 'flex' : 'none';
+      btnCfg.style.display = unlocked ? 'flex' : 'none';
       if (unlocked) {
         const n = loadAll().length;
         vCount.textContent = n > 0 ? `(${n})` : '';
@@ -260,55 +366,174 @@
       }
     }
 
-    /* ── Unlock ── */
+    /* ── Tabs y config ── */
+    tabN.addEventListener('click', () => { draft = freshDraft(); step = 1; screen = 'new'; render(); });
+    tabH.addEventListener('click', () => { screen = 'history'; render(); });
+    btnCfg.addEventListener('click', () => { screen = 'config'; render(); });
+
+    /* ── UNLOCK ── */
     function renderUnlock() {
-      main.innerHTML = `
+      mainEl.innerHTML = `
         <div class="v-unlock v-screen">
-          <div style="font-size:36px;margin-bottom:16px;">🔒</div>
+          <div style="font-size:34px;margin-bottom:14px;">🔒</div>
           <h1>Panel de Visitas</h1>
           <p>Introduce la clave para acceder.</p>
           <input class="v-unlock-input" id="vPass" type="password" placeholder="••••••••" autocomplete="current-password">
           <button class="v-unlock-btn" id="vUnlockBtn" type="button">Entrar</button>
-          <p class="v-unlock-err" id="vErr">Clave incorrecta.</p>
+          <p class="v-err" id="vErr">Clave incorrecta.</p>
         </div>`;
 
-      const input = document.getElementById('vPass');
-      const btn   = document.getElementById('vUnlockBtn');
-      const err   = document.getElementById('vErr');
+      const inp = document.getElementById('vPass');
+      const btn = document.getElementById('vUnlockBtn');
+      const err = document.getElementById('vErr');
 
       function tryUnlock() {
-        if (input.value === PASS) {
-          screen = loadAll().length > 0 ? 'history' : 'new';
+        if (inp.value === PASS) {
+          screen = getSheetURL() ? (loadAll().length > 0 ? 'history' : 'new') : 'setup';
           render();
-        } else {
-          err.style.display = 'block';
-          input.value = '';
-          input.focus();
-        }
+        } else { err.style.display = 'block'; inp.value = ''; inp.focus(); }
       }
-
       btn.addEventListener('click', tryUnlock);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
-      input.focus();
+      inp.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+      inp.focus();
     }
 
-    /* ── Tabs ── */
-    tabN.addEventListener('click', () => {
-      draft = freshDraft(); step = 1;
-      screen = 'new'; render();
-    });
-    tabH.addEventListener('click', () => { screen = 'history'; render(); });
+    /* ── SETUP Google Sheets ── */
+    function renderSetup() {
+      mainEl.innerHTML = `
+        <div class="v-setup v-screen">
+          <div class="v-setup-card">
+            <div style="margin-bottom:18px;">
+              <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px;">Configuración inicial</div>
+              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Conectar con Google Sheets</div>
+              <p style="font-size:13px;color:var(--muted);line-height:1.6;">Así tus visitas se guardan en la nube y puedes verlas desde cualquier dispositivo. Solo hay que hacerlo una vez.</p>
+            </div>
 
-    /* ── Steps ── */
+            <div class="v-setup-step">
+              <div class="v-step-num">1</div>
+              <div class="v-step-text">Abre <strong>Google Sheets</strong> y crea una hoja nueva en blanco. Ponle un nombre como <em>"Visitas Edu"</em>.</div>
+            </div>
+            <div class="v-setup-step">
+              <div class="v-step-num">2</div>
+              <div class="v-step-text">En el menú superior, ve a <strong>Extensiones → Apps Script</strong>. Se abrirá una ventana nueva.</div>
+            </div>
+            <div class="v-setup-step">
+              <div class="v-step-num">3</div>
+              <div class="v-step-text">Borra todo el texto que hay y pega este código:</div>
+            </div>
+            <div class="v-code-block" id="gsCode">${esc(GS_CODE)}</div>
+            <button class="v-btn-copy" id="btnCopy" type="button"><i class="fa-solid fa-copy"></i> Copiar código</button>
+
+            <div class="v-setup-step" style="margin-top:18px;">
+              <div class="v-step-num">4</div>
+              <div class="v-step-text">Haz clic en <strong>Implementar → Nueva implementación</strong>. En <em>Tipo</em> elige <strong>Aplicación web</strong>. En <em>Quién tiene acceso</em> elige <strong>Cualquier persona</strong>. Haz clic en <strong>Implementar</strong> y autoriza si te lo pide.</div>
+            </div>
+            <div class="v-setup-step">
+              <div class="v-step-num">5</div>
+              <div class="v-step-text">Copia la <strong>URL de la aplicación web</strong> que aparece y pégala aquí:</div>
+            </div>
+            <div class="v-url-row">
+              <input class="v-url-input" id="vUrlInput" type="url" placeholder="https://script.google.com/macros/s/…/exec">
+              <button class="v-btn-save-url" id="vSaveUrl" type="button">Guardar</button>
+            </div>
+          </div>
+          <div class="v-skip-link">
+            <button id="vSkip" type="button">Usar solo en este dispositivo (sin Google Sheets)</button>
+          </div>
+        </div>`;
+
+      document.getElementById('btnCopy').addEventListener('click', () => {
+        navigator.clipboard.writeText(GS_CODE).then(() => {
+          const b = document.getElementById('btnCopy');
+          b.textContent = '✓ Copiado';
+          b.classList.add('copied');
+          setTimeout(() => { b.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar código'; b.classList.remove('copied'); }, 2000);
+        });
+      });
+
+      document.getElementById('vSaveUrl').addEventListener('click', () => {
+        const url = document.getElementById('vUrlInput').value.trim();
+        if (!url.startsWith('https://script.google.com')) {
+          alert('La URL debe empezar por https://script.google.com/…'); return;
+        }
+        setSheetURL(url);
+        screen = 'new'; render();
+      });
+
+      document.getElementById('vSkip').addEventListener('click', () => {
+        screen = 'new'; render();
+      });
+    }
+
+    /* ── CONFIG (cambiar URL) ── */
+    function renderConfig() {
+      const current = getSheetURL();
+      mainEl.innerHTML = `
+        <div class="v-config v-screen">
+          <div class="v-setup-card">
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:12px;">Configuración</div>
+
+            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
+              ${current
+                ? `<span style="color:#4ade80">✓ Google Sheets conectado</span>`
+                : `<span style="color:#facc15">⚠ Sin Google Sheets — datos solo en este dispositivo</span>`}
+            </p>
+
+            <label style="font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">URL del Apps Script</label>
+            <div class="v-url-row">
+              <input class="v-url-input" id="cfgUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(current)}">
+              <button class="v-btn-save-url" id="cfgSave" type="button">Guardar</button>
+            </div>
+
+            ${current ? `
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+              <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Enviar todas las visitas guardadas a Google Sheets:</p>
+              <button class="v-btn-syncall" id="cfgSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo ahora</button>
+              <p id="cfgSyncMsg" style="font-size:12px;color:var(--muted);margin-top:8px;display:none;"></p>
+            </div>` : ''}
+
+            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+              <button class="v-btn-back" id="cfgBack" type="button">← Volver al historial</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('cfgSave').addEventListener('click', () => {
+        const url = document.getElementById('cfgUrl').value.trim();
+        if (url && !url.startsWith('https://script.google.com')) {
+          alert('La URL debe empezar por https://script.google.com/…'); return;
+        }
+        setSheetURL(url);
+        screen = 'history'; render();
+      });
+
+      document.getElementById('cfgBack')?.addEventListener('click', () => { screen = 'history'; render(); });
+
+      const syncBtn = document.getElementById('cfgSyncAll');
+      if (syncBtn) {
+        syncBtn.addEventListener('click', async () => {
+          syncBtn.disabled = true;
+          syncBtn.textContent = 'Sincronizando…';
+          const n = await syncAllToSheets();
+          const msg = document.getElementById('cfgSyncMsg');
+          msg.style.display = 'block';
+          msg.style.color = '#4ade80';
+          msg.textContent = `✓ ${n} visita${n !== 1 ? 's' : ''} enviada${n !== 1 ? 's' : ''} a Google Sheets.`;
+          syncBtn.disabled = false;
+          syncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar todo ahora';
+        });
+      }
+    }
+
+    /* ── STEPS ── */
     function renderStep() {
       if      (step === 1) renderStep1();
       else if (step === 2) renderStep2();
       else if (step === 3) renderStep3();
     }
 
-    /* Step 1: Cliente */
     function renderStep1() {
-      main.innerHTML = `
+      mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
             <div class="v-eyebrow"><b>Paso 1</b> de 3 · Datos del cliente</div>
@@ -316,16 +541,16 @@
           </div>
           <div class="v-body v-screen">
             <p class="v-title">¿Con quién has quedado?</p>
-            <label class="v-label" for="s1Nombre">Nombre *</label>
-            <input class="v-input" id="s1Nombre" type="text"  placeholder="Nombre del cliente" maxlength="100" autocomplete="off">
-            <label class="v-label" for="s1Negocio">Negocio *</label>
-            <input class="v-input" id="s1Negocio" type="text" placeholder="Nombre del negocio" maxlength="150" autocomplete="off">
-            <label class="v-label" for="s1Email">Email</label>
-            <input class="v-input" id="s1Email"   type="email" placeholder="email@negocio.com"  maxlength="200" autocomplete="off">
-            <label class="v-label" for="s1Tel">Teléfono</label>
-            <input class="v-input" id="s1Tel"     type="tel"   placeholder="6XX XXX XXX"         maxlength="20">
-            <label class="v-label" for="s1Fecha">Fecha de la visita</label>
-            <input class="v-input v-date" id="s1Fecha" type="date" value="${esc(draft.fechaVisita)}">
+            <label class="v-label" for="s1N">Nombre *</label>
+            <input class="v-input" id="s1N" type="text"  placeholder="Nombre del cliente" maxlength="100" autocomplete="off">
+            <label class="v-label" for="s1G">Negocio *</label>
+            <input class="v-input" id="s1G" type="text"  placeholder="Nombre del negocio" maxlength="150" autocomplete="off">
+            <label class="v-label" for="s1E">Email</label>
+            <input class="v-input" id="s1E" type="email" placeholder="email@negocio.com"  maxlength="200" autocomplete="off">
+            <label class="v-label" for="s1T">Teléfono</label>
+            <input class="v-input" id="s1T" type="tel"   placeholder="6XX XXX XXX"         maxlength="20">
+            <label class="v-label" for="s1F">Fecha de la visita</label>
+            <input class="v-input v-date" id="s1F" type="date" value="${esc(draft.fechaVisita)}">
             <div class="v-nav">
               <span></span>
               <button class="v-btn-next" id="s1Next" type="button" disabled>Siguiente →</button>
@@ -333,33 +558,26 @@
           </div>
         </div>`;
 
-      const nombre  = document.getElementById('s1Nombre');
-      const negocio = document.getElementById('s1Negocio');
-      const next    = document.getElementById('s1Next');
-
-      nombre.value  = draft.cliente.nombre;
-      negocio.value = draft.cliente.negocio;
-      document.getElementById('s1Email').value = draft.cliente.email;
-      document.getElementById('s1Tel').value   = draft.cliente.telefono;
-      nombre.focus();
-
-      function check() { next.disabled = !(nombre.value.trim() && negocio.value.trim()); }
-      [nombre, negocio].forEach(el => el.addEventListener('input', check));
-      check();
-
+      const nEl = document.getElementById('s1N'), gEl = document.getElementById('s1G');
+      const next = document.getElementById('s1Next');
+      nEl.value = draft.cliente.nombre; gEl.value = draft.cliente.negocio;
+      document.getElementById('s1E').value = draft.cliente.email;
+      document.getElementById('s1T').value = draft.cliente.telefono;
+      nEl.focus();
+      function chk() { next.disabled = !(nEl.value.trim() && gEl.value.trim()); }
+      [nEl, gEl].forEach(el => el.addEventListener('input', chk)); chk();
       next.addEventListener('click', () => {
-        draft.cliente.nombre   = nombre.value.trim();
-        draft.cliente.negocio  = negocio.value.trim();
-        draft.cliente.email    = document.getElementById('s1Email').value.trim();
-        draft.cliente.telefono = document.getElementById('s1Tel').value.trim();
-        draft.fechaVisita      = document.getElementById('s1Fecha').value || today();
+        draft.cliente.nombre   = nEl.value.trim();
+        draft.cliente.negocio  = gEl.value.trim();
+        draft.cliente.email    = document.getElementById('s1E').value.trim();
+        draft.cliente.telefono = document.getElementById('s1T').value.trim();
+        draft.fechaVisita      = document.getElementById('s1F').value || today();
         step = 2; renderStep();
       });
     }
 
-    /* Step 2: Situación */
     function renderStep2() {
-      main.innerHTML = `
+      mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
             <div class="v-eyebrow"><b>Paso 2</b> de 3 · Situación actual</div>
@@ -370,17 +588,15 @@
             <label class="v-label">Plataformas activas</label>
             <div class="v-chips" id="s2Chips">
               ${PLATAFORMAS.map(p => `
-                <button class="v-chip${draft.situacion.plataformas.includes(p.key) ? ' active' : ''}"
+                <button class="v-chip${draft.situacion.plataformas.includes(p.key)?' active':''}"
                         data-key="${p.key}" type="button">
                   <i class="${esc(p.icon)}" aria-hidden="true"></i>${esc(p.label)}
                 </button>`).join('')}
             </div>
-            <label class="v-label" for="s2Estado">Situación actual (notas libres)</label>
-            <textarea class="v-input v-textarea" id="s2Estado"
-                      placeholder="Qué tiene, cómo lo gestiona, qué está funcionando…" maxlength="800" rows="3"></textarea>
-            <label class="v-label" for="s2Necesita">Qué pide / qué necesita</label>
-            <textarea class="v-input v-textarea" id="s2Necesita"
-                      placeholder="Lo que menciona en la reunión, sus objetivos, sus dudas…" maxlength="800" rows="3"></textarea>
+            <label class="v-label" for="s2A" style="margin-top:14px;">Situación actual</label>
+            <textarea class="v-input v-textarea" id="s2A" placeholder="Qué tiene, cómo lo gestiona, qué funciona y qué no…" maxlength="800" rows="3"></textarea>
+            <label class="v-label" for="s2B">Qué pide / qué necesita</label>
+            <textarea class="v-input v-textarea" id="s2B" placeholder="Objetivos, dudas, lo que más le preocupa…" maxlength="800" rows="3"></textarea>
             <div class="v-nav">
               <button class="v-btn-back" id="s2Back" type="button">← Volver</button>
               <button class="v-btn-next" id="s2Next" type="button">Siguiente →</button>
@@ -388,37 +604,31 @@
           </div>
         </div>`;
 
-      document.getElementById('s2Estado').value   = draft.situacion.estadoActual;
-      document.getElementById('s2Necesita').value = draft.situacion.necesidades;
-
+      document.getElementById('s2A').value = draft.situacion.estadoActual;
+      document.getElementById('s2B').value = draft.situacion.necesidades;
       document.querySelectorAll('#s2Chips .v-chip').forEach(chip => {
         chip.addEventListener('click', () => {
-          const key = chip.dataset.key;
-          const idx = draft.situacion.plataformas.indexOf(key);
-          if (idx >= 0) draft.situacion.plataformas.splice(idx, 1);
-          else draft.situacion.plataformas.push(key);
+          const k = chip.dataset.key, i = draft.situacion.plataformas.indexOf(k);
+          if (i >= 0) draft.situacion.plataformas.splice(i, 1); else draft.situacion.plataformas.push(k);
           chip.classList.toggle('active');
         });
       });
-
       document.getElementById('s2Back').addEventListener('click', () => { step = 1; renderStep(); });
       document.getElementById('s2Next').addEventListener('click', () => {
-        draft.situacion.estadoActual = document.getElementById('s2Estado').value.trim();
-        draft.situacion.necesidades  = document.getElementById('s2Necesita').value.trim();
+        draft.situacion.estadoActual = document.getElementById('s2A').value.trim();
+        draft.situacion.necesidades  = document.getElementById('s2B').value.trim();
         step = 3; renderStep();
       });
     }
 
-    /* Step 3: Acuerdo */
     function renderStep3() {
-      function optsHTML(arr, field, stored) {
+      function optsHTML(arr, field) {
         return arr.map(o => `
-          <button class="v-opt${stored === o ? ' active' : ''}" data-field="${field}" data-val="${esc(o)}" type="button">
+          <button class="v-opt${draft.acuerdo[field]===o?' active':''}" data-field="${field}" data-val="${esc(o)}" type="button">
             <span class="v-dot" aria-hidden="true"></span>${esc(o)}
           </button>`).join('');
       }
-
-      main.innerHTML = `
+      mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
             <div class="v-eyebrow"><b>Paso 3</b> de 3 · Conclusiones</div>
@@ -427,16 +637,15 @@
           <div class="v-body v-screen">
             <p class="v-title">¿Cómo ha ido la visita?</p>
             <label class="v-label">Servicio que encaja</label>
-            <div class="v-options" id="s3Servicio">${optsHTML(SERVICIOS, 'servicio', draft.acuerdo.servicio)}</div>
-            <label class="v-label" style="margin-top:16px;">Presupuesto hablado</label>
-            <div class="v-options" id="s3Presupuesto">${optsHTML(PRESUPUESTOS, 'presupuesto', draft.acuerdo.presupuesto)}</div>
-            <label class="v-label" style="margin-top:16px;">Próximo paso *</label>
-            <div class="v-options" id="s3Paso">${optsHTML(PASOS, 'proximoPaso', draft.acuerdo.proximoPaso)}</div>
-            <label class="v-label" for="s3FechaSeg" style="margin-top:16px;">Fecha de seguimiento</label>
-            <input class="v-input v-date" id="s3FechaSeg" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
-            <label class="v-label" for="s3Notas" style="margin-top:4px;">Notas adicionales</label>
-            <textarea class="v-input v-textarea" id="s3Notas"
-                      placeholder="Cualquier detalle relevante de la reunión…" maxlength="800" rows="3"></textarea>
+            <div class="v-options">${optsHTML(SERVICIOS,'servicio')}</div>
+            <label class="v-label" style="margin-top:14px;">Presupuesto hablado</label>
+            <div class="v-options">${optsHTML(PRESUPUESTOS,'presupuesto')}</div>
+            <label class="v-label" style="margin-top:14px;">Próximo paso *</label>
+            <div class="v-options">${optsHTML(PASOS,'proximoPaso')}</div>
+            <label class="v-label" for="s3F" style="margin-top:14px;">Fecha de seguimiento</label>
+            <input class="v-input v-date" id="s3F" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
+            <label class="v-label" for="s3N">Notas adicionales</label>
+            <textarea class="v-input v-textarea" id="s3N" placeholder="Cualquier detalle de la reunión…" maxlength="800" rows="3"></textarea>
             <div class="v-nav">
               <button class="v-btn-back" id="s3Back" type="button">← Volver</button>
               <button class="v-btn-next" id="s3Save" type="button" disabled>Guardar visita</button>
@@ -444,38 +653,39 @@
           </div>
         </div>`;
 
-      document.getElementById('s3Notas').value = draft.acuerdo.notas;
-
-      function checkSave() {
-        document.getElementById('s3Save').disabled = !draft.acuerdo.proximoPaso;
-      }
-      checkSave();
-
-      /* Opciones radio en-place (sin re-render) */
+      document.getElementById('s3N').value = draft.acuerdo.notas;
+      function chkSave() { document.getElementById('s3Save').disabled = !draft.acuerdo.proximoPaso; }
+      chkSave();
       document.querySelectorAll('.v-opt').forEach(btn => {
         btn.addEventListener('click', () => {
-          const field = btn.dataset.field;
-          draft.acuerdo[field] = btn.dataset.val;
+          draft.acuerdo[btn.dataset.field] = btn.dataset.val;
           btn.closest('.v-options').querySelectorAll('.v-opt').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
-          checkSave();
+          chkSave();
         });
       });
-
       document.getElementById('s3Back').addEventListener('click', () => { step = 2; renderStep(); });
-      document.getElementById('s3Save').addEventListener('click', () => {
-        draft.acuerdo.fechaSeg = document.getElementById('s3FechaSeg').value;
-        draft.acuerdo.notas    = document.getElementById('s3Notas').value.trim();
-        draft.acuerdo.presupuesto  = draft.acuerdo.presupuesto  || '';
-        draft.acuerdo.servicio     = draft.acuerdo.servicio     || '';
-        saveVisit(draft);
+      document.getElementById('s3Save').addEventListener('click', async () => {
+        draft.acuerdo.fechaSeg    = document.getElementById('s3F').value;
+        draft.acuerdo.notas       = document.getElementById('s3N').value.trim();
+        const btn = document.getElementById('s3Save');
+        btn.textContent = 'Guardando…'; btn.disabled = true;
+        addVisit(draft);
+        lastSynced = await syncToSheets(draft, getSheetURL());
         screen = 'saved'; render();
       });
     }
 
-    /* ── Guardado ── */
+    /* ── SAVED ── */
     function renderSaved() {
-      main.innerHTML = `
+      const hasURL   = !!getSheetURL();
+      const syncHTML = hasURL
+        ? lastSynced
+          ? `<div class="v-sync-status ok"><i class="fa-solid fa-circle-check"></i> Guardado en Google Sheets</div>`
+          : `<div class="v-sync-status local"><i class="fa-solid fa-triangle-exclamation"></i> Sin conexión — guardado solo en este dispositivo</div>`
+        : `<div class="v-sync-status local"><i class="fa-solid fa-mobile-screen-button"></i> Guardado en este dispositivo</div>`;
+
+      mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
             <div class="v-eyebrow">Visita guardada</div>
@@ -484,7 +694,8 @@
           <div class="v-saved v-screen">
             <div class="v-saved-icon">✅</div>
             <h2>¡Guardado!</h2>
-            <p>La visita de <strong style="color:var(--ink)">${esc(draft.cliente.nombre)}</strong> de <strong style="color:var(--ink)">${esc(draft.cliente.negocio)}</strong> queda registrada.</p>
+            <p><strong style="color:var(--ink)">${esc(draft.cliente.nombre)}</strong> · ${esc(draft.cliente.negocio)}</p>
+            ${syncHTML}
             <div class="v-saved-actions">
               <button class="v-btn-primary" id="svNueva" type="button">+ Nueva visita</button>
               <button class="v-btn-secondary" id="svHistorial" type="button">Ver historial</button>
@@ -492,78 +703,144 @@
           </div>
         </div>`;
 
-      document.getElementById('svNueva').addEventListener('click', () => {
-        draft = freshDraft(); step = 1; screen = 'new'; render();
-      });
-      document.getElementById('svHistorial').addEventListener('click', () => {
-        screen = 'history'; render();
-      });
+      document.getElementById('svNueva').addEventListener('click', () => { draft = freshDraft(); step = 1; screen = 'new'; render(); });
+      document.getElementById('svHistorial').addEventListener('click', () => { screen = 'history'; render(); });
     }
 
-    /* ── Historial ── */
-    let expandedId = null;
-
+    /* ── HISTORY ── */
     function renderHistory() {
-      const all = loadAll();
-      main.innerHTML = `<div class="v-history v-screen">${
-        all.length === 0
-          ? '<div class="v-history-empty"><p style="font-size:32px;margin-bottom:12px;">📋</p><p>Todavía no hay visitas guardadas.</p></div>'
-          : all.map(v => visitCardHTML(v)).join('')
-      }</div>`;
+      const all    = loadAll();
+      const hasURL = !!getSheetURL();
+      const today_ = today();
 
+      // Alertas de seguimiento
+      const alerts = all.filter(v => v.acuerdo.fechaSeg && (v.acuerdo.fechaSeg <= today_) && v.acuerdo.proximoPaso !== 'Cliente descartado');
+
+      // Filtro
+      const filtered = filterPaso === 'todos'
+        ? all
+        : all.filter(v => v.acuerdo.proximoPaso === filterPaso);
+
+      // Búsqueda
+      const searchVal = (mainEl.querySelector('#vSearch')?.value || '').toLowerCase();
+
+      const shown = filtered.filter(v =>
+        !searchVal ||
+        (v.cliente.nombre  || '').toLowerCase().includes(searchVal) ||
+        (v.cliente.negocio || '').toLowerCase().includes(searchVal)
+      );
+
+      mainEl.innerHTML = `
+        <div class="v-history v-screen">
+
+          ${alerts.length > 0 ? `
+          <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f87171;display:flex;align-items:center;gap:8px;">
+            <i class="fa-solid fa-bell"></i>
+            ${alerts.length} seguimiento${alerts.length>1?'s':''} pendiente${alerts.length>1?'s':''}:
+            <strong>${alerts.map(v=>esc(v.cliente.nombre)).join(', ')}</strong>
+          </div>` : ''}
+
+          <div class="v-history-toolbar">
+            <div class="v-search-wrap">
+              <i class="fa-solid fa-magnifying-glass v-search-icon" aria-hidden="true"></i>
+              <input class="v-search" id="vSearch" type="search" placeholder="Buscar…" value="${esc(searchVal)}">
+            </div>
+            <div class="v-filter-btns">
+              ${['todos','Enviar propuesta','Segunda reunión','Firmar / cerrar contrato','En espera de respuesta','Cliente descartado']
+                .map(f => `<button class="v-filter${filterPaso===f?' active':''}" data-f="${esc(f)}" type="button">${f==='todos'?'Todos':esc(f.split(' ')[0])}</button>`)
+                .join('')}
+            </div>
+          </div>
+
+          ${hasURL ? `
+          <div class="v-sync-bar">
+            <span><span class="v-sync-dot ok"></span> Google Sheets conectado · ${all.length} visita${all.length!==1?'s':''}</span>
+            <button class="v-btn-syncall" id="hSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo</button>
+          </div>` : `
+          <div class="v-sync-bar">
+            <span><span class="v-sync-dot warn"></span> Sin Google Sheets · datos solo en este dispositivo</span>
+            <button class="v-btn-syncall" id="hSetupSheets" type="button">Conectar Sheets</button>
+          </div>`}
+
+          ${shown.length === 0
+            ? `<div class="v-history-empty"><p style="font-size:28px;margin-bottom:10px;">📋</p><p>${all.length===0?'Todavía no hay visitas guardadas.':'Ninguna visita coincide con el filtro.'}</p></div>`
+            : shown.map(v => visitCardHTML(v, today_)).join('')}
+        </div>`;
+
+      // Búsqueda live
+      document.getElementById('vSearch')?.addEventListener('input', () => renderHistory());
+
+      // Filtros
+      document.querySelectorAll('.v-filter').forEach(btn => {
+        btn.addEventListener('click', () => { filterPaso = btn.dataset.f; renderHistory(); });
+      });
+
+      // Sync
+      document.getElementById('hSyncAll')?.addEventListener('click', async () => {
+        const btn = document.getElementById('hSyncAll');
+        btn.disabled = true; btn.textContent = 'Sincronizando…';
+        const n = await syncAllToSheets();
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-rotate"></i> Sincronizar todo`;
+        alert(`✓ ${n} visita${n!==1?'s':''} enviada${n!==1?'s':''} a Google Sheets.`);
+      });
+
+      document.getElementById('hSetupSheets')?.addEventListener('click', () => { screen = 'setup'; render(); });
+
+      // Cards
       document.querySelectorAll('.v-visit-card').forEach(card => {
         card.addEventListener('click', e => {
           if (e.target.closest('.v-visit-actions')) return;
           const id = card.dataset.id;
           expandedId = expandedId === id ? null : id;
-          card.classList.toggle('expanded', expandedId === id);
+          renderHistory();
         });
-        card.querySelector('.v-btn-del').addEventListener('click', e => {
+        card.querySelector('.v-btn-del')?.addEventListener('click', e => {
           e.stopPropagation();
-          if (!confirm('¿Eliminar esta visita?')) return;
-          deleteVisit(card.dataset.id);
+          if (!confirm(`¿Eliminar la visita de ${card.dataset.nombre}?`)) return;
+          delVisit(card.dataset.id);
           if (expandedId === card.dataset.id) expandedId = null;
           renderHistory();
         });
-        const waBtn = card.querySelector('.v-btn-wa');
-        if (waBtn) waBtn.addEventListener('click', e => e.stopPropagation());
       });
     }
 
-    function visitCardHTML(v) {
-      const color  = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
-      const plats  = (v.situacion.plataformas || [])
-        .map(k => PLATAFORMAS.find(p => p.key === k)?.label || k).join(', ') || '—';
-      const waText = encodeURIComponent(`Hola, soy Edu. Te escribo sobre nuestra reunión del ${fmtDate(v.fechaVisita)}.`);
-      const waURL  = v.cliente.telefono
-        ? `https://wa.me/34${v.cliente.telefono.replace(/\D/g,'')}?text=${waText}`
-        : '';
-      const isExp  = expandedId === v.id;
+    function visitCardHTML(v, today_) {
+      const color   = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
+      const plats   = (v.situacion.plataformas||[]).map(k=>PLATAFORMAS.find(p=>p.key===k)?.label||k).join(', ')||'—';
+      const waPhone = (v.cliente.telefono||'').replace(/\D/g,'');
+      const waURL   = waPhone ? `https://wa.me/34${waPhone}?text=${encodeURIComponent('Hola, soy Edu. Te escribo sobre nuestra reunión del '+fmtDate(v.fechaVisita)+'.')}` : '';
+      const isExp   = expandedId === v.id;
+      const segPast = isPast(v.acuerdo.fechaSeg);
+      const segToday= isToday(v.acuerdo.fechaSeg);
 
       return `
-        <div class="v-visit-card${isExp ? ' expanded' : ''}" data-id="${esc(v.id)}">
+        <div class="v-visit-card${isExp?' expanded':''}" data-id="${esc(v.id)}" data-nombre="${esc(v.cliente.nombre)}">
           <div class="v-visit-head">
-            <div class="v-status-dot" style="background:${color}"></div>
+            <div class="v-status-dot" style="background:${color}" title="${esc(v.acuerdo.proximoPaso||'Sin definir')}"></div>
             <div class="v-visit-main">
-              <div class="v-visit-name">${esc(v.cliente.nombre)} · ${esc(v.cliente.negocio)}</div>
-              <div class="v-visit-sub">${esc(v.acuerdo.servicio || 'Sin definir')} · ${esc(v.acuerdo.proximoPaso || '—')}</div>
+              <div class="v-visit-name">${esc(v.cliente.nombre)} · <span style="font-weight:500">${esc(v.cliente.negocio)}</span></div>
+              <div class="v-visit-sub">${esc(v.acuerdo.servicio||'Sin definir')} · ${esc(v.acuerdo.proximoPaso||'—')}</div>
               <div class="v-visit-meta">
                 <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${fmtDate(v.fechaVisita)}</span>
-                ${v.acuerdo.fechaSeg ? `<span><i class="fa-solid fa-bell" aria-hidden="true"></i> Seguimiento: ${fmtDate(v.acuerdo.fechaSeg)}</span>` : ''}
+                ${v.acuerdo.fechaSeg ? `<span class="${segPast||segToday?'v-follow-alert':''}">
+                  <i class="fa-solid fa-bell" aria-hidden="true"></i>
+                  ${segPast?'Vencido: ':segToday?'Hoy: ':''}${fmtDate(v.acuerdo.fechaSeg)}
+                </span>` : ''}
               </div>
             </div>
-            <i class="fa-solid fa-chevron-${isExp ? 'up' : 'down'}" style="color:var(--muted);font-size:11px;margin-top:4px;"></i>
+            <i class="fa-solid fa-chevron-${isExp?'up':'down'}" style="color:var(--muted);font-size:11px;margin-top:4px;flex-shrink:0"></i>
           </div>
           <div class="v-visit-detail">
-            ${v.cliente.email    ? `<div class="v-detail-row"><span class="v-detail-label">Email</span><span class="v-detail-val">${esc(v.cliente.email)}</span></div>` : ''}
-            ${v.cliente.telefono ? `<div class="v-detail-row"><span class="v-detail-label">Teléfono</span><span class="v-detail-val">${esc(v.cliente.telefono)}</span></div>` : ''}
-            <div class="v-detail-row"><span class="v-detail-label">Plataformas</span><span class="v-detail-val">${esc(plats)}</span></div>
-            ${v.situacion.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación actual</span><span class="v-detail-val">${esc(v.situacion.estadoActual)}</span></div>` : ''}
-            ${v.situacion.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span><span class="v-detail-val">${esc(v.situacion.necesidades)}</span></div>` : ''}
-            ${v.acuerdo.presupuesto    ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto hablado</span><span class="v-detail-val">${esc(v.acuerdo.presupuesto)}</span></div>` : ''}
-            ${v.acuerdo.notas          ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span><span class="v-detail-val">${esc(v.acuerdo.notas)}</span></div>` : ''}
+            ${v.cliente.email    ? `<div class="v-detail-row"><span class="v-detail-label">Email</span>${esc(v.cliente.email)}</div>`    : ''}
+            ${v.cliente.telefono ? `<div class="v-detail-row"><span class="v-detail-label">Teléfono</span>${esc(v.cliente.telefono)}</div>` : ''}
+            <div class="v-detail-row"><span class="v-detail-label">Plataformas</span>${esc(plats)}</div>
+            ${v.situacion.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación actual</span>${esc(v.situacion.estadoActual)}</div>` : ''}
+            ${v.situacion.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span>${esc(v.situacion.necesidades)}</div>`        : ''}
+            ${v.acuerdo.presupuesto    ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto</span>${esc(v.acuerdo.presupuesto)}</div>`           : ''}
+            ${v.acuerdo.notas          ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span>${esc(v.acuerdo.notas)}</div>`                       : ''}
             <div class="v-visit-actions">
-              ${waURL ? `<a class="v-btn-wa" href="${esc(waURL)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ''}
+              ${waURL ? `<a class="v-btn-wa" href="${esc(waURL)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ''}
               <button class="v-btn-del" type="button" data-id="${esc(v.id)}"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
             </div>
           </div>
