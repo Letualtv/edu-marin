@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Visitas · Edu Marín</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] } } }
+    }
+  </script>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" crossorigin="anonymous">
+
+  <style>
+    :root {
+      --bg:       #101010;
+      --surface:  #1a1a1a;
+      --surface2: #222222;
+      --sh:       #2a2a2a;
+      --lime:     #CBFF3D;
+      --ink:      #F4F4F0;
+      --muted:    #8C8C86;
+      --border:   #2A2A2A;
+    }
+
+    * { box-sizing: border-box; }
+
+    body { background: var(--bg); color: var(--ink); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    /* ── Cabecera ── */
+    .v-header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; }
+    .v-logo { font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; }
+    .v-logo span { background: linear-gradient(135deg,#E53E3E,#F97316); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .v-tabs { display: flex; gap: 4px; }
+    .v-tab { background: none; border: 1px solid var(--border); border-radius: 999px; padding: 7px 14px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; }
+    .v-tab:hover { color: var(--ink); border-color: #444; }
+    .v-tab.active { background: var(--lime); color: #101010; border-color: var(--lime); }
+
+    /* ── Widget ── */
+    .v-card { background: var(--surface); border-radius: 16px; max-width: 580px; margin: 24px auto; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.4); }
+    .v-card-header { padding: 20px 24px 16px; border-bottom: 1px solid var(--border); }
+    .v-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+    .v-eyebrow b { color: var(--lime); }
+    .v-track { height: 3px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .v-fill { height: 100%; background: var(--lime); border-radius: 4px; transition: width 0.4s cubic-bezier(.4,0,.2,1); }
+    .v-body { padding: 24px; }
+    .v-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; margin: 0 0 16px; line-height: 1.3; }
+    .v-hint { font-size: 12px; color: var(--muted); margin: -10px 0 16px; }
+
+    /* ── Inputs ── */
+    .v-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-bottom: 5px; margin-top: 12px; }
+    .v-label:first-child { margin-top: 0; }
+    .v-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 11px 13px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 14px; display: block; }
+    .v-input:focus { outline: none; border-color: var(--lime); }
+    .v-input::placeholder { color: var(--muted); }
+    .v-textarea { min-height: 80px; resize: vertical; }
+    .v-date { color-scheme: dark; }
+
+    /* ── Chips de plataforma ── */
+    .v-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 4px; }
+    .v-chip { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 999px; padding: 7px 13px; font-size: 12px; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: 'Inter', sans-serif; display: flex; align-items: center; gap: 6px; }
+    .v-chip:hover { border-color: #444; color: var(--ink); }
+    .v-chip.active { background: rgba(203,255,61,0.12); border-color: var(--lime); color: var(--lime); }
+
+    /* ── Opciones radio ── */
+    .v-options { display: flex; flex-direction: column; gap: 7px; }
+    .v-opt { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 11px 14px; font-size: 13px; font-weight: 500; color: var(--ink); cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.12s; font-family: 'Inter', sans-serif; text-align: left; width: 100%; }
+    .v-opt:hover { border-color: #444; background: var(--sh); }
+    .v-opt.active { background: rgba(203,255,61,0.08); border-color: var(--lime); }
+    .v-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--muted); flex-shrink: 0; position: relative; }
+    .v-opt.active .v-dot { border-color: var(--lime); }
+    .v-opt.active .v-dot::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--lime); }
+
+    /* ── Navegación ── */
+    .v-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .v-btn-back { background: none; border: none; color: var(--muted); font-size: 13px; font-weight: 500; cursor: pointer; padding: 8px 4px; font-family: 'Inter', sans-serif; }
+    .v-btn-back:hover { color: var(--ink); }
+    .v-btn-next { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 10px 22px; font-weight: 700; font-size: 13px; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity 0.15s, transform 0.1s; }
+    .v-btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
+    .v-btn-next:not(:disabled):hover { transform: translateY(-1px); }
+
+    /* ── Pantalla unlock ── */
+    .v-unlock { max-width: 380px; margin: 60px auto; padding: 0 20px; text-align: center; }
+    .v-unlock h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26px; margin-bottom: 8px; }
+    .v-unlock p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .v-unlock-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 13px 16px; color: var(--ink); font-size: 16px; text-align: center; letter-spacing: 0.1em; font-family: 'Inter', sans-serif; margin-bottom: 12px; }
+    .v-unlock-input:focus { outline: none; border-color: var(--lime); }
+    .v-unlock-btn { width: 100%; background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 13px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-unlock-err { color: #f87171; font-size: 13px; margin-top: 8px; display: none; }
+
+    /* ── Historial ── */
+    .v-history { max-width: 580px; margin: 24px auto; padding: 0 16px 40px; }
+    .v-history-empty { text-align: center; color: var(--muted); padding: 60px 20px; font-size: 14px; }
+    .v-visit-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; cursor: pointer; transition: border-color 0.15s; }
+    .v-visit-card:hover { border-color: #3a3a3a; }
+    .v-visit-card.expanded { border-color: var(--lime); }
+    .v-visit-head { display: flex; align-items: flex-start; gap: 12px; }
+    .v-status-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+    .v-visit-main { flex: 1; min-width: 0; }
+    .v-visit-name { font-weight: 700; font-size: 14px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .v-visit-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .v-visit-meta { font-size: 11px; color: var(--muted); margin-top: 6px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .v-visit-meta span { display: flex; align-items: center; gap: 4px; }
+    .v-visit-detail { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 13px; line-height: 1.7; display: none; }
+    .v-visit-card.expanded .v-visit-detail { display: block; }
+    .v-detail-row { margin-bottom: 8px; }
+    .v-detail-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 2px; }
+    .v-detail-val { color: var(--ink); }
+    .v-visit-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .v-btn-del { background: none; border: 1px solid #3f2020; color: #f87171; border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-del:hover { background: rgba(248,113,113,0.1); }
+    .v-btn-wa { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+    .v-btn-wa:hover { color: var(--ink); border-color: #444; }
+
+    /* ── Pantalla guardado ── */
+    .v-saved { text-align: center; padding: 40px 24px; }
+    .v-saved-icon { font-size: 48px; margin-bottom: 16px; }
+    .v-saved h2 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; color: var(--lime); margin-bottom: 8px; }
+    .v-saved p { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+    .v-saved-actions { display: flex; flex-direction: column; gap: 10px; max-width: 240px; margin: 0 auto; }
+    .v-btn-primary { background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 12px 20px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-secondary { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 11px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-btn-secondary:hover { color: var(--ink); border-color: #444; }
+
+    .v-screen { animation: vIn 0.25s ease; }
+    @keyframes vIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    @media (max-width: 480px) {
+      .v-card { margin: 12px; border-radius: 12px; }
+      .v-body { padding: 18px; }
+      .v-history { padding: 0 12px 40px; }
+      .v-tabs .v-tab { padding: 6px 10px; font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="v-header">
+    <a href="index.html" class="v-logo">Edu <span>Marín</span></a>
+    <div class="v-tabs" id="vTabs" style="display:none;">
+      <button class="v-tab active" id="tabNueva" type="button">+ Nueva visita</button>
+      <button class="v-tab" id="tabHistorial" type="button">Historial <span id="vCount"></span></button>
+    </div>
+  </header>
+
+  <main id="vMain"></main>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const PASS    = 'edu2026';
+    const SK      = 'visitas_edu';
+    const WA_NUM  = '34744743209';
+
+    /* ── Helpers ── */
+    function esc(s) {
+      return String(s || '')
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function today() {
+      return new Date().toISOString().slice(0, 10);
+    }
+    function fmtDate(iso) {
+      if (!iso) return '—';
+      const [y, m, d] = iso.split('-');
+      return `${d}/${m}/${y}`;
+    }
+    function uid() {
+      return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    }
+
+    /* ── Almacenamiento ── */
+    function loadAll() {
+      try { return JSON.parse(localStorage.getItem(SK) || '[]'); } catch { return []; }
+    }
+    function saveAll(arr) {
+      localStorage.setItem(SK, JSON.stringify(arr));
+    }
+    function saveVisit(v) {
+      const all = loadAll();
+      all.unshift(v);
+      saveAll(all);
+    }
+    function deleteVisit(id) {
+      saveAll(loadAll().filter(v => v.id !== id));
+    }
+
+    /* ── Estado global ── */
+    const main    = document.getElementById('vMain');
+    const tabs    = document.getElementById('vTabs');
+    const tabN    = document.getElementById('tabNueva');
+    const tabH    = document.getElementById('tabHistorial');
+    const vCount  = document.getElementById('vCount');
+    let   screen  = 'unlock'; // unlock | new | saved | history
+    let   step    = 1;        // 1 | 2 | 3
+
+    let draft = freshDraft();
+    function freshDraft() {
+      return {
+        id:       uid(),
+        fechaVisita: today(),
+        cliente:  { nombre: '', negocio: '', email: '', telefono: '' },
+        situacion:{ plataformas: [], estadoActual: '', necesidades: '' },
+        acuerdo:  { servicio: '', presupuesto: '', proximoPaso: '', fechaSeg: '', notas: '' },
+        createdAt: new Date().toISOString(),
+      };
+    }
+
+    /* ── Datos estáticos ── */
+    const PLATAFORMAS = [
+      { key: 'instagram', label: 'Instagram',      icon: 'fa-brands fa-instagram' },
+      { key: 'facebook',  label: 'Facebook',        icon: 'fa-brands fa-facebook-f' },
+      { key: 'google',    label: 'Google Business', icon: 'fa-brands fa-google' },
+      { key: 'linkedin',  label: 'LinkedIn',        icon: 'fa-brands fa-linkedin-in' },
+      { key: 'tiktok',    label: 'TikTok',          icon: 'fa-brands fa-tiktok' },
+      { key: 'ninguna',   label: 'Ninguna',         icon: 'fa-solid fa-xmark' },
+    ];
+    const SERVICIOS = ['Express (desde 60€)', 'DIAGNÓSTICO (150€–400€)', 'REDES (150€–600€/mes)', 'Consultoría 1:1', 'Sin definir aún'];
+    const PRESUPUESTOS = ['Menos de 120€', '150€ – 400€ (pago único)', '150€ – 600€ / mes', 'No lo tiene claro'];
+    const PASOS = ['Enviar propuesta', 'Segunda reunión', 'Firmar / cerrar contrato', 'En espera de respuesta', 'Cliente descartado'];
+
+    const PASO_COLOR = {
+      'Enviar propuesta':           '#CBFF3D',
+      'Segunda reunión':            '#60a5fa',
+      'Firmar / cerrar contrato':   '#4ade80',
+      'En espera de respuesta':     '#facc15',
+      'Cliente descartado':         '#6B7280',
+    };
+
+    /* ── Render principal ── */
+    function render() {
+      updateTabs();
+      if      (screen === 'unlock')  renderUnlock();
+      else if (screen === 'new')     renderStep();
+      else if (screen === 'saved')   renderSaved();
+      else if (screen === 'history') renderHistory();
+    }
+
+    function updateTabs() {
+      const unlocked = screen !== 'unlock';
+      tabs.style.display = unlocked ? 'flex' : 'none';
+      if (unlocked) {
+        const n = loadAll().length;
+        vCount.textContent = n > 0 ? `(${n})` : '';
+        tabN.classList.toggle('active', screen === 'new' || screen === 'saved');
+        tabH.classList.toggle('active', screen === 'history');
+      }
+    }
+
+    /* ── Unlock ── */
+    function renderUnlock() {
+      main.innerHTML = `
+        <div class="v-unlock v-screen">
+          <div style="font-size:36px;margin-bottom:16px;">🔒</div>
+          <h1>Panel de Visitas</h1>
+          <p>Introduce la clave para acceder.</p>
+          <input class="v-unlock-input" id="vPass" type="password" placeholder="••••••••" autocomplete="current-password">
+          <button class="v-unlock-btn" id="vUnlockBtn" type="button">Entrar</button>
+          <p class="v-unlock-err" id="vErr">Clave incorrecta.</p>
+        </div>`;
+
+      const input = document.getElementById('vPass');
+      const btn   = document.getElementById('vUnlockBtn');
+      const err   = document.getElementById('vErr');
+
+      function tryUnlock() {
+        if (input.value === PASS) {
+          screen = loadAll().length > 0 ? 'history' : 'new';
+          render();
+        } else {
+          err.style.display = 'block';
+          input.value = '';
+          input.focus();
+        }
+      }
+
+      btn.addEventListener('click', tryUnlock);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+      input.focus();
+    }
+
+    /* ── Tabs ── */
+    tabN.addEventListener('click', () => {
+      draft = freshDraft(); step = 1;
+      screen = 'new'; render();
+    });
+    tabH.addEventListener('click', () => { screen = 'history'; render(); });
+
+    /* ── Steps ── */
+    function renderStep() {
+      if      (step === 1) renderStep1();
+      else if (step === 2) renderStep2();
+      else if (step === 3) renderStep3();
+    }
+
+    /* Step 1: Cliente */
+    function renderStep1() {
+      main.innerHTML = `
+        <div class="v-card">
+          <div class="v-card-header">
+            <div class="v-eyebrow"><b>Paso 1</b> de 3 · Datos del cliente</div>
+            <div class="v-track"><div class="v-fill" style="width:20%"></div></div>
+          </div>
+          <div class="v-body v-screen">
+            <p class="v-title">¿Con quién has quedado?</p>
+            <label class="v-label" for="s1Nombre">Nombre *</label>
+            <input class="v-input" id="s1Nombre" type="text"  placeholder="Nombre del cliente" maxlength="100" autocomplete="off">
+            <label class="v-label" for="s1Negocio">Negocio *</label>
+            <input class="v-input" id="s1Negocio" type="text" placeholder="Nombre del negocio" maxlength="150" autocomplete="off">
+            <label class="v-label" for="s1Email">Email</label>
+            <input class="v-input" id="s1Email"   type="email" placeholder="email@negocio.com"  maxlength="200" autocomplete="off">
+            <label class="v-label" for="s1Tel">Teléfono</label>
+            <input class="v-input" id="s1Tel"     type="tel"   placeholder="6XX XXX XXX"         maxlength="20">
+            <label class="v-label" for="s1Fecha">Fecha de la visita</label>
+            <input class="v-input v-date" id="s1Fecha" type="date" value="${esc(draft.fechaVisita)}">
+            <div class="v-nav">
+              <span></span>
+              <button class="v-btn-next" id="s1Next" type="button" disabled>Siguiente →</button>
+            </div>
+          </div>
+        </div>`;
+
+      const nombre  = document.getElementById('s1Nombre');
+      const negocio = document.getElementById('s1Negocio');
+      const next    = document.getElementById('s1Next');
+
+      nombre.value  = draft.cliente.nombre;
+      negocio.value = draft.cliente.negocio;
+      document.getElementById('s1Email').value = draft.cliente.email;
+      document.getElementById('s1Tel').value   = draft.cliente.telefono;
+      nombre.focus();
+
+      function check() { next.disabled = !(nombre.value.trim() && negocio.value.trim()); }
+      [nombre, negocio].forEach(el => el.addEventListener('input', check));
+      check();
+
+      next.addEventListener('click', () => {
+        draft.cliente.nombre   = nombre.value.trim();
+        draft.cliente.negocio  = negocio.value.trim();
+        draft.cliente.email    = document.getElementById('s1Email').value.trim();
+        draft.cliente.telefono = document.getElementById('s1Tel').value.trim();
+        draft.fechaVisita      = document.getElementById('s1Fecha').value || today();
+        step = 2; renderStep();
+      });
+    }
+
+    /* Step 2: Situación */
+    function renderStep2() {
+      main.innerHTML = `
+        <div class="v-card">
+          <div class="v-card-header">
+            <div class="v-eyebrow"><b>Paso 2</b> de 3 · Situación actual</div>
+            <div class="v-track"><div class="v-fill" style="width:55%"></div></div>
+          </div>
+          <div class="v-body v-screen">
+            <p class="v-title">¿Qué tiene y qué necesita?</p>
+            <label class="v-label">Plataformas activas</label>
+            <div class="v-chips" id="s2Chips">
+              ${PLATAFORMAS.map(p => `
+                <button class="v-chip${draft.situacion.plataformas.includes(p.key) ? ' active' : ''}"
+                        data-key="${p.key}" type="button">
+                  <i class="${esc(p.icon)}" aria-hidden="true"></i>${esc(p.label)}
+                </button>`).join('')}
+            </div>
+            <label class="v-label" for="s2Estado">Situación actual (notas libres)</label>
+            <textarea class="v-input v-textarea" id="s2Estado"
+                      placeholder="Qué tiene, cómo lo gestiona, qué está funcionando…" maxlength="800" rows="3"></textarea>
+            <label class="v-label" for="s2Necesita">Qué pide / qué necesita</label>
+            <textarea class="v-input v-textarea" id="s2Necesita"
+                      placeholder="Lo que menciona en la reunión, sus objetivos, sus dudas…" maxlength="800" rows="3"></textarea>
+            <div class="v-nav">
+              <button class="v-btn-back" id="s2Back" type="button">← Volver</button>
+              <button class="v-btn-next" id="s2Next" type="button">Siguiente →</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('s2Estado').value   = draft.situacion.estadoActual;
+      document.getElementById('s2Necesita').value = draft.situacion.necesidades;
+
+      document.querySelectorAll('#s2Chips .v-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const key = chip.dataset.key;
+          const idx = draft.situacion.plataformas.indexOf(key);
+          if (idx >= 0) draft.situacion.plataformas.splice(idx, 1);
+          else draft.situacion.plataformas.push(key);
+          chip.classList.toggle('active');
+        });
+      });
+
+      document.getElementById('s2Back').addEventListener('click', () => { step = 1; renderStep(); });
+      document.getElementById('s2Next').addEventListener('click', () => {
+        draft.situacion.estadoActual = document.getElementById('s2Estado').value.trim();
+        draft.situacion.necesidades  = document.getElementById('s2Necesita').value.trim();
+        step = 3; renderStep();
+      });
+    }
+
+    /* Step 3: Acuerdo */
+    function renderStep3() {
+      function optsHTML(arr, field, stored) {
+        return arr.map(o => `
+          <button class="v-opt${stored === o ? ' active' : ''}" data-field="${field}" data-val="${esc(o)}" type="button">
+            <span class="v-dot" aria-hidden="true"></span>${esc(o)}
+          </button>`).join('');
+      }
+
+      main.innerHTML = `
+        <div class="v-card">
+          <div class="v-card-header">
+            <div class="v-eyebrow"><b>Paso 3</b> de 3 · Conclusiones</div>
+            <div class="v-track"><div class="v-fill" style="width:88%"></div></div>
+          </div>
+          <div class="v-body v-screen">
+            <p class="v-title">¿Cómo ha ido la visita?</p>
+            <label class="v-label">Servicio que encaja</label>
+            <div class="v-options" id="s3Servicio">${optsHTML(SERVICIOS, 'servicio', draft.acuerdo.servicio)}</div>
+            <label class="v-label" style="margin-top:16px;">Presupuesto hablado</label>
+            <div class="v-options" id="s3Presupuesto">${optsHTML(PRESUPUESTOS, 'presupuesto', draft.acuerdo.presupuesto)}</div>
+            <label class="v-label" style="margin-top:16px;">Próximo paso *</label>
+            <div class="v-options" id="s3Paso">${optsHTML(PASOS, 'proximoPaso', draft.acuerdo.proximoPaso)}</div>
+            <label class="v-label" for="s3FechaSeg" style="margin-top:16px;">Fecha de seguimiento</label>
+            <input class="v-input v-date" id="s3FechaSeg" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
+            <label class="v-label" for="s3Notas" style="margin-top:4px;">Notas adicionales</label>
+            <textarea class="v-input v-textarea" id="s3Notas"
+                      placeholder="Cualquier detalle relevante de la reunión…" maxlength="800" rows="3"></textarea>
+            <div class="v-nav">
+              <button class="v-btn-back" id="s3Back" type="button">← Volver</button>
+              <button class="v-btn-next" id="s3Save" type="button" disabled>Guardar visita</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('s3Notas').value = draft.acuerdo.notas;
+
+      function checkSave() {
+        document.getElementById('s3Save').disabled = !draft.acuerdo.proximoPaso;
+      }
+      checkSave();
+
+      /* Opciones radio en-place (sin re-render) */
+      document.querySelectorAll('.v-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const field = btn.dataset.field;
+          draft.acuerdo[field] = btn.dataset.val;
+          btn.closest('.v-options').querySelectorAll('.v-opt').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          checkSave();
+        });
+      });
+
+      document.getElementById('s3Back').addEventListener('click', () => { step = 2; renderStep(); });
+      document.getElementById('s3Save').addEventListener('click', () => {
+        draft.acuerdo.fechaSeg = document.getElementById('s3FechaSeg').value;
+        draft.acuerdo.notas    = document.getElementById('s3Notas').value.trim();
+        draft.acuerdo.presupuesto  = draft.acuerdo.presupuesto  || '';
+        draft.acuerdo.servicio     = draft.acuerdo.servicio     || '';
+        saveVisit(draft);
+        screen = 'saved'; render();
+      });
+    }
+
+    /* ── Guardado ── */
+    function renderSaved() {
+      main.innerHTML = `
+        <div class="v-card">
+          <div class="v-card-header">
+            <div class="v-eyebrow">Visita guardada</div>
+            <div class="v-track"><div class="v-fill" style="width:100%"></div></div>
+          </div>
+          <div class="v-saved v-screen">
+            <div class="v-saved-icon">✅</div>
+            <h2>¡Guardado!</h2>
+            <p>La visita de <strong style="color:var(--ink)">${esc(draft.cliente.nombre)}</strong> de <strong style="color:var(--ink)">${esc(draft.cliente.negocio)}</strong> queda registrada.</p>
+            <div class="v-saved-actions">
+              <button class="v-btn-primary" id="svNueva" type="button">+ Nueva visita</button>
+              <button class="v-btn-secondary" id="svHistorial" type="button">Ver historial</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('svNueva').addEventListener('click', () => {
+        draft = freshDraft(); step = 1; screen = 'new'; render();
+      });
+      document.getElementById('svHistorial').addEventListener('click', () => {
+        screen = 'history'; render();
+      });
+    }
+
+    /* ── Historial ── */
+    let expandedId = null;
+
+    function renderHistory() {
+      const all = loadAll();
+      main.innerHTML = `<div class="v-history v-screen">${
+        all.length === 0
+          ? '<div class="v-history-empty"><p style="font-size:32px;margin-bottom:12px;">📋</p><p>Todavía no hay visitas guardadas.</p></div>'
+          : all.map(v => visitCardHTML(v)).join('')
+      }</div>`;
+
+      document.querySelectorAll('.v-visit-card').forEach(card => {
+        card.addEventListener('click', e => {
+          if (e.target.closest('.v-visit-actions')) return;
+          const id = card.dataset.id;
+          expandedId = expandedId === id ? null : id;
+          card.classList.toggle('expanded', expandedId === id);
+        });
+        card.querySelector('.v-btn-del').addEventListener('click', e => {
+          e.stopPropagation();
+          if (!confirm('¿Eliminar esta visita?')) return;
+          deleteVisit(card.dataset.id);
+          if (expandedId === card.dataset.id) expandedId = null;
+          renderHistory();
+        });
+        const waBtn = card.querySelector('.v-btn-wa');
+        if (waBtn) waBtn.addEventListener('click', e => e.stopPropagation());
+      });
+    }
+
+    function visitCardHTML(v) {
+      const color  = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
+      const plats  = (v.situacion.plataformas || [])
+        .map(k => PLATAFORMAS.find(p => p.key === k)?.label || k).join(', ') || '—';
+      const waText = encodeURIComponent(`Hola, soy Edu. Te escribo sobre nuestra reunión del ${fmtDate(v.fechaVisita)}.`);
+      const waURL  = v.cliente.telefono
+        ? `https://wa.me/34${v.cliente.telefono.replace(/\D/g,'')}?text=${waText}`
+        : '';
+      const isExp  = expandedId === v.id;
+
+      return `
+        <div class="v-visit-card${isExp ? ' expanded' : ''}" data-id="${esc(v.id)}">
+          <div class="v-visit-head">
+            <div class="v-status-dot" style="background:${color}"></div>
+            <div class="v-visit-main">
+              <div class="v-visit-name">${esc(v.cliente.nombre)} · ${esc(v.cliente.negocio)}</div>
+              <div class="v-visit-sub">${esc(v.acuerdo.servicio || 'Sin definir')} · ${esc(v.acuerdo.proximoPaso || '—')}</div>
+              <div class="v-visit-meta">
+                <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${fmtDate(v.fechaVisita)}</span>
+                ${v.acuerdo.fechaSeg ? `<span><i class="fa-solid fa-bell" aria-hidden="true"></i> Seguimiento: ${fmtDate(v.acuerdo.fechaSeg)}</span>` : ''}
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-${isExp ? 'up' : 'down'}" style="color:var(--muted);font-size:11px;margin-top:4px;"></i>
+          </div>
+          <div class="v-visit-detail">
+            ${v.cliente.email    ? `<div class="v-detail-row"><span class="v-detail-label">Email</span><span class="v-detail-val">${esc(v.cliente.email)}</span></div>` : ''}
+            ${v.cliente.telefono ? `<div class="v-detail-row"><span class="v-detail-label">Teléfono</span><span class="v-detail-val">${esc(v.cliente.telefono)}</span></div>` : ''}
+            <div class="v-detail-row"><span class="v-detail-label">Plataformas</span><span class="v-detail-val">${esc(plats)}</span></div>
+            ${v.situacion.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación actual</span><span class="v-detail-val">${esc(v.situacion.estadoActual)}</span></div>` : ''}
+            ${v.situacion.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span><span class="v-detail-val">${esc(v.situacion.necesidades)}</span></div>` : ''}
+            ${v.acuerdo.presupuesto    ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto hablado</span><span class="v-detail-val">${esc(v.acuerdo.presupuesto)}</span></div>` : ''}
+            ${v.acuerdo.notas          ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span><span class="v-detail-val">${esc(v.acuerdo.notas)}</span></div>` : ''}
+            <div class="v-visit-actions">
+              ${waURL ? `<a class="v-btn-wa" href="${esc(waURL)}" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ''}
+              <button class="v-btn-del" type="button" data-id="${esc(v.id)}"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>
