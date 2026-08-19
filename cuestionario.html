@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>¿Qué servicio necesitas? · Edu Marín Community Manager</title>
+  <meta name="description" content="Responde 5 preguntas rápidas y descubre qué servicio de Eduardo Marín encaja mejor con tu negocio y tu situación actual en redes sociales.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://eduardomarin.es/cuestionario.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'brand-red':      '#E53E3E',
+            'brand-red-dark': '#C53030',
+            'brand-orange':   '#F97316',
+            'brand-dark':     '#111111',
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" crossorigin="anonymous">
+
+  <style>
+    /* ── Widget styles – scoped a .qw-root para no colisionar con Tailwind ── */
+    .qw-root {
+      --qw-bg:           #101010;
+      --qw-surface:      #1a1a1a;
+      --qw-surface-h:    #232323;
+      --qw-lime:         #CBFF3D;
+      --qw-ink:          #F4F4F0;
+      --qw-muted:        #8C8C86;
+      --qw-border:       #2A2A2A;
+
+      background: var(--qw-bg);
+      color: var(--qw-ink);
+      font-family: 'Inter', sans-serif;
+      border-radius: 16px;
+      max-width: 640px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+      min-height: 560px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    }
+    .qw-header { padding: 28px 32px 20px; border-bottom: 1px solid var(--qw-border); }
+    .qw-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--qw-muted); font-weight: 600; margin-bottom: 14px; }
+    .qw-eyebrow b { color: var(--qw-lime); }
+    .qw-track { height: 4px; background: var(--qw-border); border-radius: 4px; overflow: hidden; }
+    .qw-fill { height: 100%; background: var(--qw-lime); width: 0%; transition: width 0.45s cubic-bezier(.4,0,.2,1); border-radius: 4px; }
+    .qw-body { padding: 36px 32px; flex: 1; display: flex; flex-direction: column; }
+    .qw-question { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; line-height: 1.25; margin: 0 0 6px; letter-spacing: -0.01em; }
+    .qw-hint { color: var(--qw-muted); font-size: 14px; margin: 0 0 24px; }
+    .qw-options { display: flex; flex-direction: column; gap: 10px; }
+    .qw-option {
+      text-align: left; background: var(--qw-surface); border: 1.5px solid var(--qw-border);
+      border-radius: 10px; padding: 15px 18px; color: var(--qw-ink); font-family: 'Inter', sans-serif;
+      font-size: 15px; font-weight: 500; cursor: pointer; transition: all 0.15s ease;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .qw-option:hover { background: var(--qw-surface-h); border-color: #3a3a3a; }
+    .qw-option.selected { background: rgba(203,255,61,0.1); border-color: var(--qw-lime); }
+    .qw-option-dot { width: 16px; height: 16px; border-radius: 50%; border: 1.5px solid var(--qw-muted); flex-shrink: 0; position: relative; }
+    .qw-option.selected .qw-option-dot { border-color: var(--qw-lime); }
+    .qw-option.selected .qw-option-dot::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--qw-lime); }
+    .qw-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; }
+    .qw-back { background: none; border: none; color: var(--qw-muted); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; padding: 8px 4px; visibility: hidden; }
+    .qw-back.visible { visibility: visible; }
+    .qw-back:hover { color: var(--qw-ink); }
+    .qw-next {
+      background: var(--qw-lime); color: #101010; border: none; border-radius: 999px;
+      padding: 12px 26px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+      cursor: pointer; opacity: 0.35; pointer-events: none; transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+    .qw-next.active { opacity: 1; pointer-events: auto; }
+    .qw-next.active:hover { transform: translateY(-1px); }
+    .qw-result { display: flex; flex-direction: column; height: 100%; }
+    .qw-result-tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--qw-muted); font-weight: 600; margin-bottom: 10px; }
+    .qw-result-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 34px; color: var(--qw-lime); margin: 0 0 12px; letter-spacing: -0.01em; }
+    .qw-result-desc { font-size: 15px; color: var(--qw-ink); line-height: 1.55; margin: 0 0 20px; opacity: 0.9; }
+    .qw-result-price { display: inline-block; background: var(--qw-lime); color: #101010; font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 20px; padding: 10px 20px; border-radius: 10px; margin-bottom: 24px; width: fit-content; }
+    .qw-result-includes { background: var(--qw-surface); border: 1px solid var(--qw-border); border-radius: 12px; padding: 20px 22px; margin-bottom: 12px; }
+    .qw-result-includes-title { font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--qw-muted); font-weight: 600; margin: 0 0 12px; }
+    .qw-result-includes ul { margin: 0; padding: 0 0 0 18px; font-size: 14px; line-height: 1.8; color: var(--qw-ink); }
+    .qw-restart { background: none; border: 1px solid var(--qw-border); color: var(--qw-muted); border-radius: 999px; padding: 11px 20px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; margin-top: 10px; align-self: flex-start; }
+    .qw-restart:hover { color: var(--qw-ink); border-color: #3a3a3a; }
+    .qw-result-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: auto; }
+    .qw-email-btn { background: var(--qw-lime); color: #101010; text-decoration: none; border: none; border-radius: 999px; padding: 12px 22px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px; cursor: pointer; display: inline-flex; align-items: center; transition: transform 0.1s ease; }
+    .qw-email-btn:hover { transform: translateY(-1px); }
+    .qw-screen { animation: qwFadeIn 0.3s ease; }
+    @keyframes qwFadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+    .qw-input { background: var(--qw-surface); border: 1.5px solid var(--qw-border); border-radius: 10px; padding: 13px 16px; color: var(--qw-ink); font-family: 'Inter', sans-serif; font-size: 15px; margin-bottom: 12px; width: 100%; }
+    .qw-input:focus { outline: none; border-color: var(--qw-lime); }
+    .qw-input::placeholder { color: var(--qw-muted); }
+    .qw-footer-link { background: none; border: none; color: var(--qw-muted); font-size: 11px; cursor: pointer; padding: 4px; align-self: center; opacity: 0.4; }
+    .qw-footer-link:hover { opacity: 1; color: var(--qw-ink); }
+    .qw-admin-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+    .qw-admin-table th { text-align: left; color: var(--qw-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 10px; border-bottom: 1px solid var(--qw-border); }
+    .qw-admin-table td { padding: 10px; border-bottom: 1px solid var(--qw-border); color: var(--qw-ink); }
+    .qw-admin-empty { color: var(--qw-muted); font-size: 14px; padding: 20px 0; }
+    @media (max-width: 480px) {
+      .qw-header, .qw-body { padding-left: 20px; padding-right: 20px; }
+      .qw-question { font-size: 20px; }
+      .qw-result-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-900 bg-gray-50">
+
+  <!-- Botón flotante WhatsApp -->
+  <a id="whatsapp-float"
+     href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
+     target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp"
+     class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-xl transition-transform duration-300 hover:scale-110">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- Navbar mínimo -->
+  <header class="bg-gray-950 py-4 sticky top-0 z-40 shadow-lg">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+      <a href="index.html" class="text-white font-bold text-lg tracking-tight">
+        Edu <span class="gradient-text">Marín</span>
+      </a>
+      <a href="index.html#servicios" class="text-gray-400 hover:text-white text-sm transition-colors">← Ver todos los servicios</a>
+    </div>
+  </header>
+
+  <!--
+    Formulario oculto para Netlify Forms — detectado en el build y activa
+    notificaciones automáticas por email cuando alguien completa el test.
+  -->
+  <form name="cuestionario" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="form-name" value="cuestionario">
+    <input name="bot-field">
+    <input name="name">
+    <input name="business">
+    <input name="result">
+    <input name="price">
+  </form>
+
+  <main class="py-16 px-4 sm:px-6">
+
+    <div class="text-center mb-10 fade-in">
+      <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Cuestionario inicial</span>
+      <h1 class="text-3xl sm:text-4xl font-black text-gray-900 mt-2 mb-4">¿Qué servicio necesitas?</h1>
+      <p class="text-gray-600 max-w-xl mx-auto">5 preguntas rápidas para saber qué encaja mejor con tu situación actual.</p>
+    </div>
+
+    <!-- Widget del cuestionario -->
+    <div class="qw-root" id="qwRoot" role="main" aria-label="Cuestionario de servicios"></div>
+
+  </main>
+
+  <!-- Footer mínimo -->
+  <footer class="bg-gray-950 text-white py-8 mt-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center text-gray-400 text-xs space-y-2">
+      <p>© 2026 Eduardo Marín Arjona · <a href="mailto:info@eduardomarin.es" class="hover:text-white transition-colors">info@eduardomarin.es</a></p>
+      <p class="flex items-center justify-center gap-4">
+        <a href="politica-privacidad.html" class="hover:text-white transition-colors">Política de Privacidad</a>
+        <span aria-hidden="true">·</span>
+        <a href="aviso-legal.html" class="hover:text-white transition-colors">Aviso Legal</a>
+        <span aria-hidden="true">·</span>
+        <a href="index.html" class="hover:text-white transition-colors">Inicio</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const ADMIN_PASSPHRASE = "edu2026";
+    const EDU_EMAIL        = "info@eduardomarin.es";
+
+    /* Escapa HTML para evitar XSS al renderizar datos de usuario via innerHTML */
+    function esc(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    const QUESTIONS = [
+      {
+        q: "¿Cómo describirías tu situación con las redes ahora mismo?",
+        hint: "Elige la que más se acerque.",
+        options: [
+          { text: "Casi no tengo nada montado, quiero arrancar bien",     pts: { E: 2, D: 1, R: 0 } },
+          { text: "Tengo cuentas activas pero todo va improvisado",        pts: { E: 0, D: 2, R: 1 } },
+          { text: "Tengo todo activo pero no me da la vida a gestionarlo", pts: { E: 0, D: 0, R: 3 } },
+          { text: "Solo necesito un ajuste puntual muy concreto",          pts: { E: 3, D: 0, R: 0 } },
+        ]
+      },
+      {
+        q: "¿Qué es lo que más te gustaría conseguir?",
+        options: [
+          { text: "Aparecer mejor en Google / Google Maps",               pts: { E: 2, D: 0, R: 0 } },
+          { text: "Entender qué estoy haciendo mal y tener un plan claro", pts: { E: 0, D: 3, R: 0 } },
+          { text: "Dejar de pensar en esto y que alguien lo lleve por mí", pts: { E: 0, D: 0, R: 3 } },
+          { text: "Un empujón puntual a mi perfil o mi imagen",            pts: { E: 3, D: 0, R: 0 } },
+        ]
+      },
+      {
+        q: "¿Cuánto tiempo quieres dedicarle tú a partir de ahora?",
+        options: [
+          { text: "Todo, solo necesito orientación de por dónde empezar", pts: { E: 0, D: 2, R: 0 } },
+          { text: "Algo, pero necesito prioridades claras",                pts: { E: 1, D: 2, R: 0 } },
+          { text: "Nada, prefiero delegarlo por completo",                 pts: { E: 0, D: 0, R: 3 } },
+          { text: "Ya lo tengo resuelto, es solo un tema puntual",         pts: { E: 3, D: 0, R: 0 } },
+        ]
+      },
+      {
+        q: "¿Con qué frecuencia te gustaría publicar o gestionar contenido?",
+        options: [
+          { text: "No busco publicar contenido continuo ahora mismo", pts: { E: 2, D: 0, R: 0 } },
+          { text: "Un plan de arranque, luego ya veré cómo sigo",      pts: { E: 0, D: 2, R: 0 } },
+          { text: "De forma constante, cada semana",                   pts: { E: 0, D: 0, R: 3 } },
+        ]
+      },
+      {
+        q: "¿Cuál es tu presupuesto orientativo?",
+        options: [
+          { text: "Menos de 120€, algo puntual",          pts: { E: 3, D: 0, R: 0 } },
+          { text: "Entre 150€ y 400€, en un pago único",  pts: { E: 0, D: 3, R: 0 } },
+          { text: "Un mensual entre 150€ y 600€",         pts: { E: 0, D: 0, R: 3 } },
+          { text: "Todavía no lo tengo claro",            pts: { E: 0, D: 0, R: 0 } },
+        ]
+      },
+    ];
+
+    const RESULTS = {
+      E: {
+        title: "Nivel Express",
+        desc:  "Necesitas una intervención puntual y rápida, no una gestión continua. Es el punto de entrada ideal: resolvemos algo concreto y, si más adelante quieres ir más lejos, escalamos a DIAGNÓSTICO o REDES.",
+        price: "Desde 60€ · pago único",
+        includes: [
+          "Optimización de perfil (Instagram o LinkedIn)",
+          "Creación y configuración de Google Business Profile",
+          "Auditoría rápida de un solo canal",
+        ],
+      },
+      D: {
+        title: "DIAGNÓSTICO",
+        desc:  "Antes de invertir en gestión continua, necesitas entender qué está fallando y tener un plan claro y priorizado. El DIAGNÓSTICO analiza tus canales y te deja un rumbo concreto a seguir.",
+        price: "150€ – 400€ · pago único",
+        includes: [
+          "Auditoría de 1-2 canales o multicanal completa",
+          "Plan de acción a 30 o 90 días",
+          "Sesión de entrega para resolver dudas",
+        ],
+      },
+      R: {
+        title: "REDES",
+        desc:  "Quieres dejar de pensar en tus redes y que alguien lo lleve de forma constante. REDES es la gestión mensual completa: contenido, interacción y reporting, adaptada al número de canales que necesites.",
+        price: "150€ – 600€ / mes",
+        includes: [
+          "Gestión de 1 a 3+ redes sociales",
+          "Contenido, calendario e interacción con la comunidad",
+          "Reporting mensual de resultados",
+        ],
+      },
+    };
+
+    let current     = 0;
+    let screen      = 'question';
+    let winnerLevel = null;
+    let contactInfo = { name: '', business: '' };
+    const answers   = new Array(QUESTIONS.length).fill(null);
+    const root      = document.getElementById('qwRoot');
+
+    /* ── Almacenamiento ── */
+
+    function storeEntry(entry) {
+      try {
+        const all = JSON.parse(localStorage.getItem('qw_submissions') || '[]');
+        all.unshift(entry);
+        localStorage.setItem('qw_submissions', JSON.stringify(all.slice(0, 100)));
+      } catch (_) { /* localStorage desactivado o lleno */ }
+    }
+
+    function storeList() {
+      try { return JSON.parse(localStorage.getItem('qw_submissions') || '[]'); }
+      catch (_) { return []; }
+    }
+
+    /* ── Envío ── */
+
+    async function saveSubmission(level) {
+      const entry = {
+        name:     contactInfo.name    || 'Sin nombre',
+        business: contactInfo.business || '—',
+        level,
+        resultTitle: RESULTS[level].title,
+        date: new Date().toISOString(),
+      };
+
+      storeEntry(entry);
+
+      /* Envío a Netlify Forms → Edu recibe email automático con cada resultado */
+      try {
+        await fetch('/', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            'form-name': 'cuestionario',
+            'bot-field': '',
+            name:     entry.name,
+            business: entry.business,
+            result:   entry.resultTitle,
+            price:    RESULTS[level].price,
+          }).toString(),
+        });
+      } catch (e) {
+        console.error('Netlify Forms error:', e);
+      }
+    }
+
+    /* ── Cálculo de resultado ── */
+
+    function computeWinner() {
+      const totals = { E: 0, D: 0, R: 0 };
+      answers.forEach(a => {
+        if (a) { totals.E += a.pts.E; totals.D += a.pts.D; totals.R += a.pts.R; }
+      });
+      return Object.keys(totals).reduce((a, b) => (totals[b] > totals[a] ? b : a));
+    }
+
+    /* ── Render ── */
+
+    function render() {
+      if (screen === 'question') renderQuestion();
+      else if (screen === 'contact') renderContact();
+      else if (screen === 'result')  renderResult();
+      else if (screen === 'admin')   renderAdmin();
+    }
+
+    function renderQuestion() {
+      const q           = QUESTIONS[current];
+      const selectedIdx = answers[current] ? answers[current].idx : -1;
+
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">Pregunta <b>${current + 1}</b> de ${QUESTIONS.length}</div>
+          <div class="qw-track"><div class="qw-fill" style="width:${(current / QUESTIONS.length) * 100}%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">${esc(q.q)}</h2>
+          ${q.hint ? `<p class="qw-hint">${esc(q.hint)}</p>` : ''}
+          <div class="qw-options" id="qwOptions">
+            ${q.options.map((o, i) => `
+              <button class="qw-option${i === selectedIdx ? ' selected' : ''}" data-idx="${i}" type="button">
+                <span class="qw-option-dot" aria-hidden="true"></span>
+                <span>${esc(o.text)}</span>
+              </button>`).join('')}
+          </div>
+          <div class="qw-nav">
+            <button class="qw-back${current > 0 ? ' visible' : ''}" id="qwBack" type="button">← Volver</button>
+            <button class="qw-next${selectedIdx >= 0 ? ' active' : ''}" id="qwNext" type="button">Siguiente</button>
+          </div>
+          ${current === 0 ? '<button class="qw-footer-link" id="qwAdminLink" type="button">Panel interno</button>' : ''}
+        </div>`;
+
+      root.querySelectorAll('.qw-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = parseInt(btn.dataset.idx, 10);
+          answers[current] = { idx, pts: q.options[idx].pts };
+          render();
+        });
+      });
+
+      const backBtn = document.getElementById('qwBack');
+      if (current > 0) backBtn.addEventListener('click', () => { current -= 1; render(); });
+
+      document.getElementById('qwNext').addEventListener('click', () => {
+        if (!answers[current]) return;
+        if (current === QUESTIONS.length - 1) { screen = 'contact'; render(); }
+        else { current += 1; render(); }
+      });
+
+      const adminLink = document.getElementById('qwAdminLink');
+      if (adminLink) {
+        adminLink.addEventListener('click', () => {
+          const pass = prompt('Clave de acceso al panel interno:');
+          if (pass === ADMIN_PASSPHRASE) { screen = 'admin'; render(); }
+          else if (pass !== null) alert('Clave incorrecta.');
+        });
+      }
+    }
+
+    function renderContact() {
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">Último paso</div>
+          <div class="qw-track"><div class="qw-fill" style="width:95%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">¿Cómo te llamas?</h2>
+          <p class="qw-hint">Así puedo identificar tu resultado y prepararte una propuesta.</p>
+          <label for="qwName" class="sr-only">Tu nombre</label>
+          <input class="qw-input" id="qwName" type="text" placeholder="Tu nombre *"
+                 maxlength="100" autocomplete="given-name" required>
+          <label for="qwBusiness" class="sr-only">Nombre de tu negocio</label>
+          <input class="qw-input" id="qwBusiness" type="text" placeholder="Nombre de tu negocio (opcional)"
+                 maxlength="150" autocomplete="organization">
+          <div class="qw-nav">
+            <button class="qw-back visible" id="qwBack" type="button">← Volver</button>
+            <button class="qw-next" id="qwNext" type="button">Ver mi resultado</button>
+          </div>
+        </div>`;
+
+      /* Pre-rellenar via .value (nunca via innerHTML para evitar XSS) */
+      document.getElementById('qwName').value     = contactInfo.name;
+      document.getElementById('qwBusiness').value = contactInfo.business;
+
+      const nameInput = document.getElementById('qwName');
+      const nextBtn   = document.getElementById('qwNext');
+
+      function toggle() {
+        nextBtn.classList.toggle('active', nameInput.value.trim().length > 0);
+      }
+      nameInput.addEventListener('input', toggle);
+      toggle();
+
+      document.getElementById('qwBack').addEventListener('click', () => {
+        screen = 'question'; render();
+      });
+
+      nextBtn.addEventListener('click', async () => {
+        if (!nameInput.value.trim()) return;
+        contactInfo.name     = nameInput.value.trim().slice(0, 100);
+        contactInfo.business = document.getElementById('qwBusiness').value.trim().slice(0, 150);
+        winnerLevel          = computeWinner();
+        nextBtn.textContent  = 'Guardando…';
+        nextBtn.classList.remove('active');
+        nextBtn.disabled = true;
+        await saveSubmission(winnerLevel);
+        screen = 'result';
+        render();
+      });
+    }
+
+    function renderResult() {
+      const r        = RESULTS[winnerLevel];
+      const titleMap = { E: 'Express', D: 'DIAGNÓSTICO', R: 'REDES' };
+      const subject  = `Resultado del test — ${contactInfo.name} (${titleMap[winnerLevel]})`;
+      const bodyText = [
+        `Nombre: ${contactInfo.name}`,
+        `Negocio: ${contactInfo.business || '—'}`,
+        `Resultado recomendado: ${r.title}`,
+        `Rango de precio: ${r.price}`,
+        '',
+        'Enviado desde el cuestionario inicial — eduardomarin.es/cuestionario.html',
+      ].join('\n');
+
+      const mailto = `mailto:${EDU_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">Resultado</div>
+          <div class="qw-track"><div class="qw-fill" style="width:100%"></div></div>
+        </div>
+        <div class="qw-body qw-screen qw-result">
+          <div class="qw-result-tag">Tu servicio encaja en</div>
+          <h2 class="qw-result-title">${esc(r.title)}</h2>
+          <p class="qw-result-desc">${esc(r.desc)}</p>
+          <div class="qw-result-price">${esc(r.price)}</div>
+          <div class="qw-result-includes">
+            <p class="qw-result-includes-title">Suele incluir</p>
+            <ul>${r.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>
+          </div>
+          <div class="qw-result-actions">
+            <a class="qw-email-btn" href="${mailto}">Enviar resultado a Edu →</a>
+            <button class="qw-restart" id="qwRestart" type="button">↻ Repetir cuestionario</button>
+          </div>
+        </div>`;
+
+      document.getElementById('qwRestart').addEventListener('click', () => {
+        current = 0; screen = 'question'; answers.fill(null);
+        contactInfo = { name: '', business: '' }; winnerLevel = null;
+        render();
+      });
+    }
+
+    function renderAdmin() {
+      const entries     = storeList();
+      const titleMapAdm = { E: 'Express', D: 'DIAGNÓSTICO', R: 'REDES' };
+
+      const tableHTML = entries.length === 0
+        ? '<p class="qw-admin-empty">Todavía no hay respuestas en este dispositivo.</p>'
+        : `<div style="overflow-x:auto">
+            <table class="qw-admin-table">
+              <thead><tr><th>Nombre</th><th>Negocio</th><th>Resultado</th><th>Fecha</th></tr></thead>
+              <tbody>
+                ${entries.map(e => `
+                  <tr>
+                    <td>${esc(e.name)}</td>
+                    <td>${esc(e.business || '—')}</td>
+                    <td>${esc(titleMapAdm[e.level] || e.level || '—')}</td>
+                    <td>${esc(new Date(e.date).toLocaleDateString('es-ES'))}</td>
+                  </tr>`).join('')}
+              </tbody>
+            </table>
+          </div>`;
+
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">Panel interno</div>
+          <div class="qw-track"><div class="qw-fill" style="width:100%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">Respuestas recibidas</h2>
+          <p class="qw-hint">Datos locales de este dispositivo. Las notificaciones completas llegan por email vía Netlify Forms.</p>
+          ${tableHTML}
+          <button class="qw-restart" id="qwBackToQuiz" style="margin-top:20px;" type="button">← Volver al test</button>
+        </div>`;
+
+      document.getElementById('qwBackToQuiz').addEventListener('click', () => {
+        current = 0; screen = 'question'; answers.fill(null);
+        contactInfo = { name: '', business: '' }; winnerLevel = null;
+        render();
+      });
+    }
+
+    render();
+  })();
+  </script>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
