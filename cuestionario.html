@@ -382,7 +382,9 @@
         btn.addEventListener('click', () => {
           const idx = parseInt(btn.dataset.idx, 10);
           answers[current] = { idx, pts: q.options[idx].pts };
-          render();
+          root.querySelectorAll('.qw-option').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          document.getElementById('qwNext').classList.add('active');
         });
       });
 

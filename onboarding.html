@@ -447,7 +447,12 @@
         root.querySelectorAll('.qw-option').forEach(btn => {
           btn.addEventListener('click', () => {
             answers[q.id] = btn.dataset.val;
-            render();
+            root.querySelectorAll('.qw-option').forEach(b => {
+              b.classList.remove('selected');
+              b.querySelector('.qw-option-dot').style.borderColor = '';
+            });
+            btn.classList.add('selected');
+            document.getElementById('qwNext').classList.add('active');
           });
         });
         document.getElementById('qwNext').addEventListener('click', () => {
