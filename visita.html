@@ -204,6 +204,7 @@
     'use strict';
 
     const PASS    = 'edu2026';
+    const TOKEN   = 'eMv_7Kx9pQ2r-Wt4nJu';
     const SK      = 'visitas_edu';
     const SK_URL  = 'visitas_sheet_url';
 
@@ -234,7 +235,7 @@
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain' },
-          body: JSON.stringify(v),
+          body: JSON.stringify({...v, _token: TOKEN}),
         });
         return true;
       } catch { return false; }
@@ -299,6 +300,8 @@
 
     const GS_CODE = `// ── Pega este código en Apps Script y haz clic en Implementar ──
 
+const SECRET = 'eMv_7Kx9pQ2r-Wt4nJu';
+
 const COLS = [
   'Fecha visita','Nombre','Negocio','Email','Teléfono',
   'Plataformas','Situación actual','Necesidades',
@@ -308,7 +311,12 @@ const COLS = [
 
 function doPost(e) {
   try {
-    const d     = JSON.parse(e.postData.contents);
+    const d = JSON.parse(e.postData.contents);
+    if (d._token !== SECRET) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ok:false,error:'Unauthorized'}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
     const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
     if (sheet.getLastRow() === 0) sheet.appendRow(COLS);
     sheet.appendRow([
