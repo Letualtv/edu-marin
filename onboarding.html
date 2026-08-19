@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuéntame sobre tu negocio · Edu Marín</title>
+  <meta name="description" content="Formulario de inicio para clientes de Eduardo Marín. Cuéntame sobre tu negocio y tus redes para recibir una propuesta personalizada en menos de 24 h.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: { 'brand-red': '#E53E3E', 'brand-orange': '#F97316', 'brand-dark': '#111111' },
+          fontFamily: { sans: ['Inter', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.6.0/css/all.min.css" crossorigin="anonymous">
+
+  <style>
+    .qw-root {
+      --qw-bg:        #101010;
+      --qw-surface:   #1a1a1a;
+      --qw-surface-h: #232323;
+      --qw-lime:      #CBFF3D;
+      --qw-ink:       #F4F4F0;
+      --qw-muted:     #8C8C86;
+      --qw-border:    #2A2A2A;
+
+      background: var(--qw-bg); color: var(--qw-ink); font-family: 'Inter', sans-serif;
+      border-radius: 16px; max-width: 640px; margin: 0 auto; overflow: hidden;
+      position: relative; min-height: 560px; display: flex; flex-direction: column;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+    }
+    .qw-header { padding: 24px 32px 18px; border-bottom: 1px solid var(--qw-border); }
+    .qw-eyebrow { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--qw-muted); font-weight: 600; margin-bottom: 12px; }
+    .qw-eyebrow b { color: var(--qw-lime); }
+    .qw-track { height: 4px; background: var(--qw-border); border-radius: 4px; overflow: hidden; }
+    .qw-fill { height: 100%; background: var(--qw-lime); transition: width 0.45s cubic-bezier(.4,0,.2,1); border-radius: 4px; }
+    .qw-body { padding: 32px 32px; flex: 1; display: flex; flex-direction: column; }
+    .qw-question { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22px; line-height: 1.3; margin: 0 0 6px; }
+    .qw-hint { color: var(--qw-muted); font-size: 13px; margin: 0 0 20px; line-height: 1.5; }
+    .qw-options { display: flex; flex-direction: column; gap: 9px; }
+    .qw-option {
+      text-align: left; background: var(--qw-surface); border: 1.5px solid var(--qw-border);
+      border-radius: 10px; padding: 13px 16px; color: var(--qw-ink); font-family: 'Inter', sans-serif;
+      font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s ease;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .qw-option:hover { background: var(--qw-surface-h); border-color: #3a3a3a; }
+    .qw-option.selected { background: rgba(203,255,61,0.08); border-color: var(--qw-lime); }
+    .qw-option-dot { width: 15px; height: 15px; border-radius: 50%; border: 1.5px solid var(--qw-muted); flex-shrink: 0; position: relative; }
+    .qw-option.selected .qw-option-dot { border-color: var(--qw-lime); }
+    .qw-option.selected .qw-option-dot::after { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--qw-lime); }
+    .qw-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
+    .qw-back { background: none; border: none; color: var(--qw-muted); font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; padding: 8px 4px; visibility: hidden; }
+    .qw-back.visible { visibility: visible; }
+    .qw-back:hover { color: var(--qw-ink); }
+    .qw-next {
+      background: var(--qw-lime); color: #101010; border: none; border-radius: 999px;
+      padding: 11px 24px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+      cursor: pointer; opacity: 0.35; pointer-events: none; transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+    .qw-next.active { opacity: 1; pointer-events: auto; }
+    .qw-next.active:hover { transform: translateY(-1px); }
+
+    /* Plataformas */
+    .qw-platform-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px;
+    }
+    .qw-platform-btn {
+      position: relative; background: var(--qw-surface); border: 1.5px solid var(--qw-border);
+      border-radius: 12px; padding: 18px 10px 14px; cursor: pointer; transition: all 0.15s ease;
+      display: flex; flex-direction: column; align-items: center; gap: 7px;
+    }
+    .qw-platform-btn:hover { background: var(--qw-surface-h); border-color: #3a3a3a; }
+    .qw-platform-btn.selected { background: rgba(203,255,61,0.08); border-color: var(--qw-lime); }
+    .qw-pi { font-size: 24px; color: var(--qw-muted); transition: color 0.15s; }
+    .qw-pl { font-size: 11px; font-weight: 600; color: var(--qw-muted); transition: color 0.15s; font-family: 'Inter', sans-serif; line-height: 1.2; text-align: center; }
+    .qw-platform-btn:hover .qw-pi,
+    .qw-platform-btn:hover .qw-pl { color: var(--qw-ink); }
+    .qw-platform-btn.selected .qw-pi,
+    .qw-platform-btn.selected .qw-pl { color: var(--qw-lime); }
+    .qw-platform-btn.selected::after {
+      content: '✓'; position: absolute; top: 7px; right: 9px;
+      font-size: 10px; font-weight: 700; color: var(--qw-lime);
+    }
+
+    /* Inputs */
+    .qw-input {
+      background: var(--qw-surface); border: 1.5px solid var(--qw-border); border-radius: 10px;
+      padding: 12px 15px; color: var(--qw-ink); font-family: 'Inter', sans-serif;
+      font-size: 14px; margin-bottom: 10px; width: 100%; display: block;
+    }
+    .qw-input:focus { outline: none; border-color: var(--qw-lime); }
+    .qw-input::placeholder { color: var(--qw-muted); }
+    .qw-textarea { min-height: 90px; resize: vertical; }
+
+    /* Resultado */
+    .qw-result-tag { font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--qw-muted); font-weight: 600; margin-bottom: 8px; }
+    .qw-result-title { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 28px; color: var(--qw-lime); margin: 0 0 10px; }
+    .qw-result-desc { font-size: 14px; color: var(--qw-ink); line-height: 1.6; margin: 0 0 20px; opacity: 0.9; }
+    .qw-result-box { background: var(--qw-surface); border: 1px solid var(--qw-border); border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; }
+    .qw-result-box p { font-size: 13px; color: var(--qw-ink); margin: 0 0 5px; }
+    .qw-result-box p:last-child { margin: 0; }
+    .qw-result-actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: auto; padding-top: 8px; }
+    .qw-cta-lime { background: var(--qw-lime); color: #101010; text-decoration: none; border: none; border-radius: 999px; padding: 12px 20px; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: transform 0.1s; }
+    .qw-cta-lime:hover { transform: translateY(-1px); }
+    .qw-cta-outline { background: none; border: 1px solid var(--qw-border); color: var(--qw-muted); border-radius: 999px; padding: 11px 18px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .qw-cta-outline:hover { color: var(--qw-ink); border-color: #3a3a3a; }
+
+    .qw-screen { animation: qwIn 0.28s ease; }
+    @keyframes qwIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+    @media (max-width: 480px) {
+      .qw-header, .qw-body { padding-left: 18px; padding-right: 18px; }
+      .qw-question { font-size: 19px; }
+      .qw-platform-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body class="font-sans antialiased text-gray-900 bg-gray-950 min-h-screen">
+
+  <!-- WhatsApp flotante -->
+  <a id="whatsapp-float"
+     href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
+     target="_blank" rel="noopener noreferrer" aria-label="Contactar por WhatsApp"
+     class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-xl transition-transform duration-300 hover:scale-110">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- Navbar -->
+  <header class="bg-gray-950 border-b border-gray-800 py-4 sticky top-0 z-40">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 flex items-center justify-between">
+      <a href="index.html" class="text-white font-bold text-lg tracking-tight">
+        Edu <span class="gradient-text">Marín</span>
+      </a>
+      <a href="index.html" class="text-gray-500 hover:text-white text-sm transition-colors">← Volver al inicio</a>
+    </div>
+  </header>
+
+  <!-- Netlify Forms: campo oculto para detección en el build -->
+  <form name="onboarding" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input name="form-name" value="onboarding">
+    <input name="bot-field">
+    <input name="nombre">
+    <input name="email">
+    <input name="telefono">
+    <input name="negocio">
+    <input name="web">
+    <input name="plataformas">
+    <textarea name="detalles"></textarea>
+    <textarea name="mensaje"></textarea>
+  </form>
+
+  <main class="py-12 px-4 sm:px-6">
+    <div class="qw-root" id="qwRoot" role="form" aria-label="Formulario de inicio para clientes"></div>
+  </main>
+
+  <footer class="border-t border-gray-800 py-6 mt-4">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center text-gray-600 text-xs space-y-2">
+      <p>© 2026 Eduardo Marín Arjona · <a href="mailto:info@eduardomarin.es" class="hover:text-white transition-colors">info@eduardomarin.es</a></p>
+      <p class="flex items-center justify-center gap-3">
+        <a href="politica-privacidad.html" class="hover:text-white transition-colors">Privacidad</a>
+        <span>·</span>
+        <a href="aviso-legal.html" class="hover:text-white transition-colors">Aviso Legal</a>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+  (function () {
+    'use strict';
+
+    const EDU_EMAIL  = 'info@eduardomarin.es';
+    const WA_NUMBER  = '34744743209';
+
+    function esc(s) {
+      return String(s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    /* ── Datos ── */
+
+    const PLATFORMS = {
+      instagram: { label: 'Instagram',       icon: 'fa-brands fa-instagram' },
+      facebook:  { label: 'Facebook',         icon: 'fa-brands fa-facebook-f' },
+      google:    { label: 'Google Business',  icon: 'fa-brands fa-google' },
+      linkedin:  { label: 'LinkedIn',         icon: 'fa-brands fa-linkedin-in' },
+      tiktok:    { label: 'TikTok',           icon: 'fa-brands fa-tiktok' },
+      otro:      { label: 'Otro / No sé',     icon: 'fa-solid fa-ellipsis' },
+    };
+
+    const PLATFORM_QUESTIONS = {
+      instagram: [
+        { id: 'ig_estado', q: '¿Cuál es tu situación actual en Instagram?',
+          options: ['Tengo cuenta de empresa activa', 'Tengo cuenta personal activa', 'Tengo cuenta pero sin actividad', 'No tengo cuenta todavía'] },
+        { id: 'ig_seguidores', q: '¿Cuántos seguidores tienes?',
+          options: ['Menos de 500', 'Entre 500 y 2.000', 'Entre 2.000 y 10.000', 'Más de 10.000', 'No tengo cuenta aún'] },
+        { id: 'ig_frecuencia', q: '¿Con qué frecuencia publicas ahora mismo?',
+          options: ['Cada día o casi', '2-3 veces por semana', 'Muy esporádicamente', 'Casi nunca / quiero empezar'] },
+        { id: 'ig_meta', q: '¿Tienes acceso a Meta Business Suite?',
+          options: ['Sí, lo uso regularmente', 'Existe pero no lo uso', 'No lo tengo configurado', 'No sé qué es'] },
+      ],
+      facebook: [
+        { id: 'fb_tipo', q: '¿Qué tienes en Facebook?',
+          options: ['Página de empresa activa', 'Página de empresa abandonada', 'Solo perfil personal', 'Nada en Facebook'] },
+        { id: 'fb_seguidores', q: '¿Cuántos seguidores tiene tu página?',
+          options: ['Menos de 200', 'Entre 200 y 1.000', 'Entre 1.000 y 5.000', 'Más de 5.000', 'No tengo página aún'] },
+        { id: 'fb_ads', q: '¿Has usado Facebook Ads?',
+          options: ['Sí, lo uso regularmente', 'Lo he probado sin buenos resultados', 'No, nunca', 'Me interesaría usarlo'] },
+      ],
+      google: [
+        { id: 'gmb_estado', q: '¿Tienes ficha en Google Business Profile?',
+          options: ['Sí, verificada y activa', 'Existe pero no la gestiono', 'Existe pero no tengo acceso', 'No tengo ficha todavía'] },
+        { id: 'gmb_tipo', q: '¿Cómo opera tu negocio?',
+          options: ['Local físico (clientes vienen a mí)', 'Voy yo donde el cliente', 'Ambas modalidades', 'Solo online'] },
+        { id: 'gmb_resenas', q: '¿Cuántas reseñas tienes en Google?',
+          options: ['Ninguna', 'Menos de 10', 'Entre 10 y 50', 'Más de 50'] },
+        { id: 'gmb_direccion', q: '¿Puedes mostrar tu dirección física en la ficha?',
+          options: ['Sí, tengo local comercial', 'Tengo dirección pero prefiero no mostrarla', 'No, trabajo de forma remota'] },
+      ],
+      linkedin: [
+        { id: 'li_tipo', q: '¿Qué tienes en LinkedIn?',
+          options: ['Perfil personal activo', 'Página de empresa activa', 'Ambos', 'Nada todavía'] },
+        { id: 'li_contactos', q: '¿Cuántos contactos o seguidores tienes?',
+          options: ['Menos de 100', 'Entre 100 y 500', 'Entre 500 y 2.000', 'Más de 2.000'] },
+        { id: 'li_objetivo', q: '¿Qué buscas con LinkedIn?',
+          options: ['Conseguir clientes B2B', 'Reforzar mi marca personal', 'Posicionarme como experto en mi sector', 'Ampliar mi red de contactos'] },
+      ],
+      tiktok: [
+        { id: 'tt_cuenta', q: '¿Tienes cuenta de TikTok para tu negocio?',
+          options: ['Sí, activa con contenido', 'Sí, pero sin actividad', 'No tengo', 'Quiero crearla'] },
+        { id: 'tt_video', q: '¿Tienes capacidad para generar vídeo?',
+          options: ['Sí, me siento cómodo grabando', 'Podría con guión y dirección', 'Prefiero otro tipo de contenido', 'No lo sé todavía'] },
+      ],
+      otro: [
+        { id: 'otro_cual', q: '¿Qué otra plataforma o necesidad tienes en mente?',
+          type: 'text', placeholder: 'Ej: YouTube, Pinterest, Twitter/X, web, blog...' },
+      ],
+    };
+
+    const GENERAL_QUESTIONS = [
+      { id: 'sector', q: '¿A qué se dedica tu negocio?',
+        type: 'textarea',
+        hint: 'Cuantos más detalles, mejor podré preparar la propuesta.',
+        placeholder: 'Ej: Restaurante de cocina mediterránea en Madrid, Peluquería y estética, Asesoría fiscal para autónomos...' },
+      { id: 'objetivo', q: '¿Cuál es tu objetivo principal con las redes?',
+        options: ['Conseguir más clientes y ventas', 'Aumentar el reconocimiento de marca', 'Fidelizar a mis clientes actuales', 'Ganar presencia local en mi zona', 'Todo lo anterior'] },
+      { id: 'cm_previo', q: '¿Has trabajado antes con un community manager?',
+        options: ['Sí, y fue una buena experiencia', 'Sí, pero no quedé satisfecho', 'No, es la primera vez', 'Lo he llevado yo mismo hasta ahora'] },
+      { id: 'urgencia', q: '¿Cuándo te gustaría empezar?',
+        options: ['Lo antes posible', 'En el próximo mes', 'En los próximos 2-3 meses', 'Todavía estoy valorando opciones'] },
+    ];
+
+    /* ── Estado ── */
+
+    let screen           = 'intro';
+    let selectedPlatforms = [];
+    let steps            = [];
+    let currentStepIdx   = 0;
+    let answers          = {};
+    let contactInfo      = { nombre: '', email: '', telefono: '', negocio: '', web: '', mensaje: '' };
+    const root           = document.getElementById('qwRoot');
+
+    function buildSteps() {
+      const s = [];
+      for (const key of selectedPlatforms) {
+        if (!PLATFORM_QUESTIONS[key]) continue;
+        for (const q of PLATFORM_QUESTIONS[key]) {
+          s.push({ platformKey: key, platformLabel: PLATFORMS[key].label, q });
+        }
+      }
+      for (const q of GENERAL_QUESTIONS) {
+        s.push({ platformKey: null, platformLabel: null, q });
+      }
+      return s;
+    }
+
+    function progress() {
+      if (screen === 'intro')      return 0;
+      if (screen === 'platforms')  return 6;
+      if (screen === 'questions')  return steps.length
+        ? Math.round(10 + (currentStepIdx / steps.length) * 75)
+        : 10;
+      if (screen === 'contact')    return 90;
+      return 100;
+    }
+
+    function render() {
+      if      (screen === 'intro')     renderIntro();
+      else if (screen === 'platforms') renderPlatforms();
+      else if (screen === 'questions') renderQuestion();
+      else if (screen === 'contact')   renderContact();
+      else if (screen === 'result')    renderResult();
+    }
+
+    /* ── Pantallas ── */
+
+    function renderIntro() {
+      root.innerHTML = `
+        <div class="qw-body qw-screen" style="justify-content:center;min-height:500px;">
+          <div style="margin-bottom:18px;">
+            <span style="background:var(--qw-lime);color:#101010;font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 14px;border-radius:999px;">Formulario de inicio</span>
+          </div>
+          <h2 class="qw-question" style="font-size:27px;margin-bottom:12px;line-height:1.2;">Cuéntame sobre<br>tu negocio</h2>
+          <p class="qw-hint" style="font-size:14px;margin-bottom:26px;max-width:340px;line-height:1.55;">
+            Para prepararte una propuesta a medida, adapto las preguntas a las plataformas que uses.
+            Unos 5 minutos que nos ahorran mucho tiempo.
+          </p>
+          <ul style="list-style:none;padding:0;margin:0 0 34px;display:flex;flex-direction:column;gap:9px;">
+            ${[
+              'Sin compromiso, 100% gratuito',
+              'Propuesta personalizada en menos de 24 h',
+              'Solo te pregunto lo que necesito saber',
+            ].map(t => `<li style="display:flex;align-items:center;gap:9px;font-size:13px;color:var(--qw-ink);">
+              <span style="color:var(--qw-lime);font-weight:700;font-size:14px;">✓</span>${esc(t)}
+            </li>`).join('')}
+          </ul>
+          <button class="qw-next active" id="qwStart" type="button" style="align-self:flex-start;padding:13px 30px;font-size:14px;">Empezar →</button>
+        </div>`;
+      document.getElementById('qwStart').addEventListener('click', () => { screen = 'platforms'; render(); });
+    }
+
+    function renderPlatforms() {
+      const keys = Object.keys(PLATFORMS);
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow"><b>Plataformas</b></div>
+          <div class="qw-track"><div class="qw-fill" style="width:6%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">¿En qué plataformas quieres trabajar?</h2>
+          <p class="qw-hint">Selecciona todas las que apliquen — adapto las preguntas a tu elección.</p>
+          <div class="qw-platform-grid">
+            ${keys.map(key => {
+              const p   = PLATFORMS[key];
+              const sel = selectedPlatforms.includes(key);
+              return `<button class="qw-platform-btn${sel ? ' selected' : ''}" data-key="${key}" type="button" aria-pressed="${sel}">
+                <i class="${esc(p.icon)} qw-pi" aria-hidden="true"></i>
+                <span class="qw-pl">${esc(p.label)}</span>
+              </button>`;
+            }).join('')}
+          </div>
+          <div class="qw-nav" style="margin-top:20px;">
+            <button class="qw-back visible" id="qwBack" type="button">← Volver</button>
+            <button class="qw-next${selectedPlatforms.length > 0 ? ' active' : ''}" id="qwNext" type="button">Continuar</button>
+          </div>
+        </div>`;
+
+      root.querySelectorAll('.qw-platform-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const key = btn.dataset.key;
+          const idx = selectedPlatforms.indexOf(key);
+          if (idx >= 0) selectedPlatforms.splice(idx, 1);
+          else selectedPlatforms.push(key);
+          renderPlatforms();
+        });
+      });
+
+      document.getElementById('qwBack').addEventListener('click', () => { screen = 'intro'; render(); });
+      document.getElementById('qwNext').addEventListener('click', () => {
+        if (!selectedPlatforms.length) return;
+        steps          = buildSteps();
+        currentStepIdx = 0;
+        screen         = 'questions';
+        render();
+      });
+    }
+
+    function renderQuestion() {
+      const step          = steps[currentStepIdx];
+      const q             = step.q;
+      const isText        = q.type === 'text' || q.type === 'textarea';
+      const currentAnswer = answers[q.id] || '';
+      const hasAnswer     = isText ? currentAnswer.trim().length > 0 : !!currentAnswer;
+      const prog          = progress();
+
+      /* Eyebrow */
+      let eyebrow;
+      if (step.platformKey) {
+        const pSteps = steps.filter(s => s.platformKey === step.platformKey);
+        const n      = pSteps.findIndex(s => s.q.id === q.id) + 1;
+        eyebrow      = `<b>${esc(step.platformLabel)}</b> · ${n} / ${pSteps.length}`;
+      } else {
+        const gSteps = steps.filter(s => s.platformKey === null);
+        const n      = gSteps.findIndex(s => s.q.id === q.id) + 1;
+        eyebrow      = `General · ${n} / ${gSteps.length}`;
+      }
+
+      /* Input area */
+      let inputHTML;
+      if (q.options) {
+        inputHTML = `<div class="qw-options">
+          ${q.options.map(o => `
+            <button class="qw-option${currentAnswer === o ? ' selected' : ''}" data-val="${esc(o)}" type="button">
+              <span class="qw-option-dot" aria-hidden="true"></span>
+              <span>${esc(o)}</span>
+            </button>`).join('')}
+        </div>`;
+      } else if (q.type === 'textarea') {
+        inputHTML = `<label for="qwTxt" class="sr-only">${esc(q.q)}</label>
+          <textarea class="qw-input qw-textarea" id="qwTxt"
+                    placeholder="${esc(q.placeholder || '')}" maxlength="500" rows="4"></textarea>`;
+      } else {
+        inputHTML = `<label for="qwTxt" class="sr-only">${esc(q.q)}</label>
+          <input class="qw-input" id="qwTxt" type="text"
+                 placeholder="${esc(q.placeholder || '')}" maxlength="200">`;
+      }
+
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">${eyebrow}</div>
+          <div class="qw-track"><div class="qw-fill" style="width:${prog}%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">${esc(q.q)}</h2>
+          ${q.hint ? `<p class="qw-hint">${esc(q.hint)}</p>` : ''}
+          ${inputHTML}
+          <div class="qw-nav">
+            <button class="qw-back visible" id="qwBack" type="button">← Volver</button>
+            <button class="qw-next${hasAnswer ? ' active' : ''}" id="qwNext" type="button">Siguiente</button>
+          </div>
+        </div>`;
+
+      function advance() {
+        if (currentStepIdx < steps.length - 1) { currentStepIdx++; render(); }
+        else { screen = 'contact'; render(); }
+      }
+
+      if (q.options) {
+        root.querySelectorAll('.qw-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            answers[q.id] = btn.dataset.val;
+            render();
+          });
+        });
+        document.getElementById('qwNext').addEventListener('click', () => {
+          if (answers[q.id]) advance();
+        });
+      } else {
+        const txt     = document.getElementById('qwTxt');
+        const nextBtn = document.getElementById('qwNext');
+        txt.value     = currentAnswer;
+        txt.focus();
+
+        txt.addEventListener('input', () => {
+          nextBtn.classList.toggle('active', txt.value.trim().length > 0);
+        });
+        if (q.type === 'text') {
+          txt.addEventListener('keydown', e => {
+            if (e.key === 'Enter' && txt.value.trim()) { answers[q.id] = txt.value.trim(); advance(); }
+          });
+        }
+        nextBtn.addEventListener('click', () => {
+          const v = txt.value.trim();
+          if (v) { answers[q.id] = v; advance(); }
+        });
+      }
+
+      document.getElementById('qwBack').addEventListener('click', () => {
+        if (isText) answers[q.id] = document.getElementById('qwTxt')?.value.trim() || answers[q.id];
+        if (currentStepIdx > 0) { currentStepIdx--; render(); }
+        else { screen = 'platforms'; render(); }
+      });
+    }
+
+    function renderContact() {
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">Casi listo…</div>
+          <div class="qw-track"><div class="qw-fill" style="width:90%"></div></div>
+        </div>
+        <div class="qw-body qw-screen">
+          <h2 class="qw-question">¿Cómo te llamas y cómo te contacto?</h2>
+          <p class="qw-hint">Solo para enviarte la propuesta. Sin spam ni cesión de datos a terceros.</p>
+          <label for="qwNombre"   class="sr-only">Nombre completo</label>
+          <input  class="qw-input" id="qwNombre"   type="text"  placeholder="Nombre completo *"           maxlength="100" autocomplete="name">
+          <label for="qwEmail"    class="sr-only">Email</label>
+          <input  class="qw-input" id="qwEmail"    type="email" placeholder="tu@email.com *"               maxlength="200" autocomplete="email">
+          <label for="qwTelefono" class="sr-only">Teléfono (opcional)</label>
+          <input  class="qw-input" id="qwTelefono" type="tel"   placeholder="Teléfono (opcional)"          maxlength="20"  autocomplete="tel">
+          <label for="qwNegocio"  class="sr-only">Nombre del negocio</label>
+          <input  class="qw-input" id="qwNegocio"  type="text"  placeholder="Nombre de tu negocio *"       maxlength="150" autocomplete="organization">
+          <label for="qwWeb"      class="sr-only">Web (opcional)</label>
+          <input  class="qw-input" id="qwWeb"      type="text"  placeholder="Web o perfil (opcional)"      maxlength="200" autocomplete="url">
+          <label for="qwMensaje"  class="sr-only">Mensaje adicional</label>
+          <textarea class="qw-input qw-textarea" id="qwMensaje"
+                    placeholder="¿Algo más que quieras contarme? (opcional)"
+                    maxlength="500" rows="2" style="min-height:70px;"></textarea>
+          <div class="qw-nav">
+            <button class="qw-back visible" id="qwBack" type="button">← Volver</button>
+            <button class="qw-next" id="qwNext" type="button">Enviar →</button>
+          </div>
+        </div>`;
+
+      const nombre  = document.getElementById('qwNombre');
+      const email   = document.getElementById('qwEmail');
+      const negocio = document.getElementById('qwNegocio');
+      const nextBtn = document.getElementById('qwNext');
+
+      /* Pre-rellenar via .value */
+      nombre.value                               = contactInfo.nombre;
+      email.value                                = contactInfo.email;
+      document.getElementById('qwTelefono').value = contactInfo.telefono;
+      negocio.value                              = contactInfo.negocio;
+      document.getElementById('qwWeb').value     = contactInfo.web;
+      document.getElementById('qwMensaje').value = contactInfo.mensaje;
+
+      function toggleSend() {
+        const ok = nombre.value.trim() && email.value.includes('@') && negocio.value.trim();
+        nextBtn.classList.toggle('active', !!ok);
+      }
+      [nombre, email, negocio,
+       document.getElementById('qwTelefono'),
+       document.getElementById('qwWeb'),
+       document.getElementById('qwMensaje'),
+      ].forEach(el => el.addEventListener('input', toggleSend));
+      toggleSend();
+
+      document.getElementById('qwBack').addEventListener('click', () => {
+        currentStepIdx = steps.length - 1;
+        screen = 'questions';
+        render();
+      });
+
+      nextBtn.addEventListener('click', async () => {
+        const n   = nombre.value.trim();
+        const e   = email.value.trim();
+        const neg = negocio.value.trim();
+        if (!n || !e.includes('@') || !neg) return;
+
+        contactInfo.nombre   = n;
+        contactInfo.email    = e;
+        contactInfo.telefono = document.getElementById('qwTelefono').value.trim();
+        contactInfo.negocio  = neg;
+        contactInfo.web      = document.getElementById('qwWeb').value.trim();
+        contactInfo.mensaje  = document.getElementById('qwMensaje').value.trim();
+
+        nextBtn.textContent = 'Enviando…';
+        nextBtn.classList.remove('active');
+        nextBtn.disabled    = true;
+
+        await saveSubmission();
+        screen = 'result';
+        render();
+      });
+    }
+
+    function renderResult() {
+      const platforms = selectedPlatforms.map(k => PLATFORMS[k].label).join(', ');
+      const waText    = encodeURIComponent(`Hola Edu, acabo de rellenar el formulario de inicio. Soy ${contactInfo.nombre} de ${contactInfo.negocio}.`);
+      const waURL     = `https://wa.me/${WA_NUMBER}?text=${waText}`;
+
+      root.innerHTML = `
+        <div class="qw-header">
+          <div class="qw-eyebrow">¡Listo!</div>
+          <div class="qw-track"><div class="qw-fill" style="width:100%"></div></div>
+        </div>
+        <div class="qw-body qw-screen" style="display:flex;flex-direction:column;">
+          <div class="qw-result-tag">Información recibida</div>
+          <h2 class="qw-result-title">¡Gracias, ${esc(contactInfo.nombre)}!</h2>
+          <p class="qw-result-desc">
+            He recibido toda la información sobre tu negocio y tus redes.
+            Te prepararé una propuesta personalizada y te la envío en menos de
+            <strong style="color:var(--qw-lime)">24 horas</strong>.
+          </p>
+          <div class="qw-result-box">
+            <p style="font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--qw-muted);margin:0 0 10px;font-weight:600;">Resumen de tu solicitud</p>
+            <p><strong>Negocio:</strong> ${esc(contactInfo.negocio)}</p>
+            <p><strong>Plataformas:</strong> ${esc(platforms)}</p>
+            ${contactInfo.web ? `<p><strong>Web:</strong> ${esc(contactInfo.web)}</p>` : ''}
+          </div>
+          <div class="qw-result-actions">
+            <a class="qw-cta-lime" href="${waURL}" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Escribirle por WhatsApp
+            </a>
+            <a class="qw-cta-outline" href="index.html">← Volver al inicio</a>
+          </div>
+        </div>`;
+    }
+
+    /* ── Envío Netlify Forms ── */
+
+    async function saveSubmission() {
+      const lines = [];
+      lines.push(`Plataformas: ${selectedPlatforms.map(k => PLATFORMS[k].label).join(', ')}`);
+      lines.push('');
+
+      for (const key of selectedPlatforms) {
+        if (!PLATFORM_QUESTIONS[key]) continue;
+        lines.push(`=== ${PLATFORMS[key].label.toUpperCase()} ===`);
+        for (const q of PLATFORM_QUESTIONS[key]) {
+          if (answers[q.id]) lines.push(`${q.q}\n→ ${answers[q.id]}`);
+        }
+        lines.push('');
+      }
+
+      lines.push('=== GENERAL ===');
+      for (const q of GENERAL_QUESTIONS) {
+        if (answers[q.id]) lines.push(`${q.q}\n→ ${answers[q.id]}`);
+      }
+
+      try {
+        await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            'form-name': 'onboarding',
+            'bot-field': '',
+            nombre:      contactInfo.nombre,
+            email:       contactInfo.email,
+            telefono:    contactInfo.telefono || '—',
+            negocio:     contactInfo.negocio,
+            web:         contactInfo.web || '—',
+            plataformas: selectedPlatforms.map(k => PLATFORMS[k].label).join(', '),
+            detalles:    lines.join('\n'),
+            mensaje:     contactInfo.mensaje || '—',
+          }).toString(),
+        });
+      } catch (e) {
+        console.error('onboarding submit error:', e);
+      }
+    }
+
+    render();
+  })();
+  </script>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
