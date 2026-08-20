@@ -93,7 +93,7 @@ async function fetchBlogPosts() {
       return `
         <article class="bg-white rounded-2xl overflow-hidden shadow-sm card-hover group">
           <a href="${safeLink}" target="_blank" rel="noopener noreferrer" class="block">
-            <div class="overflow-hidden h-48 ${safeImg ? 'bg-gray-100' : 'olive-bg'}">
+            <div class="overflow-hidden h-48 ${safeImg ? 'bg-gray-100' : 'bg-brand-olive'}">
               ${safeImg
                 ? `<img src="${safeImg}" alt="${title}" loading="lazy"
                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
@@ -103,7 +103,7 @@ async function fetchBlogPosts() {
               <p class="text-xs text-gray-500 mb-2">${escapeHTML(date)}</p>
               <h3 class="font-bold text-gray-900 text-base leading-snug mb-3 line-clamp-2">${title}</h3>
               <p class="text-gray-500 text-sm leading-relaxed line-clamp-3">${excerpt}</p>
-              <span class="inline-block mt-4 olive-text font-semibold text-sm hover:underline">Leer más →</span>
+              <span class="inline-block mt-4 text-brand-olive font-semibold text-sm hover:underline">Leer más →</span>
             </div>
           </a>
         </article>`;
@@ -116,7 +116,7 @@ async function fetchBlogPosts() {
       <div class="col-span-3 text-center py-10">
         <p class="text-gray-500 mb-3">No se pudieron cargar los artículos en este momento.</p>
         <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer"
-           class="olive-text font-semibold hover:underline">Visitar el blog directamente →</a>
+           class="text-brand-olive font-semibold hover:underline">Visitar el blog directamente →</a>
       </div>`;
   }
 }
