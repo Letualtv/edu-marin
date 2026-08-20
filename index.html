@@ -39,10 +39,12 @@
       theme: {
         extend: {
           colors: {
-            'brand-red': '#E53E3E',
-            'brand-red-dark': '#C53030',
-            'brand-orange': '#F97316',
-            'brand-dark': '#111111',
+            'brand-olive':      '#4A5E3A',
+            'brand-olive-dark': '#3A4D2C',
+            'brand-terracota':  '#C4623A',
+            'brand-cream':      '#F5EFE0',
+            'brand-dark':       '#1C1C1A',
+            'brand-warm-gray':  '#6B6559',
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -69,10 +71,10 @@
   </a>
 
   <!-- Navbar fija -->
-  <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-gray-950">
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 bg-brand-dark">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
       <a href="#inicio" class="text-white font-bold text-xl tracking-tight">
-        Edu <span class="gradient-text">Marín</span>
+        Edu <span class="olive-text">Marín</span>
       </a>
 
       <nav class="hidden md:flex items-center gap-7">
@@ -83,7 +85,7 @@
         <a href="#contacto"  class="nav-link text-gray-300 hover:text-white transition-colors text-sm font-medium">Contacto</a>
         <a href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
            target="_blank" rel="noopener noreferrer"
-           class="gradient-bg text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
+           class="olive-bg text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:opacity-90 transition-opacity">
           Contáctame
         </a>
       </nav>
@@ -95,7 +97,7 @@
       </button>
     </div>
 
-    <div id="mobile-menu" class="hidden md:hidden bg-gray-950 border-t border-gray-800">
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-dark border-t border-gray-800">
       <div class="flex flex-col px-4 py-4 gap-4">
         <a href="#inicio"    class="nav-link text-gray-300 hover:text-white text-sm font-medium">Inicio</a>
         <a href="#sobre-mi"  class="nav-link text-gray-300 hover:text-white text-sm font-medium">Sobre mí</a>
@@ -104,7 +106,7 @@
         <a href="#contacto"  class="nav-link text-gray-300 hover:text-white text-sm font-medium">Contacto</a>
         <a href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
            target="_blank" rel="noopener noreferrer"
-           class="gradient-bg text-white px-5 py-2 rounded-full text-sm font-semibold text-center">
+           class="olive-bg text-white px-5 py-2 rounded-full text-sm font-semibold text-center">
           Contáctame
         </a>
       </div>
@@ -114,180 +116,195 @@
   <main>
   <!-- ── HERO ── -->
   <section id="inicio" class="hero-bg min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 text-center">
 
-      <!-- Foto de Edu -->
-      <div class="flex justify-center mb-8">
-        <div class="gradient-border-wrap">
-          <!-- Sustituir por la foto real de Edu cuando esté disponible -->
-          <div class="w-40 h-40 rounded-full bg-gray-800 flex items-center justify-center text-white text-4xl font-black select-none">
-            EM
-          </div>
-        </div>
-      </div>
+  <!-- Watermark tipográfico -->
+  <div class="hero-watermark-12" aria-hidden="true">12</div>
 
-      <!-- Títulos -->
-      <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight mb-6 fade-in">
-        Hago visible tu negocio<br>
-        <span class="gradient-text">en redes sociales</span>
-      </h1>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 text-center relative z-10">
 
-      <p class="text-gray-400 text-lg sm:text-xl max-w-2xl mx-auto mb-10 fade-in">
-        Asesor y gestor de redes sociales con <strong class="text-white">12 años de experiencia</strong>.
-        Priego de Córdoba · Toda España.
-      </p>
+    <!-- Overline -->
+    <p class="text-xs font-semibold uppercase tracking-widest olive-text mb-5 fade-in">
+      Community Manager · Priego de Córdoba
+    </p>
 
-      <!-- CTAs -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center mb-14 fade-in">
-        <a href="onboarding.html"
-           class="inline-flex items-center justify-center gap-2 gradient-bg text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:scale-105 hover:opacity-90 shadow-lg">
-          Cuéntame sobre tu negocio →
-        </a>
-        <a href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
-           target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center justify-center gap-2 bg-green-700 hover:bg-green-800 text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-lg">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          WhatsApp
-        </a>
-      </div>
+    <!-- Título principal -->
+    <h1 class="text-4xl sm:text-5xl md:text-7xl font-black text-white leading-tight mb-6 fade-in">
+      12 años haciendo visible<br>
+      <span class="text-white/80">el comercio local.</span>
+    </h1>
 
-      <!-- Badges plataformas -->
-      <div class="flex flex-wrap justify-center gap-3 fade-in">
-        <span class="badge-float bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20" style="animation-delay:0s"><i class="fa-brands fa-instagram mr-1.5" aria-hidden="true"></i>Instagram</span>
-        <span class="badge-float bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20" style="animation-delay:0.4s"><i class="fa-brands fa-facebook mr-1.5" aria-hidden="true"></i>Facebook</span>
-        <span class="badge-float bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20" style="animation-delay:0.8s"><i class="fa-brands fa-google mr-1.5" aria-hidden="true"></i>Google Business</span>
-        <span class="badge-float bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20" style="animation-delay:1.2s"><i class="fa-solid fa-palette mr-1.5" aria-hidden="true"></i>Canva</span>
-        <span class="badge-float bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-white/20" style="animation-delay:1.6s"><i class="fa-solid fa-robot mr-1.5" aria-hidden="true"></i>IA</span>
-      </div>
+    <p class="text-[#A09585] text-lg sm:text-xl max-w-2xl mx-auto mb-10 fade-in">
+      Gestión de redes sociales para negocios locales · Toda España.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-14 fade-in">
+      <a href="onboarding.html"
+         class="inline-flex items-center justify-center gap-2 olive-bg text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:scale-105 hover:opacity-90 shadow-lg">
+        Cuéntame tu negocio →
+      </a>
+      <a href="https://wa.me/34744743209?text=Hola%20Edu%2C%20me%20gustar%C3%ADa%20recibir%20informaci%C3%B3n%20sobre%20tus%20servicios."
+         target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center justify-center gap-2 border-2 border-white/40 text-white font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:bg-white/10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        WhatsApp
+      </a>
     </div>
 
-    <!-- Scroll indicator -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-gray-500 animate-bounce">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-      </svg>
+    <!-- Badges plataformas -->
+    <div class="flex flex-wrap justify-center gap-3 fade-in">
+      <span class="badge-float bg-white/5 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-brand-terracota/40" style="animation-delay:0s"><i class="fa-brands fa-instagram mr-1.5" aria-hidden="true"></i>Instagram</span>
+      <span class="badge-float bg-white/5 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-brand-terracota/40" style="animation-delay:0.4s"><i class="fa-brands fa-facebook mr-1.5" aria-hidden="true"></i>Facebook</span>
+      <span class="badge-float bg-white/5 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-brand-terracota/40" style="animation-delay:0.8s"><i class="fa-brands fa-google mr-1.5" aria-hidden="true"></i>Google Business</span>
+      <span class="badge-float bg-white/5 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-brand-terracota/40" style="animation-delay:1.2s"><i class="fa-solid fa-palette mr-1.5" aria-hidden="true"></i>Canva</span>
+      <span class="badge-float bg-white/5 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-medium border border-brand-terracota/40" style="animation-delay:1.6s"><i class="fa-solid fa-robot mr-1.5" aria-hidden="true"></i>IA</span>
     </div>
-  </section>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 animate-bounce">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
+</section>
 
   <!-- ── SOBRE MÍ ── -->
-  <section id="sobre-mi" class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+  <section id="sobre-mi" class="py-20 bg-brand-cream">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
 
-        <!-- Columna imagen -->
-        <div class="flex justify-center fade-in">
-          <div class="relative">
-            <div class="gradient-border-wrap">
-              <!-- Foto real de Edu (sustituir cuando esté disponible) -->
-              <div class="w-64 h-64 sm:w-80 sm:h-80 rounded-full bg-gray-200 flex items-center justify-center text-6xl font-black text-gray-400 select-none">
-                EM
-              </div>
-            </div>
-            <!-- Badge experiencia -->
-            <div class="absolute -bottom-4 -right-4 gradient-bg text-white rounded-2xl px-5 py-3 shadow-xl">
-              <span class="text-2xl font-black">12+</span>
-              <p class="text-xs font-medium opacity-90">años de experiencia</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Columna texto -->
-        <div class="fade-in">
-          <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Sobre mí</span>
-          <h2 class="text-3xl sm:text-4xl font-black text-gray-900 mt-2 mb-6">
-            Tu aliado en el mundo digital
-          </h2>
-          <p class="text-gray-600 leading-relaxed mb-5">
-            Soy <strong>Eduardo Marín Arjona</strong>, community manager con más de 12 años de experiencia
-            ayudando a negocios locales y marcas a destacar en el entorno digital. Gestiono Instagram,
-            Facebook y Google Business Profile con un enfoque estratégico y creativo, siempre centrado
-            en resultados reales para tu negocio.
-          </p>
-          <p class="text-gray-600 leading-relaxed mb-8">
-            Utilizo <strong>Canva</strong> para diseñar contenido visual atractivo e integro herramientas
-            de <strong>inteligencia artificial</strong> en cada proyecto para desarrollar estrategias de
-            marketing más efectivas e innovadoras. Basado en Priego de Córdoba, trabajo con negocios
-            de toda España de forma remota.
-          </p>
-
-          <!-- Métricas -->
-          <div class="grid grid-cols-3 gap-4 mb-8">
-            <div class="text-center">
-              <span class="block text-3xl font-black gradient-text">12+</span>
-              <span class="text-gray-500 text-xs mt-1 block">Años de experiencia</span>
-            </div>
-            <div class="text-center">
-              <span class="block text-3xl font-black gradient-text">3</span>
-              <span class="text-gray-500 text-xs mt-1 block">Redes principales</span>
-            </div>
-            <div class="text-center">
-              <span class="block text-3xl font-black gradient-text">1:1</span>
-              <span class="text-gray-500 text-xs mt-1 block">Consultoría personalizada</span>
-            </div>
-          </div>
-
-          <!-- Herramientas -->
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-solid fa-palette mr-1.5 text-brand-red" aria-hidden="true"></i>Canva</span>
-            <span class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-meta mr-1.5 text-brand-red" aria-hidden="true"></i>Meta Business Suite</span>
-            <span class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-google mr-1.5 text-brand-red" aria-hidden="true"></i>Google Business</span>
-            <span class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-solid fa-robot mr-1.5 text-brand-red" aria-hidden="true"></i>IA Generativa</span>
-            <span class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-linkedin-in mr-1.5 text-brand-red" aria-hidden="true"></i>LinkedIn</span>
+      <!-- Columna visual: patrón celosía andaluza -->
+      <div class="flex justify-center fade-in">
+        <div class="relative w-full max-w-sm h-80 sm:h-96 rounded-2xl overflow-hidden">
+          <!-- Patrón celosía SVG inline -->
+          <svg class="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <pattern id="celosia" x="0" y="0" width="44" height="44" patternUnits="userSpaceOnUse">
+                <polygon points="22,3 41,22 22,41 3,22"
+                         fill="none" stroke="#4A5E3A" stroke-width="1.5" opacity="0.2"/>
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="#F5EFE0"/>
+            <rect width="100%" height="100%" fill="url(#celosia)"/>
+          </svg>
+          <!-- Badge experiencia -->
+          <div class="absolute bottom-6 left-1/2 -translate-x-1/2 bg-brand-terracota text-white rounded-2xl px-6 py-4 shadow-xl text-center">
+            <span class="block text-3xl font-black leading-none">12+</span>
+            <p class="text-xs font-medium opacity-90 mt-1">años de experiencia</p>
           </div>
         </div>
       </div>
+
+      <!-- Columna texto -->
+      <div class="fade-in">
+        <span class="olive-text font-semibold text-sm uppercase tracking-widest">Sobre mí</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-brand-dark mt-2 mb-6">
+          Tu aliado en el comercio local
+        </h2>
+        <p class="text-brand-warm-gray leading-relaxed mb-5">
+          Soy <strong class="text-brand-dark">Eduardo Marín Arjona</strong>, community manager con más de 12 años de experiencia
+          ayudando a negocios locales y marcas a destacar en el entorno digital. Gestiono Instagram,
+          Facebook y Google Business Profile con un enfoque estratégico y creativo, siempre centrado
+          en resultados reales para tu negocio.
+        </p>
+        <p class="text-brand-warm-gray leading-relaxed mb-8">
+          Utilizo <strong class="text-brand-dark">Canva</strong> para diseñar contenido visual atractivo e integro herramientas
+          de <strong class="text-brand-dark">inteligencia artificial</strong> en cada proyecto para desarrollar estrategias de
+          marketing más efectivas e innovadoras. Basado en Priego de Córdoba, trabajo con negocios
+          de toda España de forma remota.
+        </p>
+
+        <!-- Métricas -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+          <div class="text-center">
+            <span class="block text-3xl font-black olive-text">12+</span>
+            <span class="text-brand-warm-gray text-xs mt-1 block">Años de experiencia</span>
+          </div>
+          <div class="text-center">
+            <span class="block text-3xl font-black olive-text">3</span>
+            <span class="text-brand-warm-gray text-xs mt-1 block">Redes principales</span>
+          </div>
+          <div class="text-center">
+            <span class="block text-3xl font-black olive-text">1:1</span>
+            <span class="text-brand-warm-gray text-xs mt-1 block">Consultoría personalizada</span>
+          </div>
+        </div>
+
+        <!-- Herramientas -->
+        <div class="flex flex-wrap gap-2">
+          <span class="bg-brand-olive/10 text-brand-olive px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-solid fa-palette mr-1.5" aria-hidden="true"></i>Canva</span>
+          <span class="bg-brand-olive/10 text-brand-olive px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-meta mr-1.5" aria-hidden="true"></i>Meta Business Suite</span>
+          <span class="bg-brand-olive/10 text-brand-olive px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-google mr-1.5" aria-hidden="true"></i>Google Business</span>
+          <span class="bg-brand-olive/10 text-brand-olive px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-solid fa-robot mr-1.5" aria-hidden="true"></i>IA Generativa</span>
+          <span class="bg-brand-olive/10 text-brand-olive px-3 py-1.5 rounded-full text-sm font-medium"><i class="fa-brands fa-linkedin-in mr-1.5" aria-hidden="true"></i>LinkedIn</span>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- ── SERVICIOS ── -->
-  <section id="servicios" class="py-20 bg-gray-50">
+  <section id="servicios" class="py-20 bg-brand-cream">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
       <div class="text-center mb-14 fade-in">
-        <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Servicios</span>
-        <h2 class="text-3xl sm:text-4xl font-black text-gray-900 mt-2 mb-4">¿Qué puedo hacer por ti?</h2>
-        <p class="text-gray-600 max-w-2xl mx-auto">Gestión integral, estrategia y creatividad para que tu negocio brille en las redes.</p>
+        <span class="olive-text font-semibold text-sm uppercase tracking-widest">Servicios</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-brand-dark mt-2 mb-4">¿Qué puedo hacer por ti?</h2>
+        <p class="text-brand-warm-gray max-w-2xl mx-auto">Gestión integral, estrategia y creatividad para que tu negocio brille en las redes.</p>
       </div>
 
       <!-- Grid de servicios -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">📱</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">Gestión de redes sociales</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Gestiono tu presencia en Instagram, Facebook y Google Business de forma integral: publicaciones constantes, interacción con tu audiencia y estrategia definida.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">Gestión de redes sociales</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Gestiono tu presencia en Instagram, Facebook y Google Business de forma integral: publicaciones constantes, interacción con tu audiencia y estrategia definida.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">🎨</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">Creación de contenido visual</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Diseño piezas gráficas atractivas con Canva que captan la atención de tu audiencia y refuerzan la identidad de tu marca en cada publicación.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-palette" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">Creación de contenido visual</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Diseño piezas gráficas atractivas con Canva que captan la atención de tu audiencia y refuerzan la identidad de tu marca en cada publicación.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">💬</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">Consultoría 1:1</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Sesión personalizada (con cita previa) para analizar tu situación actual y definir una estrategia de redes adaptada a los objetivos de tu negocio.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-comments" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">Consultoría 1:1</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Sesión personalizada (con cita previa) para analizar tu situación actual y definir una estrategia de redes adaptada a los objetivos de tu negocio.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">🔍</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">Auditoría de perfiles</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Análisis completo de tus perfiles sociales actuales para identificar puntos de mejora, oportunidades de crecimiento y errores que te están restando visibilidad.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">Auditoría de perfiles</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Análisis completo de tus perfiles sociales actuales para identificar puntos de mejora, oportunidades de crecimiento y errores que te están restando visibilidad.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">📈</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">Estrategia digital</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Planificación y ejecución de tu estrategia de comunicación online para conectar mejor con tu audiencia, aumentar tu alcance y generar resultados reales.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-chart-line" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">Estrategia digital</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Planificación y ejecución de tu estrategia de comunicación online para conectar mejor con tu audiencia, aumentar tu alcance y generar resultados reales.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in">
-          <div class="gradient-bg w-12 h-12 rounded-xl flex items-center justify-center text-white text-2xl mb-5">🤖</div>
-          <h3 class="font-bold text-gray-900 text-lg mb-2">IA en marketing</h3>
-          <p class="text-gray-600 text-sm leading-relaxed">Integración de herramientas de inteligencia artificial para crear contenido más efectivo, analizar tendencias y optimizar tu presencia digital con un enfoque innovador.</p>
+        <div class="bg-white rounded-2xl p-7 shadow-sm card-hover fade-in border-l-[3px] border-brand-terracota">
+          <div class="bg-brand-cream w-12 h-12 rounded-xl flex items-center justify-center text-brand-olive text-xl mb-5">
+            <i class="fa-solid fa-robot" aria-hidden="true"></i>
+          </div>
+          <h3 class="font-bold text-brand-dark text-lg mb-2">IA en marketing</h3>
+          <p class="text-brand-warm-gray text-sm leading-relaxed">Integración de herramientas de inteligencia artificial para crear contenido más efectivo, analizar tendencias y optimizar tu presencia digital con un enfoque innovador.</p>
         </div>
 
       </div>
@@ -295,26 +312,26 @@
       <!-- CTA -->
       <div class="text-center fade-in flex flex-col sm:flex-row gap-4 justify-center">
         <a href="#contacto"
-           class="inline-block gradient-bg text-white font-bold px-10 py-4 rounded-full text-lg hover:opacity-90 transition-opacity shadow-lg">
+           class="inline-block olive-bg text-white font-bold px-10 py-4 rounded-full text-lg hover:opacity-90 transition-opacity shadow-lg">
           Solicitar información
         </a>
         <a href="cuestionario.html"
-           class="inline-block border-2 border-gray-300 text-gray-600 hover:border-brand-red hover:text-brand-red font-bold px-10 py-4 rounded-full text-lg transition-all duration-300">
+           class="inline-block border-2 border-gray-300 text-brand-warm-gray hover:border-brand-olive hover:text-brand-olive font-bold px-10 py-4 rounded-full text-lg transition-all duration-300">
           ¿Cuál me conviene? →
         </a>
       </div>
 
       <!-- FAQ (GEO: mejora citabilidad en IA) -->
       <div class="max-w-3xl mx-auto mt-16 fade-in">
-        <h3 class="text-2xl font-black text-gray-900 text-center mb-8">Preguntas frecuentes</h3>
+        <h3 class="text-2xl font-black text-brand-dark text-center mb-8">Preguntas frecuentes</h3>
         <div class="space-y-3">
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-brand-dark hover:text-brand-olive transition-colors" aria-expanded="false">
               <span>¿En qué redes sociales trabajas?</span>
-              <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
+              <span class="faq-icon text-brand-olive text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
-            <div class="faq-answer px-6 text-gray-600 text-sm leading-relaxed">
+            <div class="faq-answer px-6 text-brand-warm-gray text-sm leading-relaxed">
               <div class="pb-5">
                 Gestiono principalmente <strong>Instagram, Facebook y Google Business Profile</strong>. También asesoro en LinkedIn y otras plataformas según las necesidades concretas de cada negocio.
               </div>
@@ -322,11 +339,11 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-brand-dark hover:text-brand-olive transition-colors" aria-expanded="false">
               <span>¿Cómo funciona la consultoría 1:1?</span>
-              <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
+              <span class="faq-icon text-brand-olive text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
-            <div class="faq-answer px-6 text-gray-600 text-sm leading-relaxed">
+            <div class="faq-answer px-6 text-brand-warm-gray text-sm leading-relaxed">
               <div class="pb-5">
                 La consultoría 1:1 se realiza <strong>con cita previa</strong>. Consiste en una sesión personalizada donde analizamos la situación actual de tus redes sociales y definimos estrategias concretas para mejorar tu presencia digital. Escríbeme por WhatsApp o email para reservar tu cita.
               </div>
@@ -334,11 +351,11 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-brand-dark hover:text-brand-olive transition-colors" aria-expanded="false">
               <span>¿Ofreces servicios para toda España?</span>
-              <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
+              <span class="faq-icon text-brand-olive text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
-            <div class="faq-answer px-6 text-gray-600 text-sm leading-relaxed">
+            <div class="faq-answer px-6 text-brand-warm-gray text-sm leading-relaxed">
               <div class="pb-5">
                 Sí. Aunque estoy basado en <strong>Priego de Córdoba (Andalucía)</strong>, trabajo con negocios de toda España de forma completamente remota. La distancia no es un obstáculo para gestionar tus redes o hacer una consultoría online.
               </div>
@@ -346,11 +363,11 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-brand-dark hover:text-brand-olive transition-colors" aria-expanded="false">
               <span>¿Qué necesito para empezar?</span>
-              <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
+              <span class="faq-icon text-brand-olive text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
-            <div class="faq-answer px-6 text-gray-600 text-sm leading-relaxed">
+            <div class="faq-answer px-6 text-brand-warm-gray text-sm leading-relaxed">
               <div class="pb-5">
                 Solo escríbeme por <strong>WhatsApp (744 74 32 09)</strong> o por email a <strong>info@eduardomarin.es</strong> y cuéntame brevemente tu negocio y qué necesitas. Te respondo en menos de 24 horas sin ningún compromiso.
               </div>
@@ -358,11 +375,11 @@
           </div>
 
           <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-gray-900 hover:text-brand-red transition-colors" aria-expanded="false">
+            <button class="faq-question w-full flex items-center justify-between px-6 py-5 text-left font-semibold text-brand-dark hover:text-brand-olive transition-colors" aria-expanded="false">
               <span>¿Cuánto cuesta contratar a un community manager?</span>
-              <span class="faq-icon text-brand-red text-2xl font-light ml-4 flex-shrink-0">+</span>
+              <span class="faq-icon text-brand-olive text-2xl font-light ml-4 flex-shrink-0">+</span>
             </button>
-            <div class="faq-answer px-6 text-gray-600 text-sm leading-relaxed">
+            <div class="faq-answer px-6 text-brand-warm-gray text-sm leading-relaxed">
               <div class="pb-5">
                 El precio depende del número de plataformas, la frecuencia de publicación y los servicios incluidos (gestión, contenido, estrategia, IA). Cada negocio es diferente, por eso trabajo con <strong>presupuestos personalizados</strong> adaptados a tus necesidades reales. Escríbeme por <strong>WhatsApp (744 74 32 09)</strong> o a <strong>info@eduardomarin.es</strong> para recibir un presupuesto sin compromiso.
               </div>
@@ -377,64 +394,70 @@
 
   <!-- ── REDES SOCIALES ── -->
   <section id="redes" class="py-20 bg-brand-dark">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
-      <div class="text-center mb-12 fade-in">
-        <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Sígueme</span>
-        <h2 class="text-3xl sm:text-4xl font-black text-white mt-2 mb-4">No te pierdas nada</h2>
-        <p class="text-gray-400 max-w-xl mx-auto">Contenido diario sobre marketing digital, redes sociales y estrategia.</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-
-        <!-- Instagram -->
-        <a href="https://www.instagram.com/eduardomarin_es/" target="_blank" rel="noopener noreferrer"
-           class="group block bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
-          <div class="w-14 h-14 rounded-full gradient-bg flex items-center justify-center text-white text-2xl mx-auto mb-4"><i class="fa-brands fa-instagram" aria-hidden="true"></i></div>
-          <h3 class="font-bold text-white text-lg mb-1">Instagram</h3>
-          <p class="text-gray-400 text-sm mb-1">@eduardomarin_es</p>
-          <p class="text-gray-500 text-xs mb-5 leading-relaxed">Estrategias, tips y contenido sobre redes sociales para negocios.</p>
-          <span class="inline-block gradient-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
-            Seguir en Instagram
-          </span>
-        </a>
-
-        <!-- LinkedIn -->
-        <a href="https://www.linkedin.com/in/-eduardomarin/" target="_blank" rel="noopener noreferrer"
-           class="group block bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
-          <div class="w-14 h-14 rounded-full gradient-bg flex items-center justify-center text-white text-2xl mx-auto mb-4"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></div>
-          <h3 class="font-bold text-white text-lg mb-1">LinkedIn</h3>
-          <p class="text-gray-400 text-sm mb-1">Eduardo Marín Arjona</p>
-          <p class="text-gray-500 text-xs mb-5 leading-relaxed">Reflexiones, artículos y novedades del sector del marketing digital.</p>
-          <span class="inline-block gradient-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
-            Conectar en LinkedIn
-          </span>
-        </a>
-
-        <!-- Blog -->
-        <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer"
-           class="group block bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
-          <div class="w-14 h-14 rounded-full gradient-bg flex items-center justify-center text-white text-2xl mx-auto mb-4"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></div>
-          <h3 class="font-bold text-white text-lg mb-1">Blog Número 13</h3>
-          <p class="text-gray-400 text-sm mb-1">numero13elblog.wordpress.com</p>
-          <p class="text-gray-500 text-xs mb-5 leading-relaxed">Artículos en profundidad sobre community management, SEO, GEO y marketing digital.</p>
-          <span class="inline-block gradient-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
-            Leer el blog
-          </span>
-        </a>
-
-      </div>
+    <div class="text-center mb-12 fade-in">
+      <span class="olive-text font-semibold text-sm uppercase tracking-widest">Sígueme</span>
+      <h2 class="text-3xl sm:text-4xl font-black text-white mt-2 mb-4">No te pierdas nada</h2>
+      <p class="text-[#A09585] max-w-xl mx-auto">Contenido diario sobre marketing digital, redes sociales y estrategia.</p>
     </div>
-  </section>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/eduardomarin_es/" target="_blank" rel="noopener noreferrer"
+         class="group block bg-white/5 hover:bg-brand-olive/10 border border-brand-olive/20 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
+        <div class="w-14 h-14 rounded-full olive-bg flex items-center justify-center text-white text-2xl mx-auto mb-4">
+          <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+        </div>
+        <h3 class="font-bold text-white text-lg mb-1">Instagram</h3>
+        <p class="text-[#A09585] text-sm mb-1">@eduardomarin_es</p>
+        <p class="text-[#A09585] text-xs mb-5 leading-relaxed">Estrategias, tips y contenido sobre redes sociales para negocios.</p>
+        <span class="inline-block olive-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
+          Seguir en Instagram
+        </span>
+      </a>
+
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/-eduardomarin/" target="_blank" rel="noopener noreferrer"
+         class="group block bg-white/5 hover:bg-brand-olive/10 border border-brand-olive/20 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
+        <div class="w-14 h-14 rounded-full olive-bg flex items-center justify-center text-white text-2xl mx-auto mb-4">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+        </div>
+        <h3 class="font-bold text-white text-lg mb-1">LinkedIn</h3>
+        <p class="text-[#A09585] text-sm mb-1">Eduardo Marín Arjona</p>
+        <p class="text-[#A09585] text-xs mb-5 leading-relaxed">Reflexiones, artículos y novedades del sector del marketing digital.</p>
+        <span class="inline-block olive-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
+          Conectar en LinkedIn
+        </span>
+      </a>
+
+      <!-- Blog -->
+      <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer"
+         class="group block bg-white/5 hover:bg-brand-olive/10 border border-brand-olive/20 rounded-2xl p-7 text-center transition-all duration-300 card-hover fade-in">
+        <div class="w-14 h-14 rounded-full olive-bg flex items-center justify-center text-white text-2xl mx-auto mb-4">
+          <i class="fa-brands fa-wordpress" aria-hidden="true"></i>
+        </div>
+        <h3 class="font-bold text-white text-lg mb-1">Blog Número 13</h3>
+        <p class="text-[#A09585] text-sm mb-1">numero13elblog.wordpress.com</p>
+        <p class="text-[#A09585] text-xs mb-5 leading-relaxed">Artículos en profundidad sobre community management, SEO, GEO y marketing digital.</p>
+        <span class="inline-block olive-bg text-white text-sm font-semibold px-5 py-2 rounded-full group-hover:opacity-90 transition-opacity">
+          Leer el blog
+        </span>
+      </a>
+
+    </div>
+  </div>
+</section>
 
   <!-- ── BLOG ── -->
-  <section id="blog" class="py-20 bg-white">
+  <section id="blog" class="py-20 bg-brand-cream">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
       <div class="text-center mb-12 fade-in">
-        <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Blog</span>
-        <h2 class="text-3xl sm:text-4xl font-black text-gray-900 mt-2 mb-4">Últimos artículos</h2>
-        <p class="text-gray-600 max-w-xl mx-auto">Estrategias, herramientas y tendencias del marketing digital.</p>
+        <span class="olive-text font-semibold text-sm uppercase tracking-widest">Blog</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-brand-dark mt-2 mb-4">Últimos artículos</h2>
+        <p class="text-brand-warm-gray max-w-xl mx-auto">Estrategias, herramientas y tendencias del marketing digital.</p>
       </div>
 
       <!-- Posts cargados por JS — skeleton inicial -->
@@ -473,7 +496,7 @@
 
       <div class="text-center mt-10 fade-in">
         <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer"
-           class="inline-block border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-300">
+           class="inline-block border-2 border-brand-olive text-brand-olive hover:bg-brand-olive hover:text-white font-semibold px-8 py-3 rounded-full transition-all duration-300">
           Ver todos los artículos →
         </a>
       </div>
@@ -482,7 +505,7 @@
   </section>
 
   <!-- ── NEWSLETTER ── -->
-  <section id="newsletter" class="py-20 gradient-bg">
+  <section id="newsletter" class="py-20 olive-bg">
     <div class="max-w-2xl mx-auto px-4 sm:px-6 text-center">
 
       <div class="fade-in">
@@ -506,7 +529,7 @@
           <input type="email" id="newsletter-email" placeholder="tu@email.com" required autocomplete="email"
                  class="flex-1 px-5 py-3.5 rounded-full text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-white/50">
           <button type="submit"
-                  class="bg-white text-brand-red font-bold px-7 py-3.5 rounded-full text-sm hover:bg-gray-100 transition-colors whitespace-nowrap">
+                  class="bg-brand-cream text-brand-olive font-bold px-7 py-3.5 rounded-full text-sm hover:bg-white transition-colors whitespace-nowrap">
             Suscribirme
           </button>
         </form>
@@ -517,13 +540,13 @@
   </section>
 
   <!-- ── CONTACTO ── -->
-  <section id="contacto" class="py-20 bg-gray-50">
+  <section id="contacto" class="py-20 bg-brand-cream">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
 
       <div class="text-center mb-12 fade-in">
-        <span class="gradient-text font-semibold text-sm uppercase tracking-widest">Contacto</span>
-        <h2 class="text-3xl sm:text-4xl font-black text-gray-900 mt-2 mb-4">¿Hablamos?</h2>
-        <p class="text-gray-600 max-w-xl mx-auto">Escríbeme sin compromiso. Te respondo en menos de 24 horas.</p>
+        <span class="olive-text font-semibold text-sm uppercase tracking-widest">Contacto</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-brand-dark mt-2 mb-4">¿Hablamos?</h2>
+        <p class="text-brand-warm-gray max-w-xl mx-auto">Escríbeme sin compromiso. Te respondo en menos de 24 horas.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -537,19 +560,19 @@
             <div class="mb-5">
               <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="nombre">Nombre completo</label>
               <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre"
-                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors">
+                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-olive/30 focus:border-brand-olive transition-colors">
             </div>
 
             <div class="mb-5">
               <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="email">Email</label>
               <input type="email" id="email" name="email" required placeholder="tu@email.com"
-                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors">
+                     class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-olive/30 focus:border-brand-olive transition-colors">
             </div>
 
             <div class="mb-5">
               <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="asunto">¿En qué puedo ayudarte?</label>
               <select id="asunto" name="asunto"
-                      class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors bg-white">
+                      class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-olive/30 focus:border-brand-olive transition-colors bg-white">
                 <option value="">Selecciona una opción</option>
                 <option value="gestion-redes">Gestión de redes sociales</option>
                 <option value="consultoria">Consultoría 1:1</option>
@@ -562,11 +585,11 @@
             <div class="mb-6">
               <label class="block text-sm font-semibold text-gray-700 mb-1.5" for="mensaje">Mensaje</label>
               <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Cuéntame sobre tu negocio y qué necesitas..."
-                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition-colors resize-none"></textarea>
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-olive/30 focus:border-brand-olive transition-colors resize-none"></textarea>
             </div>
 
             <button type="submit" id="submit-btn"
-                    class="w-full gradient-bg text-white font-bold py-4 rounded-xl hover:opacity-90 transition-opacity text-sm">
+                    class="w-full olive-bg text-white font-bold py-4 rounded-xl hover:opacity-90 transition-opacity text-sm">
               Enviar mensaje
             </button>
           </form>
@@ -591,19 +614,19 @@
 
           <a href="mailto:info@eduardomarin.es"
              class="flex items-center gap-4 bg-white rounded-2xl p-6 shadow-sm card-hover group">
-            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-12 h-12 olive-bg rounded-xl flex items-center justify-center flex-shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
             </div>
             <div>
-              <p class="font-bold text-gray-900 group-hover:text-brand-red transition-colors">Email</p>
+              <p class="font-bold text-gray-900 group-hover:text-brand-olive transition-colors">Email</p>
               <p class="text-gray-500 text-sm">info@eduardomarin.es</p>
             </div>
           </a>
 
           <div class="flex items-center gap-4 bg-white rounded-2xl p-6 shadow-sm">
-            <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center flex-shrink-0">
+            <div class="w-12 h-12 olive-bg rounded-xl flex items-center justify-center flex-shrink-0">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -623,13 +646,13 @@
 </main>
 
 <!-- ── FOOTER ── -->
-<footer class="bg-gray-950 text-white py-14">
+<footer class="bg-brand-dark text-white py-14">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-10 mb-10">
 
       <!-- Col 1: Marca -->
       <div>
-        <p class="text-xl font-bold mb-2">Edu <span class="gradient-text">Marín</span></p>
+        <p class="text-xl font-bold mb-2">Edu <span class="olive-text">Marín</span></p>
         <p class="text-gray-400 text-sm leading-relaxed">Community Manager · Asesor y gestor de redes sociales en Priego de Córdoba. Toda España.</p>
       </div>
 
@@ -650,11 +673,11 @@
         <p class="font-semibold mb-4 text-sm uppercase tracking-widest text-gray-300">Redes</p>
         <div class="flex gap-3">
           <a href="https://www.instagram.com/eduardomarin_es/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"
-             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
+             class="w-9 h-9 bg-white/10 hover:bg-brand-olive rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a>
           <a href="https://www.linkedin.com/in/-eduardomarin/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"
-             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
+             class="w-9 h-9 bg-white/10 hover:bg-brand-olive rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
           <a href="https://numero13elblog.wordpress.com" target="_blank" rel="noopener noreferrer" aria-label="Blog"
-             class="w-9 h-9 bg-white/10 hover:gradient-bg rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></a>
+             class="w-9 h-9 bg-white/10 hover:bg-brand-olive rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-wordpress" aria-hidden="true"></i></a>
           <a href="https://wa.me/34744743209" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
              class="w-9 h-9 bg-white/10 hover:bg-green-700 rounded-lg flex items-center justify-center transition-all duration-300 text-white"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></a>
         </div>

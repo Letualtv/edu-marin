@@ -1,27 +1,39 @@
 /* ======================
-   EDU MARÍN — Estilos
+   EDU MARÍN — Estilos v2
    ====================== */
 
-/* ── 1. Gradientes ── */
-.gradient-text {
-  background: linear-gradient(135deg, #E53E3E, #F97316);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* ── 1. Paleta andaluza ── */
+.olive-text {
+  color: #4A5E3A;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, #E53E3E, #F97316);
+.olive-bg {
+  background-color: #4A5E3A;
 }
 
-.gradient-border-wrap {
-  background: linear-gradient(135deg, #E53E3E, #F97316);
-  padding: 3px;
-  border-radius: 9999px;
-  display: inline-block;
+/* ── 2. Hero watermark ── */
+.hero-watermark-12 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(160px, 22vw, 260px);
+  font-weight: 900;
+  color: #ffffff;
+  opacity: 0.08;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
 }
 
-/* ── 2. Animaciones ── */
+/* ── 3. Hero background ── */
+.hero-bg {
+  background-color: #1C1C1A;
+}
+
+/* ── 4. Animaciones ── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-8px); }
@@ -47,13 +59,13 @@
 }
 
 .skeleton {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background: linear-gradient(90deg, #ede6d6 25%, #ddd5c4 50%, #ede6d6 75%);
   background-size: 800px 100%;
   animation: skeleton-shimmer 1.5s infinite linear;
   border-radius: 8px;
 }
 
-/* ── 3. Fade-in (IntersectionObserver) ── */
+/* ── 5. Fade-in (IntersectionObserver) ── */
 .fade-in {
   opacity: 0;
   transform: translateY(24px);
@@ -65,7 +77,7 @@
   transform: translateY(0);
 }
 
-/* ── 4. Utilidades ── */
+/* ── 6. Utilidades ── */
 .line-clamp-2 {
   overflow: hidden;
   display: -webkit-box;
@@ -80,29 +92,21 @@
   -webkit-box-orient: vertical;
 }
 
-/* Hero pattern background */
-.hero-bg {
-  background-color: #111111;
-  background-image:
-    radial-gradient(ellipse at 20% 50%, rgba(229, 62, 62, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse at 80% 10%, rgba(249, 115, 22, 0.12) 0%, transparent 45%);
-}
-
-/* Card hover lift */
+/* ── 7. Card hover ── */
 .card-hover {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-hover:hover {
   transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 20px 40px rgba(28, 28, 26, 0.10);
 }
 
-/* Smooth underline on nav active */
+/* ── 8. Nav activo ── */
 .nav-link.active {
-  color: #F97316;
+  color: #4A5E3A;
 }
 
-/* FAQ transitions */
+/* ── 9. FAQ ── */
 .faq-answer {
   max-height: 0;
   overflow: hidden;
@@ -121,7 +125,7 @@
   transform: rotate(45deg);
 }
 
-/* Accesibilidad: respeta preferencia de movimiento reducido */
+/* ── 10. Accesibilidad ── */
 @media (prefers-reduced-motion: reduce) {
   .badge-float,
   #whatsapp-float {
