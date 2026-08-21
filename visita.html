@@ -580,7 +580,8 @@
         draft.acuerdo.notas    = document.getElementById('cN').value.trim();
         const btn = document.getElementById('cSave');
         btn.textContent = 'Guardando…'; btn.disabled = true;
-        addVisit(draft);
+        const isEdit = loadAll().some(x => x.id === draft.id);
+        if (isEdit) updateVisit(draft); else addVisit(draft);
         lastSynced = await syncToSheets(draft, getSheetURL());
         screen = 'saved'; render();
       });
@@ -693,6 +694,13 @@
           expandedId = expandedId === id ? null : id;
           renderHistory();
         });
+        card.querySelector('.v-btn-edit')?.addEventListener('click', e => {
+          e.stopPropagation();
+          const v = loadAll().find(x => x.id === card.dataset.id);
+          if (!v) return;
+          draft = { ...v, cuestionario: v.cuestionario || { answers: new Array(QUESTIONS.length).fill(null), winnerLevel: null } };
+          step = 1; screen = 'new'; render();
+        });
         card.querySelector('.v-btn-del')?.addEventListener('click', e => {
           e.stopPropagation();
           if (!confirm(`¿Eliminar la visita de ${card.dataset.nombre}?`)) return;
@@ -742,6 +750,7 @@
             ${v.acuerdo.notas ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span>${esc(v.acuerdo.notas)}</div>` : ''}
             <div class="v-visit-actions">
               ${waURL ? `<a class="v-btn-wa" href="${esc(waURL)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ''}
+              <button class="v-btn-edit" type="button" data-id="${esc(v.id)}"><i class="fa-solid fa-pen"></i> Editar</button>
               <button class="v-btn-del" type="button" data-id="${esc(v.id)}"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
             </div>
           </div>
