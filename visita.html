@@ -318,55 +318,38 @@
       return ok;
     }
 
-    function pullFromSheets() {
-      return new Promise(function (resolve) {
-        const url = getSheetURL();
-        if (!url) { resolve({ pulled: 0, error: 'Sin URL' }); return; }
+    function exportData() {
+      const all  = loadAll();
+      const blob = new Blob([JSON.stringify(all, null, 2)], { type: 'application/json' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'visitas-backup-' + today() + '.json';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
 
-        const cbName = '_gsCb' + Date.now();
-        const script = document.createElement('script');
-
-        const timer = setTimeout(function () {
-          cleanup();
-          resolve({ pulled: 0, error: 'Timeout' });
-        }, 10000);
-
-        function cleanup() {
-          delete window[cbName];
-          if (script.parentNode) script.parentNode.removeChild(script);
-        }
-
-        window[cbName] = function (data) {
-          clearTimeout(timer);
-          cleanup();
-          if (!data.ok) { resolve({ pulled: 0, error: data.error || 'Error en script' }); return; }
-          const remote   = data.visitas || [];
+    function importData(file, onDone) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        try {
+          const imported = JSON.parse(e.target.result);
+          if (!Array.isArray(imported)) throw new Error('Formato inválido');
           const local    = loadAll();
           const localIds = {};
           local.forEach(function (v) { localIds[v.id] = true; });
-          const toAdd = remote.filter(function (v) { return v.id && !localIds[v.id]; });
+          const toAdd    = imported.filter(function (v) { return v.id && !localIds[v.id]; });
           if (toAdd.length > 0) {
             saveAll(local.concat(toAdd).sort(function (a, b) {
               return (b.createdAt || '').localeCompare(a.createdAt || '');
             }));
           }
-          resolve({ pulled: toAdd.length });
-        };
-
-        script.onerror = function () {
-          clearTimeout(timer);
-          cleanup();
-          resolve({ pulled: 0, error: 'Error de red' });
-        };
-
-        script.src = url + '?token=' + encodeURIComponent(TOKEN) + '&callback=' + cbName;
-        document.head.appendChild(script);
-      });
-    }
-
-    async function fullSync() {
-      const [pushed, pullResult] = await Promise.all([syncAllToSheets(), pullFromSheets()]);
-      return { pushed, pulled: pullResult.pulled, error: pullResult.error };
+          onDone({ added: toAdd.length, total: imported.length });
+        } catch (err) {
+          onDone({ error: err.message });
+        }
+      };
+      reader.readAsText(file);
     }
 
     /* ── Estado global ── */
@@ -459,19 +442,29 @@
       mainEl.innerHTML = `
         <div class="v-config v-screen">
           <div class="v-setup-card">
-            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:12px;">Configuración</div>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:16px;">Configuración</div>
 
-            <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
-              <span style="color:#4ade80">✓ Google Sheets conectado</span>
-            </p>
-
-            <div style="margin-top:4px;padding-top:16px;border-top:1px solid var(--border);">
-              <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Enviar todas las visitas guardadas a Google Sheets:</p>
+            <div style="margin-bottom:20px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Google Sheets</div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Envía todas las visitas guardadas a la hoja de cálculo:</p>
               <button class="v-btn-syncall" id="cfgSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo ahora</button>
               <p id="cfgSyncMsg" style="font-size:12px;color:var(--muted);margin-top:8px;display:none;"></p>
             </div>
 
-            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+            <div style="padding-top:18px;border-top:1px solid var(--border);margin-bottom:20px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Backup local</div>
+              <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Para pasar datos a otro dispositivo sin conexión:</p>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="v-btn-syncall" id="cfgExport" type="button"><i class="fa-solid fa-download"></i> Exportar JSON</button>
+                <label class="v-btn-syncall" style="cursor:pointer;">
+                  <i class="fa-solid fa-upload"></i> Restaurar JSON
+                  <input type="file" id="cfgImportFile" accept=".json" style="display:none">
+                </label>
+              </div>
+              <p id="cfgImportMsg" style="font-size:12px;color:var(--muted);margin-top:8px;display:none;"></p>
+            </div>
+
+            <div style="padding-top:16px;border-top:1px solid var(--border);">
               <button class="v-btn-back" id="cfgBack" type="button">← Volver al historial</button>
             </div>
           </div>
@@ -483,19 +476,32 @@
         const syncBtn = document.getElementById('cfgSyncAll');
         syncBtn.disabled = true;
         syncBtn.textContent = 'Sincronizando…';
-        const { pushed, pulled, error } = await fullSync();
+        const n = await syncAllToSheets();
         const msg = document.getElementById('cfgSyncMsg');
         msg.style.display = 'block';
-        if (error) {
-          msg.style.color = '#facc15';
-          msg.textContent = `↑ ${pushed} enviada${pushed !== 1 ? 's' : ''} · No se pudo recuperar (${error})`;
-        } else {
-          msg.style.color = '#4ade80';
-          msg.textContent = `↑ ${pushed} enviada${pushed !== 1 ? 's' : ''} · ↓ ${pulled} recuperada${pulled !== 1 ? 's' : ''} de Sheets`;
-          if (pulled > 0) renderHistory();
-        }
+        msg.style.color = '#4ade80';
+        msg.textContent = `✓ ${n} visita${n !== 1 ? 's' : ''} enviada${n !== 1 ? 's' : ''} a Google Sheets.`;
         syncBtn.disabled = false;
         syncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar todo ahora';
+      });
+
+      document.getElementById('cfgExport').addEventListener('click', () => exportData());
+
+      document.getElementById('cfgImportFile').addEventListener('change', function () {
+        const file = this.files[0];
+        if (!file) return;
+        importData(file, function (result) {
+          const msg = document.getElementById('cfgImportMsg');
+          msg.style.display = 'block';
+          if (result.error) {
+            msg.style.color = '#f87171';
+            msg.textContent = 'Error: ' + result.error;
+          } else {
+            msg.style.color = '#4ade80';
+            msg.textContent = `✓ ${result.added} visita${result.added!==1?'s':''} importada${result.added!==1?'s':''} de ${result.total} en el archivo.`;
+            if (result.added > 0) { screen = 'history'; render(); }
+          }
+        });
       });
     }
 
@@ -788,15 +794,10 @@
       document.getElementById('hSyncAll')?.addEventListener('click', async () => {
         const btn = document.getElementById('hSyncAll');
         btn.disabled = true; btn.textContent = 'Sincronizando…';
-        const { pushed, pulled, error } = await fullSync();
+        const n = await syncAllToSheets();
         btn.disabled = false;
         btn.innerHTML = `<i class="fa-solid fa-rotate"></i> Sincronizar todo`;
-        if (error) {
-          alert(`↑ ${pushed} enviada${pushed!==1?'s':''}\n↓ No se pudo recuperar: ${error}\n\nActualiza el script de Google Apps Script para habilitar la recuperación.`);
-        } else {
-          if (pulled > 0) renderHistory();
-          alert(`✓ Sincronización completa\n↑ ${pushed} enviada${pushed!==1?'s':''} a Sheets\n↓ ${pulled} recuperada${pulled!==1?'s':''} de Sheets`);
-        }
+        alert(`✓ ${n} visita${n!==1?'s':''} enviada${n!==1?'s':''} a Google Sheets.`);
       });
       document.querySelectorAll('.v-visit-card').forEach(card => {
         card.addEventListener('click', e => {
