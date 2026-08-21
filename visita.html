@@ -372,7 +372,7 @@
         id: uid(), fechaVisita: today(),
         cliente:      { nombre:'', negocio:'', email:'', telefono:'' },
         cuestionario: { answers: new Array(QUESTIONS.length).fill(null), winnerLevel: null },
-        acuerdo:      { servicio:'', presupuesto:'', proximoPaso:'', fechaSeg:'', notas:'' },
+        acuerdo:      { servicio:'', presupuesto:'', plataformas:[], proximoPaso:'', fechaSeg:'', notas:'' },
         createdAt: new Date().toISOString(),
       };
     }
@@ -664,6 +664,11 @@
                   </span>
                 </button>`).join('')}
             </div>
+            <label class="v-label" style="margin-top:14px;">Plataformas a trabajar</label>
+            <div class="v-chips" id="cPlats">
+              ${['Instagram','Google Business','LinkedIn','Facebook','TikTok','YouTube','Pinterest','X / Twitter'].map(p => `
+                <button class="v-chip${(draft.acuerdo.plataformas||[]).includes(p)?' active':''}" data-p="${esc(p)}" type="button">${esc(p)}</button>`).join('')}
+            </div>
             <label class="v-label" for="cF" style="margin-top:14px;">Fecha de seguimiento</label>
             <input class="v-input v-date" id="cF" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
             <label class="v-label" for="cN">Notas de la visita</label>
@@ -676,6 +681,18 @@
         </div>`;
 
       document.getElementById('cN').value = draft.acuerdo.notas;
+      if (!draft.acuerdo.plataformas) draft.acuerdo.plataformas = [];
+
+      document.querySelectorAll('#cPlats .v-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const p = btn.dataset.p;
+          const idx = draft.acuerdo.plataformas.indexOf(p);
+          if (idx >= 0) draft.acuerdo.plataformas.splice(idx, 1);
+          else draft.acuerdo.plataformas.push(p);
+          btn.classList.toggle('active', draft.acuerdo.plataformas.includes(p));
+        });
+      });
+
       function chkSave() { document.getElementById('cSave').disabled = !draft.acuerdo.proximoPaso; }
       chkSave();
       document.querySelectorAll('#cPasos .v-opt').forEach(btn => {
@@ -687,24 +704,21 @@
         });
       });
       document.getElementById('cBack').addEventListener('click', () => { step--; renderStep(); });
-      document.getElementById('cSave').addEventListener('click', async () => {
+      document.getElementById('cSave').addEventListener('click', () => {
         draft.acuerdo.fechaSeg = document.getElementById('cF').value;
         draft.acuerdo.notas    = document.getElementById('cN').value.trim();
         const btn = document.getElementById('cSave');
         btn.textContent = 'Guardando…'; btn.disabled = true;
         const isEdit = loadAll().some(x => x.id === draft.id);
         if (isEdit) updateVisit(draft); else addVisit(draft);
-        lastSynced = await syncToSheets(draft, getSheetURL());
         screen = 'saved'; render();
       });
     }
 
     /* ── SAVED ── */
     function renderSaved() {
-      const syncHTML = lastSynced
-        ? `<div class="v-sync-status ok"><i class="fa-solid fa-circle-check"></i> Guardado en Google Sheets</div>`
-        : `<div class="v-sync-status local"><i class="fa-solid fa-triangle-exclamation"></i> Sin conexión — guardado solo en este dispositivo</div>`;
-      const r = draft.cuestionario?.winnerLevel ? RESULTS[draft.cuestionario.winnerLevel] : null;
+      const r     = draft.cuestionario?.winnerLevel ? RESULTS[draft.cuestionario.winnerLevel] : null;
+      const plats = (draft.acuerdo.plataformas || []);
 
       mainEl.innerHTML = `
         <div class="v-card">
@@ -717,7 +731,7 @@
             <h2>¡Guardado!</h2>
             <p><strong style="color:var(--ink)">${esc(draft.cliente.nombre)}</strong> · ${esc(draft.cliente.negocio)}</p>
             ${r ? `<p style="margin-bottom:6px;"><span style="background:var(--lime);color:#101010;font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;">${esc(r.label)}</span></p>` : ''}
-            ${syncHTML}
+            ${plats.length ? `<p style="font-size:12px;color:var(--muted);margin-bottom:14px;">${plats.map(p=>esc(p)).join(' · ')}</p>` : ''}
             <div class="v-saved-actions">
               <button class="v-btn-primary" id="svNueva" type="button">+ Nueva visita</button>
               <button class="v-btn-secondary" id="svHistorial" type="button">Ver historial</button>
@@ -857,6 +871,7 @@
             ${v.cliente.telefono ? `<div class="v-detail-row"><span class="v-detail-label">Teléfono</span>${esc(v.cliente.telefono)}</div>` : ''}
             ${v.acuerdo.servicio    ? `<div class="v-detail-row"><span class="v-detail-label">Servicio</span>${esc(v.acuerdo.servicio)}</div>` : ''}
             ${v.acuerdo.presupuesto ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto</span>${esc(v.acuerdo.presupuesto)}</div>` : ''}
+            ${(v.acuerdo.plataformas||[]).length ? `<div class="v-detail-row"><span class="v-detail-label">Plataformas</span>${(v.acuerdo.plataformas).map(p=>esc(p)).join(', ')}</div>` : ''}
             ${v.situacion?.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación</span>${esc(v.situacion.estadoActual)}</div>` : ''}
             ${v.situacion?.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span>${esc(v.situacion.necesidades)}</div>` : ''}
             ${v.acuerdo.notas ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span>${esc(v.acuerdo.notas)}</div>` : ''}
