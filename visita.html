@@ -176,9 +176,91 @@
   (function () {
     'use strict';
 
-    const TOKEN    = 'eMv_7Kx9pQ2r-Wt4nJu';
-    const SK       = 'visitas_edu';
+    const TOKEN     = 'eMv_7Kx9pQ2r-Wt4nJu';
+    const SK        = 'visitas_edu';
     const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_k0CbuYjafR6YCS1f4LndoI9z5ckt4sxxQyohAOh_2Uwbasia18KJJMEqxeSWtU4_/exec';
+
+    /* ── Cuestionario ── */
+    const QUESTIONS = [
+      { q: '¿Cómo describirías tu situación con las redes ahora mismo?',
+        hint: 'Elige la que más se acerque.',
+        options: [
+          { text: 'Casi no tengo nada montado, quiero arrancar bien',       pts:{E:2,D:1,R:0} },
+          { text: 'Tengo cuentas activas pero todo va improvisado',          pts:{E:0,D:2,R:1} },
+          { text: 'Tengo todo activo pero no me da la vida a gestionarlo',   pts:{E:0,D:0,R:3} },
+          { text: 'Solo necesito un ajuste puntual muy concreto',            pts:{E:3,D:0,R:0} },
+        ]},
+      { q: '¿Qué es lo que más te gustaría conseguir?',
+        options: [
+          { text: 'Aparecer mejor en Google / Google Maps',                  pts:{E:2,D:0,R:0} },
+          { text: 'Entender qué estoy haciendo mal y tener un plan claro',   pts:{E:0,D:3,R:0} },
+          { text: 'Dejar de pensar en esto y que alguien lo lleve por mí',  pts:{E:0,D:0,R:3} },
+          { text: 'Un empujón puntual a mi perfil o mi imagen',              pts:{E:3,D:0,R:0} },
+        ]},
+      { q: '¿Cuánto tiempo quieres dedicarle tú a partir de ahora?',
+        options: [
+          { text: 'Todo, solo necesito orientación de por dónde empezar',   pts:{E:0,D:2,R:0} },
+          { text: 'Algo, pero necesito prioridades claras',                  pts:{E:1,D:2,R:0} },
+          { text: 'Nada, prefiero delegarlo por completo',                   pts:{E:0,D:0,R:3} },
+          { text: 'Ya lo tengo resuelto, es solo un tema puntual',           pts:{E:3,D:0,R:0} },
+        ]},
+      { q: '¿Con qué frecuencia te gustaría publicar o gestionar contenido?',
+        options: [
+          { text: 'No busco publicar contenido continuo ahora mismo',       pts:{E:2,D:0,R:0} },
+          { text: 'Un plan de arranque, luego ya veré cómo sigo',           pts:{E:0,D:2,R:0} },
+          { text: 'De forma constante, cada semana',                         pts:{E:0,D:0,R:3} },
+        ]},
+      { q: '¿Cuál es tu presupuesto orientativo?',
+        options: [
+          { text: 'Menos de 120€, algo puntual',                            pts:{E:3,D:0,R:0} },
+          { text: 'Entre 150€ y 400€, en un pago único',                    pts:{E:0,D:3,R:0} },
+          { text: 'Un mensual entre 150€ y 600€',                           pts:{E:0,D:0,R:3} },
+          { text: 'Todavía no lo tengo claro',                              pts:{E:0,D:0,R:0} },
+        ]},
+    ];
+
+    const RESULTS = {
+      E: { label:'Express',     servicio:'Express (desde 60€)',     presupuesto:'Menos de 120€',
+           price:'Desde 60€ · pago único',
+           desc:'Una intervención rápida y concreta. Resolvemos un punto clave y, si más adelante quieres ir más lejos, escalamos.',
+           includes:['Optimización de perfil (Instagram o LinkedIn)','Creación y config. de Google Business','Auditoría rápida de un canal'] },
+      D: { label:'DIAGNÓSTICO', servicio:'DIAGNÓSTICO (150€–400€)', presupuesto:'150€ – 400€ (pago único)',
+           price:'150€ – 400€ · pago único',
+           desc:'Antes de invertir en gestión continua, entendemos qué falla y te dejamos un plan claro y priorizado.',
+           includes:['Auditoría de 1–2 canales o multicanal completa','Plan de acción a 30 o 90 días','Sesión de entrega para resolver dudas'] },
+      R: { label:'REDES',       servicio:'REDES (150€–600€/mes)',   presupuesto:'150€ – 600€ / mes',
+           price:'150€ – 600€ / mes',
+           desc:'Gestión mensual completa: contenido, interacción y reporting adaptados al número de canales que necesites.',
+           includes:['Gestión de 1 a 3+ redes sociales','Contenido, calendario e interacción con la comunidad','Reporting mensual de resultados'] },
+    };
+
+    const PASOS = [
+      'Pendiente de visita',
+      'Enviar presupuesto',
+      'Segunda reunión',
+      'Firmar contrato',
+      'Cliente activo',
+      'No quiere por ahora',
+      'Descartado',
+    ];
+
+    const PASO_COLOR = {
+      'Pendiente de visita': '#94a3b8',
+      'Enviar presupuesto':  '#CBFF3D',
+      'Segunda reunión':     '#60a5fa',
+      'Firmar contrato':     '#4ade80',
+      'Cliente activo':      '#22c55e',
+      'No quiere por ahora': '#facc15',
+      'Descartado':          '#6B7280',
+    };
+
+    const TOTAL_STEPS = 1 + QUESTIONS.length + 2;
+
+    function computeWinner(answers) {
+      const t = {E:0,D:0,R:0};
+      answers.forEach(a => { if (a) { t.E+=a.pts.E; t.D+=a.pts.D; t.R+=a.pts.R; } });
+      return Object.keys(t).reduce((a,b) => t[b]>t[a]?b:a);
+    }
 
     /* ── Helpers ── */
     function esc(s) {
@@ -242,32 +324,12 @@
     function freshDraft() {
       return {
         id: uid(), fechaVisita: today(),
-        cliente:   { nombre:'', negocio:'', email:'', telefono:'' },
-        situacion: { plataformas:[], estadoActual:'', necesidades:'' },
-        acuerdo:   { servicio:'', presupuesto:'', proximoPaso:'', fechaSeg:'', notas:'' },
+        cliente:      { nombre:'', negocio:'', email:'', telefono:'' },
+        cuestionario: { answers: new Array(QUESTIONS.length).fill(null), winnerLevel: null },
+        acuerdo:      { servicio:'', presupuesto:'', proximoPaso:'', fechaSeg:'', notas:'' },
         createdAt: new Date().toISOString(),
       };
     }
-
-    /* ── Datos estáticos ── */
-    const PLATAFORMAS = [
-      { key:'instagram', label:'Instagram',      icon:'fa-brands fa-instagram' },
-      { key:'facebook',  label:'Facebook',        icon:'fa-brands fa-facebook-f' },
-      { key:'google',    label:'Google Business', icon:'fa-brands fa-google' },
-      { key:'linkedin',  label:'LinkedIn',        icon:'fa-brands fa-linkedin-in' },
-      { key:'tiktok',    label:'TikTok',          icon:'fa-brands fa-tiktok' },
-      { key:'ninguna',   label:'Ninguna',         icon:'fa-solid fa-xmark' },
-    ];
-    const SERVICIOS    = ['Express (desde 60€)','DIAGNÓSTICO (150€–400€)','REDES (150€–600€/mes)','Consultoría 1:1','Sin definir aún'];
-    const PRESUPUESTOS = ['Menos de 120€','150€ – 400€ (pago único)','150€ – 600€ / mes','No lo tiene claro'];
-    const PASOS        = ['Enviar propuesta','Segunda reunión','Firmar / cerrar contrato','En espera de respuesta','Cliente descartado'];
-    const PASO_COLOR   = {
-      'Enviar propuesta':         '#CBFF3D',
-      'Segunda reunión':          '#60a5fa',
-      'Firmar / cerrar contrato': '#4ade80',
-      'En espera de respuesta':   '#facc15',
-      'Cliente descartado':       '#6B7280',
-    };
 
     /* ── Render principal ── */
     function render() {
@@ -332,18 +394,21 @@
     }
 
     /* ── STEPS ── */
+    function progress(s) { return Math.round(s / TOTAL_STEPS * 100); }
+
     function renderStep() {
-      if      (step === 1) renderStep1();
-      else if (step === 2) renderStep2();
-      else if (step === 3) renderStep3();
+      if (step === 1)                                   return renderDataStep();
+      if (step >= 2 && step <= 1 + QUESTIONS.length)   return renderQuestionStep(step - 2);
+      if (step === QUESTIONS.length + 2)                return renderResultStep();
+      if (step === QUESTIONS.length + 3)                return renderClosingStep();
     }
 
-    function renderStep1() {
+    function renderDataStep() {
       mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
-            <div class="v-eyebrow"><b>Paso 1</b> de 3 · Datos del cliente</div>
-            <div class="v-track"><div class="v-fill" style="width:20%"></div></div>
+            <div class="v-eyebrow">Datos del cliente · paso <b>1</b> de ${TOTAL_STEPS}</div>
+            <div class="v-track"><div class="v-fill" style="width:${progress(1)}%"></div></div>
           </div>
           <div class="v-body v-screen">
             <p class="v-title">¿Con quién has quedado?</p>
@@ -354,12 +419,12 @@
             <label class="v-label" for="s1E">Email</label>
             <input class="v-input" id="s1E" type="email" placeholder="email@negocio.com"  maxlength="200" autocomplete="off">
             <label class="v-label" for="s1T">Teléfono</label>
-            <input class="v-input" id="s1T" type="tel"   placeholder="6XX XXX XXX"         maxlength="20">
+            <input class="v-input" id="s1T" type="tel"   placeholder="6XX XXX XXX"        maxlength="20">
             <label class="v-label" for="s1F">Fecha de la visita</label>
             <input class="v-input v-date" id="s1F" type="date" value="${esc(draft.fechaVisita)}">
             <div class="v-nav">
               <span></span>
-              <button class="v-btn-next" id="s1Next" type="button" disabled>Siguiente →</button>
+              <button class="v-btn-next" id="s1Next" type="button" disabled>Cuestionario →</button>
             </div>
           </div>
         </div>`;
@@ -382,99 +447,138 @@
       });
     }
 
-    function renderStep2() {
+    function renderQuestionStep(qIdx) {
+      const q      = QUESTIONS[qIdx];
+      const stepN  = qIdx + 2;
+      const ans    = draft.cuestionario.answers[qIdx];
+      const selIdx = ans ? ans.idx : -1;
+
       mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
-            <div class="v-eyebrow"><b>Paso 2</b> de 3 · Situación actual</div>
-            <div class="v-track"><div class="v-fill" style="width:55%"></div></div>
+            <div class="v-eyebrow">Pregunta <b>${qIdx+1}</b> de ${QUESTIONS.length} · paso ${stepN} de ${TOTAL_STEPS}</div>
+            <div class="v-track"><div class="v-fill" style="width:${progress(stepN)}%"></div></div>
           </div>
           <div class="v-body v-screen">
-            <p class="v-title">¿Qué tiene y qué necesita?</p>
-            <label class="v-label">Plataformas activas</label>
-            <div class="v-chips" id="s2Chips">
-              ${PLATAFORMAS.map(p => `
-                <button class="v-chip${draft.situacion.plataformas.includes(p.key)?' active':''}"
-                        data-key="${p.key}" type="button">
-                  <i class="${esc(p.icon)}" aria-hidden="true"></i>${esc(p.label)}
+            <p class="v-title">${esc(q.q)}</p>
+            ${q.hint ? `<p style="font-size:13px;color:var(--muted);margin:-8px 0 14px;">${esc(q.hint)}</p>` : ''}
+            <div class="v-options" id="qOpts">
+              ${q.options.map((o,i) => `
+                <button class="v-opt${i===selIdx?' active':''}" data-idx="${i}" type="button">
+                  <span class="v-dot" aria-hidden="true"></span>${esc(o.text)}
                 </button>`).join('')}
             </div>
-            <label class="v-label" for="s2A" style="margin-top:14px;">Situación actual</label>
-            <textarea class="v-input v-textarea" id="s2A" placeholder="Qué tiene, cómo lo gestiona, qué funciona y qué no…" maxlength="800" rows="3"></textarea>
-            <label class="v-label" for="s2B">Qué pide / qué necesita</label>
-            <textarea class="v-input v-textarea" id="s2B" placeholder="Objetivos, dudas, lo que más le preocupa…" maxlength="800" rows="3"></textarea>
             <div class="v-nav">
-              <button class="v-btn-back" id="s2Back" type="button">← Volver</button>
-              <button class="v-btn-next" id="s2Next" type="button">Siguiente →</button>
+              <button class="v-btn-back" id="qBack" type="button">← Volver</button>
+              <button class="v-btn-next" id="qNext" type="button" ${selIdx<0?'disabled':''}>Siguiente →</button>
             </div>
           </div>
         </div>`;
 
-      document.getElementById('s2A').value = draft.situacion.estadoActual;
-      document.getElementById('s2B').value = draft.situacion.necesidades;
-      document.querySelectorAll('#s2Chips .v-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          const k = chip.dataset.key, i = draft.situacion.plataformas.indexOf(k);
-          if (i >= 0) draft.situacion.plataformas.splice(i, 1); else draft.situacion.plataformas.push(k);
-          chip.classList.toggle('active');
+      document.querySelectorAll('#qOpts .v-opt').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const i = parseInt(btn.dataset.idx, 10);
+          draft.cuestionario.answers[qIdx] = { idx:i, pts:q.options[i].pts };
+          document.querySelectorAll('#qOpts .v-opt').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('qNext').disabled = false;
         });
       });
-      document.getElementById('s2Back').addEventListener('click', () => { step = 1; renderStep(); });
-      document.getElementById('s2Next').addEventListener('click', () => {
-        draft.situacion.estadoActual = document.getElementById('s2A').value.trim();
-        draft.situacion.necesidades  = document.getElementById('s2B').value.trim();
-        step = 3; renderStep();
-      });
+      document.getElementById('qBack').addEventListener('click', () => { step--; renderStep(); });
+      document.getElementById('qNext').addEventListener('click', () => { step++; renderStep(); });
     }
 
-    function renderStep3() {
-      function optsHTML(arr, field) {
-        return arr.map(o => `
-          <button class="v-opt${draft.acuerdo[field]===o?' active':''}" data-field="${field}" data-val="${esc(o)}" type="button">
-            <span class="v-dot" aria-hidden="true"></span>${esc(o)}
-          </button>`).join('');
-      }
+    function renderResultStep() {
+      const winner = computeWinner(draft.cuestionario.answers);
+      draft.cuestionario.winnerLevel = winner;
+      const r = RESULTS[winner];
+      draft.acuerdo.servicio    = r.servicio;
+      draft.acuerdo.presupuesto = r.presupuesto;
+      const stepN = QUESTIONS.length + 2;
+
       mainEl.innerHTML = `
         <div class="v-card">
           <div class="v-card-header">
-            <div class="v-eyebrow"><b>Paso 3</b> de 3 · Conclusiones</div>
-            <div class="v-track"><div class="v-fill" style="width:88%"></div></div>
+            <div class="v-eyebrow">Resultado · paso <b>${stepN}</b> de ${TOTAL_STEPS}</div>
+            <div class="v-track"><div class="v-fill" style="width:${progress(stepN)}%"></div></div>
           </div>
           <div class="v-body v-screen">
-            <p class="v-title">¿Cómo ha ido la visita?</p>
-            <label class="v-label">Servicio que encaja</label>
-            <div class="v-options">${optsHTML(SERVICIOS,'servicio')}</div>
-            <label class="v-label" style="margin-top:14px;">Presupuesto hablado</label>
-            <div class="v-options">${optsHTML(PRESUPUESTOS,'presupuesto')}</div>
-            <label class="v-label" style="margin-top:14px;">Próximo paso *</label>
-            <div class="v-options">${optsHTML(PASOS,'proximoPaso')}</div>
-            <label class="v-label" for="s3F" style="margin-top:14px;">Fecha de seguimiento</label>
-            <input class="v-input v-date" id="s3F" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
-            <label class="v-label" for="s3N">Notas adicionales</label>
-            <textarea class="v-input v-textarea" id="s3N" placeholder="Cualquier detalle de la reunión…" maxlength="800" rows="3"></textarea>
+            <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:8px;">Servicio recomendado</div>
+            <div style="display:inline-flex;align-items:center;background:var(--lime);color:#101010;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;padding:10px 20px;border-radius:999px;margin-bottom:16px;">${esc(r.label)}</div>
+            <p style="font-size:14px;color:var(--muted);line-height:1.65;margin-bottom:16px;">${esc(r.desc)}</p>
+            <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:var(--lime);margin-bottom:14px;">${esc(r.price)}</div>
+            <div style="background:var(--surface2);border-radius:10px;padding:14px 16px;">
+              <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Suele incluir</div>
+              <ul style="margin:0;padding:0 0 0 16px;font-size:13px;line-height:1.85;color:var(--ink);">
+                ${r.includes.map(i=>`<li>${esc(i)}</li>`).join('')}
+              </ul>
+            </div>
             <div class="v-nav">
-              <button class="v-btn-back" id="s3Back" type="button">← Volver</button>
-              <button class="v-btn-next" id="s3Save" type="button" disabled>Guardar visita</button>
+              <button class="v-btn-back" id="rBack" type="button">← Volver</button>
+              <button class="v-btn-next" id="rNext" type="button">Cerrar visita →</button>
             </div>
           </div>
         </div>`;
 
-      document.getElementById('s3N').value = draft.acuerdo.notas;
-      function chkSave() { document.getElementById('s3Save').disabled = !draft.acuerdo.proximoPaso; }
+      document.getElementById('rBack').addEventListener('click', () => { step--; renderStep(); });
+      document.getElementById('rNext').addEventListener('click', () => { step++; renderStep(); });
+    }
+
+    function renderClosingStep() {
+      const r = draft.cuestionario?.winnerLevel ? RESULTS[draft.cuestionario.winnerLevel] : null;
+      const stepN = QUESTIONS.length + 3;
+
+      mainEl.innerHTML = `
+        <div class="v-card">
+          <div class="v-card-header">
+            <div class="v-eyebrow">Conclusiones · paso <b>${stepN}</b> de ${TOTAL_STEPS}</div>
+            <div class="v-track"><div class="v-fill" style="width:${progress(stepN)}%"></div></div>
+          </div>
+          <div class="v-body v-screen">
+            <p class="v-title">¿Cuál es el siguiente paso?</p>
+            ${r ? `<div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;padding:10px 14px;background:rgba(203,255,61,0.06);border:1px solid rgba(203,255,61,0.2);border-radius:10px;flex-wrap:wrap;">
+              <span style="font-size:10px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.06em;">Recomendación</span>
+              <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:var(--lime);">${esc(r.label)}</span>
+              <span style="font-size:12px;color:var(--muted);">· ${esc(r.price)}</span>
+            </div>` : ''}
+            <label class="v-label">Próximo paso *</label>
+            <div class="v-options" id="cPasos">
+              ${PASOS.map(p => `
+                <button class="v-opt${draft.acuerdo.proximoPaso===p?' active':''}" data-val="${esc(p)}" type="button">
+                  <span class="v-dot" aria-hidden="true"></span>
+                  <span style="display:flex;align-items:center;gap:7px;">
+                    <span style="width:8px;height:8px;border-radius:50%;background:${PASO_COLOR[p]||'var(--muted)'};flex-shrink:0;"></span>
+                    ${esc(p)}
+                  </span>
+                </button>`).join('')}
+            </div>
+            <label class="v-label" for="cF" style="margin-top:14px;">Fecha de seguimiento</label>
+            <input class="v-input v-date" id="cF" type="date" value="${esc(draft.acuerdo.fechaSeg)}">
+            <label class="v-label" for="cN">Notas de la visita</label>
+            <textarea class="v-input v-textarea" id="cN" placeholder="Impresión general, acuerdos verbales, detalles importantes…" maxlength="800" rows="3"></textarea>
+            <div class="v-nav">
+              <button class="v-btn-back" id="cBack" type="button">← Volver</button>
+              <button class="v-btn-next" id="cSave" type="button" disabled>Guardar visita</button>
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('cN').value = draft.acuerdo.notas;
+      function chkSave() { document.getElementById('cSave').disabled = !draft.acuerdo.proximoPaso; }
       chkSave();
-      document.querySelectorAll('.v-opt').forEach(btn => {
+      document.querySelectorAll('#cPasos .v-opt').forEach(btn => {
         btn.addEventListener('click', () => {
-          draft.acuerdo[btn.dataset.field] = btn.dataset.val;
-          btn.closest('.v-options').querySelectorAll('.v-opt').forEach(b => b.classList.remove('active'));
+          draft.acuerdo.proximoPaso = btn.dataset.val;
+          document.querySelectorAll('#cPasos .v-opt').forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           chkSave();
         });
       });
-      document.getElementById('s3Back').addEventListener('click', () => { step = 2; renderStep(); });
-      document.getElementById('s3Save').addEventListener('click', async () => {
-        draft.acuerdo.fechaSeg    = document.getElementById('s3F').value;
-        draft.acuerdo.notas       = document.getElementById('s3N').value.trim();
-        const btn = document.getElementById('s3Save');
+      document.getElementById('cBack').addEventListener('click', () => { step--; renderStep(); });
+      document.getElementById('cSave').addEventListener('click', async () => {
+        draft.acuerdo.fechaSeg = document.getElementById('cF').value;
+        draft.acuerdo.notas    = document.getElementById('cN').value.trim();
+        const btn = document.getElementById('cSave');
         btn.textContent = 'Guardando…'; btn.disabled = true;
         addVisit(draft);
         lastSynced = await syncToSheets(draft, getSheetURL());
@@ -484,12 +588,10 @@
 
     /* ── SAVED ── */
     function renderSaved() {
-      const hasURL   = !!getSheetURL();
-      const syncHTML = hasURL
-        ? lastSynced
-          ? `<div class="v-sync-status ok"><i class="fa-solid fa-circle-check"></i> Guardado en Google Sheets</div>`
-          : `<div class="v-sync-status local"><i class="fa-solid fa-triangle-exclamation"></i> Sin conexión — guardado solo en este dispositivo</div>`
-        : `<div class="v-sync-status local"><i class="fa-solid fa-mobile-screen-button"></i> Guardado en este dispositivo</div>`;
+      const syncHTML = lastSynced
+        ? `<div class="v-sync-status ok"><i class="fa-solid fa-circle-check"></i> Guardado en Google Sheets</div>`
+        : `<div class="v-sync-status local"><i class="fa-solid fa-triangle-exclamation"></i> Sin conexión — guardado solo en este dispositivo</div>`;
+      const r = draft.cuestionario?.winnerLevel ? RESULTS[draft.cuestionario.winnerLevel] : null;
 
       mainEl.innerHTML = `
         <div class="v-card">
@@ -501,6 +603,7 @@
             <div class="v-saved-icon">✅</div>
             <h2>¡Guardado!</h2>
             <p><strong style="color:var(--ink)">${esc(draft.cliente.nombre)}</strong> · ${esc(draft.cliente.negocio)}</p>
+            ${r ? `<p style="margin-bottom:6px;"><span style="background:var(--lime);color:#101010;font-weight:700;font-size:12px;padding:3px 10px;border-radius:999px;">${esc(r.label)}</span></p>` : ''}
             ${syncHTML}
             <div class="v-saved-actions">
               <button class="v-btn-primary" id="svNueva" type="button">+ Nueva visita</button>
@@ -514,22 +617,24 @@
     }
 
     /* ── HISTORY ── */
+    const FILTER_LABELS = {
+      'todos':               'Todos',
+      'Pendiente de visita': 'Pendiente',
+      'Enviar presupuesto':  'Presupuesto',
+      'Segunda reunión':     '2ª reunión',
+      'Firmar contrato':     'Firmar',
+      'Cliente activo':      'Cliente',
+      'No quiere por ahora': 'No ahora',
+      'Descartado':          'Descartado',
+    };
+
     function renderHistory() {
       const all    = loadAll();
-      const hasURL = !!getSheetURL();
       const today_ = today();
-
-      // Alertas de seguimiento
-      const alerts = all.filter(v => v.acuerdo.fechaSeg && (v.acuerdo.fechaSeg <= today_) && v.acuerdo.proximoPaso !== 'Cliente descartado');
-
-      // Filtro
-      const filtered = filterPaso === 'todos'
-        ? all
-        : all.filter(v => v.acuerdo.proximoPaso === filterPaso);
-
-      // Búsqueda
+      const CLOSED = ['Cliente activo','Descartado','Cliente descartado'];
+      const alerts = all.filter(v => v.acuerdo.fechaSeg && v.acuerdo.fechaSeg <= today_ && !CLOSED.includes(v.acuerdo.proximoPaso));
+      const filtered = filterPaso === 'todos' ? all : all.filter(v => v.acuerdo.proximoPaso === filterPaso);
       const searchVal = (mainEl.querySelector('#vSearch')?.value || '').toLowerCase();
-
       const shown = filtered.filter(v =>
         !searchVal ||
         (v.cliente.nombre  || '').toLowerCase().includes(searchVal) ||
@@ -540,9 +645,9 @@
         <div class="v-history v-screen">
 
           ${alerts.length > 0 ? `
-          <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f87171;display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f87171;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
             <i class="fa-solid fa-bell"></i>
-            ${alerts.length} seguimiento${alerts.length>1?'s':''} pendiente${alerts.length>1?'s':''}:
+            <span>${alerts.length} seguimiento${alerts.length>1?'s':''} pendiente${alerts.length>1?'s':''}:</span>
             <strong>${alerts.map(v=>esc(v.cliente.nombre)).join(', ')}</strong>
           </div>` : ''}
 
@@ -552,36 +657,27 @@
               <input class="v-search" id="vSearch" type="search" placeholder="Buscar…" value="${esc(searchVal)}">
             </div>
             <div class="v-filter-btns">
-              ${['todos','Enviar propuesta','Segunda reunión','Firmar / cerrar contrato','En espera de respuesta','Cliente descartado']
-                .map(f => `<button class="v-filter${filterPaso===f?' active':''}" data-f="${esc(f)}" type="button">${f==='todos'?'Todos':esc(f.split(' ')[0])}</button>`)
-                .join('')}
+              ${Object.entries(FILTER_LABELS).map(([k, label]) => `
+                <button class="v-filter${filterPaso===k?' active':''}" data-f="${esc(k)}" type="button">
+                  ${k!=='todos'?`<span style="width:6px;height:6px;border-radius:50%;background:${PASO_COLOR[k]||'var(--muted)'};display:inline-block;margin-right:3px;vertical-align:middle;"></span>`:''}${esc(label)}
+                </button>`).join('')}
             </div>
           </div>
 
-          ${hasURL ? `
           <div class="v-sync-bar">
             <span><span class="v-sync-dot ok"></span> Google Sheets conectado · ${all.length} visita${all.length!==1?'s':''}</span>
             <button class="v-btn-syncall" id="hSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo</button>
-          </div>` : `
-          <div class="v-sync-bar">
-            <span><span class="v-sync-dot warn"></span> Sin Google Sheets · datos solo en este dispositivo</span>
-            <button class="v-btn-syncall" id="hSetupSheets" type="button">Conectar Sheets</button>
-          </div>`}
+          </div>
 
           ${shown.length === 0
             ? `<div class="v-history-empty"><p style="font-size:28px;margin-bottom:10px;">📋</p><p>${all.length===0?'Todavía no hay visitas guardadas.':'Ninguna visita coincide con el filtro.'}</p></div>`
             : shown.map(v => visitCardHTML(v, today_)).join('')}
         </div>`;
 
-      // Búsqueda live
       document.getElementById('vSearch')?.addEventListener('input', () => renderHistory());
-
-      // Filtros
       document.querySelectorAll('.v-filter').forEach(btn => {
         btn.addEventListener('click', () => { filterPaso = btn.dataset.f; renderHistory(); });
       });
-
-      // Sync
       document.getElementById('hSyncAll')?.addEventListener('click', async () => {
         const btn = document.getElementById('hSyncAll');
         btn.disabled = true; btn.textContent = 'Sincronizando…';
@@ -590,10 +686,6 @@
         btn.innerHTML = `<i class="fa-solid fa-rotate"></i> Sincronizar todo`;
         alert(`✓ ${n} visita${n!==1?'s':''} enviada${n!==1?'s':''} a Google Sheets.`);
       });
-
-      document.getElementById('hSetupSheets')?.addEventListener('click', () => { screen = 'setup'; render(); });
-
-      // Cards
       document.querySelectorAll('.v-visit-card').forEach(card => {
         card.addEventListener('click', e => {
           if (e.target.closest('.v-visit-actions')) return;
@@ -612,13 +704,13 @@
     }
 
     function visitCardHTML(v, today_) {
-      const color   = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
-      const plats   = (v.situacion.plataformas||[]).map(k=>PLATAFORMAS.find(p=>p.key===k)?.label||k).join(', ')||'—';
-      const waPhone = (v.cliente.telefono||'').replace(/\D/g,'');
-      const waURL   = waPhone ? `https://wa.me/34${waPhone}?text=${encodeURIComponent('Hola, soy Edu. Te escribo sobre nuestra reunión del '+fmtDate(v.fechaVisita)+'.')}` : '';
-      const isExp   = expandedId === v.id;
-      const segPast = isPast(v.acuerdo.fechaSeg);
-      const segToday= isToday(v.acuerdo.fechaSeg);
+      const color    = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
+      const waPhone  = (v.cliente.telefono||'').replace(/\D/g,'');
+      const waURL    = waPhone ? `https://wa.me/34${waPhone}?text=${encodeURIComponent('Hola, soy Edu. Te escribo sobre nuestra reunión del '+fmtDate(v.fechaVisita)+'.')}` : '';
+      const isExp    = expandedId === v.id;
+      const segPast  = isPast(v.acuerdo.fechaSeg);
+      const segToday = isToday(v.acuerdo.fechaSeg);
+      const resLabel = v.cuestionario?.winnerLevel ? RESULTS[v.cuestionario.winnerLevel]?.label : null;
 
       return `
         <div class="v-visit-card${isExp?' expanded':''}" data-id="${esc(v.id)}" data-nombre="${esc(v.cliente.nombre)}">
@@ -626,7 +718,10 @@
             <div class="v-status-dot" style="background:${color}" title="${esc(v.acuerdo.proximoPaso||'Sin definir')}"></div>
             <div class="v-visit-main">
               <div class="v-visit-name">${esc(v.cliente.nombre)} · <span style="font-weight:500">${esc(v.cliente.negocio)}</span></div>
-              <div class="v-visit-sub">${esc(v.acuerdo.servicio||'Sin definir')} · ${esc(v.acuerdo.proximoPaso||'—')}</div>
+              <div class="v-visit-sub" style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
+                ${resLabel ? `<span style="background:rgba(203,255,61,0.12);color:var(--lime);font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;">${esc(resLabel)}</span>` : ''}
+                <span>${esc(v.acuerdo.proximoPaso||'—')}</span>
+              </div>
               <div class="v-visit-meta">
                 <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${fmtDate(v.fechaVisita)}</span>
                 ${v.acuerdo.fechaSeg ? `<span class="${segPast||segToday?'v-follow-alert':''}">
@@ -638,13 +733,13 @@
             <i class="fa-solid fa-chevron-${isExp?'up':'down'}" style="color:var(--muted);font-size:11px;margin-top:4px;flex-shrink:0"></i>
           </div>
           <div class="v-visit-detail">
-            ${v.cliente.email    ? `<div class="v-detail-row"><span class="v-detail-label">Email</span>${esc(v.cliente.email)}</div>`    : ''}
+            ${v.cliente.email    ? `<div class="v-detail-row"><span class="v-detail-label">Email</span>${esc(v.cliente.email)}</div>` : ''}
             ${v.cliente.telefono ? `<div class="v-detail-row"><span class="v-detail-label">Teléfono</span>${esc(v.cliente.telefono)}</div>` : ''}
-            <div class="v-detail-row"><span class="v-detail-label">Plataformas</span>${esc(plats)}</div>
-            ${v.situacion.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación actual</span>${esc(v.situacion.estadoActual)}</div>` : ''}
-            ${v.situacion.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span>${esc(v.situacion.necesidades)}</div>`        : ''}
-            ${v.acuerdo.presupuesto    ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto</span>${esc(v.acuerdo.presupuesto)}</div>`           : ''}
-            ${v.acuerdo.notas          ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span>${esc(v.acuerdo.notas)}</div>`                       : ''}
+            ${v.acuerdo.servicio    ? `<div class="v-detail-row"><span class="v-detail-label">Servicio</span>${esc(v.acuerdo.servicio)}</div>` : ''}
+            ${v.acuerdo.presupuesto ? `<div class="v-detail-row"><span class="v-detail-label">Presupuesto</span>${esc(v.acuerdo.presupuesto)}</div>` : ''}
+            ${v.situacion?.estadoActual ? `<div class="v-detail-row"><span class="v-detail-label">Situación</span>${esc(v.situacion.estadoActual)}</div>` : ''}
+            ${v.situacion?.necesidades  ? `<div class="v-detail-row"><span class="v-detail-label">Necesidades</span>${esc(v.situacion.necesidades)}</div>` : ''}
+            ${v.acuerdo.notas ? `<div class="v-detail-row"><span class="v-detail-label">Notas</span>${esc(v.acuerdo.notas)}</div>` : ''}
             <div class="v-visit-actions">
               ${waURL ? `<a class="v-btn-wa" href="${esc(waURL)}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>` : ''}
               <button class="v-btn-del" type="button" data-id="${esc(v.id)}"><i class="fa-solid fa-trash-can"></i> Eliminar</button>
