@@ -83,35 +83,8 @@
     .v-btn-next:disabled { opacity: 0.3; cursor: not-allowed; }
     .v-btn-next:not(:disabled):hover { transform: translateY(-1px); }
 
-    /* Unlock */
-    .v-unlock { max-width: 340px; margin: 60px auto; padding: 0 20px; text-align: center; }
-    .v-unlock h1 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 24px; margin-bottom: 6px; }
-    .v-unlock p { color: var(--muted); font-size: 13px; margin-bottom: 22px; }
-    .v-unlock-input { width: 100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; color: var(--ink); font-size: 16px; text-align: center; letter-spacing: 0.1em; font-family: 'Inter', sans-serif; margin-bottom: 10px; }
-    .v-unlock-input:focus { outline: none; border-color: var(--lime); }
-    .v-unlock-btn { width: 100%; background: var(--lime); color: #101010; border: none; border-radius: 999px; padding: 12px; font-weight: 700; font-size: 14px; cursor: pointer; font-family: 'Inter', sans-serif; }
-    .v-err { color: #f87171; font-size: 12px; margin-top: 8px; display: none; }
-
-    /* Setup Sheets */
-    .v-setup { max-width: 560px; margin: 20px auto; padding: 0 16px 40px; }
+    /* Config */
     .v-setup-card { background: var(--surface); border-radius: 14px; padding: 22px; margin-bottom: 14px; border: 1px solid var(--border); }
-    .v-setup-step { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
-    .v-setup-step:last-child { margin-bottom: 0; }
-    .v-step-num { background: var(--lime); color: #101010; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
-    .v-step-text { font-size: 13px; line-height: 1.6; color: var(--ink); }
-    .v-step-text strong { color: var(--lime); }
-    .v-code-block { background: #0a0a0a; border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-family: 'Courier New', monospace; font-size: 11px; color: #a3e635; margin: 8px 0; max-height: 200px; overflow-y: auto; white-space: pre; line-height: 1.5; }
-    .v-btn-copy { background: none; border: 1px solid var(--border); color: var(--muted); border-radius: 6px; padding: 5px 12px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; margin-top: 4px; transition: all 0.15s; }
-    .v-btn-copy:hover { color: var(--ink); border-color: #444; }
-    .v-btn-copy.copied { color: var(--lime); border-color: var(--lime); }
-    .v-url-row { display: flex; gap: 8px; margin-top: 8px; }
-    .v-url-input { flex: 1; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 9px; padding: 10px 13px; color: var(--ink); font-family: 'Inter', sans-serif; font-size: 13px; }
-    .v-url-input:focus { outline: none; border-color: var(--lime); }
-    .v-url-input::placeholder { color: var(--muted); }
-    .v-btn-save-url { background: var(--lime); color: #101010; border: none; border-radius: 9px; padding: 10px 16px; font-weight: 700; font-size: 13px; cursor: pointer; white-space: nowrap; font-family: 'Inter', sans-serif; }
-    .v-skip-link { text-align: center; margin-top: 14px; }
-    .v-skip-link button { background: none; border: none; color: var(--muted); font-size: 12px; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: underline; }
-    .v-skip-link button:hover { color: var(--ink); }
 
     /* Historial */
     .v-history { max-width: 560px; margin: 20px auto; padding: 0 16px 40px; }
@@ -177,7 +150,7 @@
     @media (max-width: 480px) {
       .v-card { margin: 10px; border-radius: 12px; }
       .v-body { padding: 16px; }
-      .v-history, .v-setup, .v-config { padding: 0 10px 40px; }
+      .v-history, .v-config { padding: 0 10px 40px; }
       .v-search { width: 140px; }
     }
   </style>
@@ -203,10 +176,9 @@
   (function () {
     'use strict';
 
-    const PASS    = 'edu2026';
-    const TOKEN   = 'eMv_7Kx9pQ2r-Wt4nJu';
-    const SK      = 'visitas_edu';
-    const SK_URL  = 'visitas_sheet_url';
+    const TOKEN    = 'eMv_7Kx9pQ2r-Wt4nJu';
+    const SK       = 'visitas_edu';
+    const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_k0CbuYjafR6YCS1f4LndoI9z5ckt4sxxQyohAOh_2Uwbasia18KJJMEqxeSWtU4_/exec';
 
     /* ── Helpers ── */
     function esc(s) {
@@ -224,8 +196,7 @@
     function addVisit(v)  { const a = loadAll(); a.unshift(v); saveAll(a); }
     function delVisit(id) { saveAll(loadAll().filter(v=>v.id!==id)); }
     function updateVisit(v) { saveAll(loadAll().map(x => x.id === v.id ? v : x)); }
-    function getSheetURL() { return localStorage.getItem(SK_URL) || ''; }
-    function setSheetURL(u) { localStorage.setItem(SK_URL, u.trim()); }
+    function getSheetURL() { return SHEET_URL; }
 
     /* ── Google Sheets sync ── */
     async function syncToSheets(v, url) {
@@ -261,7 +232,7 @@
     const vCount   = document.getElementById('vCount');
     const btnCfg   = document.getElementById('btnConfig');
 
-    let screen     = 'unlock';
+    let screen     = loadAll().length > 0 ? 'history' : 'new';
     let step       = 1;
     let lastSynced = false;
     let expandedId = null;
@@ -298,80 +269,22 @@
       'Cliente descartado':       '#6B7280',
     };
 
-    const GS_CODE = `// ── Pega este código en Apps Script y haz clic en Implementar ──
-
-const SECRET = 'eMv_7Kx9pQ2r-Wt4nJu';
-
-const COLS = [
-  'Fecha visita','Nombre','Negocio','Email','Teléfono',
-  'Plataformas','Situación actual','Necesidades',
-  'Servicio','Presupuesto','Próximo paso',
-  'Fecha seguimiento','Notas','Guardado el'
-];
-
-function doPost(e) {
-  try {
-    const d = JSON.parse(e.postData.contents);
-    if (d._token !== SECRET) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ok:false,error:'Unauthorized'}))
-        .setMimeType(ContentService.MimeType.JSON);
-    }
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    if (sheet.getLastRow() === 0) sheet.appendRow(COLS);
-    sheet.appendRow([
-      d.fechaVisita               || '',
-      d.cliente?.nombre           || '',
-      d.cliente?.negocio          || '',
-      d.cliente?.email            || '',
-      d.cliente?.telefono         || '',
-      (d.situacion?.plataformas||[]).join(', '),
-      d.situacion?.estadoActual   || '',
-      d.situacion?.necesidades    || '',
-      d.acuerdo?.servicio         || '',
-      d.acuerdo?.presupuesto      || '',
-      d.acuerdo?.proximoPaso      || '',
-      d.acuerdo?.fechaSeg         || '',
-      d.acuerdo?.notas            || '',
-      new Date().toLocaleString('es-ES'),
-    ]);
-    return ContentService
-      .createTextOutput(JSON.stringify({ok:true}))
-      .setMimeType(ContentService.MimeType.JSON);
-  } catch(err) {
-    return ContentService
-      .createTextOutput(JSON.stringify({ok:false,error:err.message}))
-      .setMimeType(ContentService.MimeType.JSON);
-  }
-}
-
-function doGet() {
-  return ContentService
-    .createTextOutput(JSON.stringify({ok:true}))
-    .setMimeType(ContentService.MimeType.JSON);
-}`;
-
     /* ── Render principal ── */
     function render() {
       updateHeader();
-      if      (screen === 'unlock')   renderUnlock();
-      else if (screen === 'setup')    renderSetup();
-      else if (screen === 'new')      renderStep();
+      if      (screen === 'new')      renderStep();
       else if (screen === 'saved')    renderSaved();
       else if (screen === 'history')  renderHistory();
       else if (screen === 'config')   renderConfig();
     }
 
     function updateHeader() {
-      const unlocked = screen !== 'unlock';
-      tabs.style.display   = unlocked ? 'flex' : 'none';
-      btnCfg.style.display = unlocked ? 'flex' : 'none';
-      if (unlocked) {
-        const n = loadAll().length;
-        vCount.textContent = n > 0 ? `(${n})` : '';
-        tabN.classList.toggle('active', screen === 'new' || screen === 'saved');
-        tabH.classList.toggle('active', screen === 'history');
-      }
+      const n = loadAll().length;
+      tabs.style.display   = 'flex';
+      btnCfg.style.display = 'flex';
+      vCount.textContent = n > 0 ? `(${n})` : '';
+      tabN.classList.toggle('active', screen === 'new' || screen === 'saved');
+      tabH.classList.toggle('active', screen === 'history');
     }
 
     /* ── Tabs y config ── */
@@ -379,126 +292,22 @@ function doGet() {
     tabH.addEventListener('click', () => { screen = 'history'; render(); });
     btnCfg.addEventListener('click', () => { screen = 'config'; render(); });
 
-    /* ── UNLOCK ── */
-    function renderUnlock() {
-      mainEl.innerHTML = `
-        <div class="v-unlock v-screen">
-          <div style="font-size:34px;margin-bottom:14px;">🔒</div>
-          <h1>Panel de Visitas</h1>
-          <p>Introduce la clave para acceder.</p>
-          <input class="v-unlock-input" id="vPass" type="password" placeholder="••••••••" autocomplete="current-password">
-          <button class="v-unlock-btn" id="vUnlockBtn" type="button">Entrar</button>
-          <p class="v-err" id="vErr">Clave incorrecta.</p>
-        </div>`;
-
-      const inp = document.getElementById('vPass');
-      const btn = document.getElementById('vUnlockBtn');
-      const err = document.getElementById('vErr');
-
-      function tryUnlock() {
-        if (inp.value === PASS) {
-          screen = getSheetURL() ? (loadAll().length > 0 ? 'history' : 'new') : 'setup';
-          render();
-        } else { err.style.display = 'block'; inp.value = ''; inp.focus(); }
-      }
-      btn.addEventListener('click', tryUnlock);
-      inp.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
-      inp.focus();
-    }
-
-    /* ── SETUP Google Sheets ── */
-    function renderSetup() {
-      mainEl.innerHTML = `
-        <div class="v-setup v-screen">
-          <div class="v-setup-card">
-            <div style="margin-bottom:18px;">
-              <div style="font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:6px;">Configuración inicial</div>
-              <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;margin-bottom:6px;">Conectar con Google Sheets</div>
-              <p style="font-size:13px;color:var(--muted);line-height:1.6;">Así tus visitas se guardan en la nube y puedes verlas desde cualquier dispositivo. Solo hay que hacerlo una vez.</p>
-            </div>
-
-            <div class="v-setup-step">
-              <div class="v-step-num">1</div>
-              <div class="v-step-text">Abre <strong>Google Sheets</strong> y crea una hoja nueva en blanco. Ponle un nombre como <em>"Visitas Edu"</em>.</div>
-            </div>
-            <div class="v-setup-step">
-              <div class="v-step-num">2</div>
-              <div class="v-step-text">En el menú superior, ve a <strong>Extensiones → Apps Script</strong>. Se abrirá una ventana nueva.</div>
-            </div>
-            <div class="v-setup-step">
-              <div class="v-step-num">3</div>
-              <div class="v-step-text">Borra todo el texto que hay y pega este código:</div>
-            </div>
-            <div class="v-code-block" id="gsCode">${esc(GS_CODE)}</div>
-            <button class="v-btn-copy" id="btnCopy" type="button"><i class="fa-solid fa-copy"></i> Copiar código</button>
-
-            <div class="v-setup-step" style="margin-top:18px;">
-              <div class="v-step-num">4</div>
-              <div class="v-step-text">Haz clic en <strong>Implementar → Nueva implementación</strong>. En <em>Tipo</em> elige <strong>Aplicación web</strong>. En <em>Quién tiene acceso</em> elige <strong>Cualquier persona</strong>. Haz clic en <strong>Implementar</strong> y autoriza si te lo pide.</div>
-            </div>
-            <div class="v-setup-step">
-              <div class="v-step-num">5</div>
-              <div class="v-step-text">Copia la <strong>URL de la aplicación web</strong> que aparece y pégala aquí:</div>
-            </div>
-            <div class="v-url-row">
-              <input class="v-url-input" id="vUrlInput" type="url" placeholder="https://script.google.com/macros/s/…/exec">
-              <button class="v-btn-save-url" id="vSaveUrl" type="button">Guardar</button>
-            </div>
-          </div>
-          <div class="v-skip-link">
-            <button id="vSkip" type="button">Usar solo en este dispositivo (sin Google Sheets)</button>
-          </div>
-        </div>`;
-
-      document.getElementById('btnCopy').addEventListener('click', () => {
-        navigator.clipboard.writeText(GS_CODE).then(() => {
-          const b = document.getElementById('btnCopy');
-          b.textContent = '✓ Copiado';
-          b.classList.add('copied');
-          setTimeout(() => { b.innerHTML = '<i class="fa-solid fa-copy"></i> Copiar código'; b.classList.remove('copied'); }, 2000);
-        });
-      });
-
-      document.getElementById('vSaveUrl').addEventListener('click', () => {
-        const url = document.getElementById('vUrlInput').value.trim();
-        if (!url.startsWith('https://script.google.com')) {
-          alert('La URL debe empezar por https://script.google.com/…'); return;
-        }
-        setSheetURL(url);
-        screen = 'new'; render();
-      });
-
-      document.getElementById('vSkip').addEventListener('click', () => {
-        screen = 'new'; render();
-      });
-    }
-
-    /* ── CONFIG (cambiar URL) ── */
+    /* ── CONFIG ── */
     function renderConfig() {
-      const current = getSheetURL();
       mainEl.innerHTML = `
         <div class="v-config v-screen">
           <div class="v-setup-card">
             <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:12px;">Configuración</div>
 
             <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">
-              ${current
-                ? `<span style="color:#4ade80">✓ Google Sheets conectado</span>`
-                : `<span style="color:#facc15">⚠ Sin Google Sheets — datos solo en este dispositivo</span>`}
+              <span style="color:#4ade80">✓ Google Sheets conectado</span>
             </p>
 
-            <label style="font-size:11px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px;">URL del Apps Script</label>
-            <div class="v-url-row">
-              <input class="v-url-input" id="cfgUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(current)}">
-              <button class="v-btn-save-url" id="cfgSave" type="button">Guardar</button>
-            </div>
-
-            ${current ? `
-            <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
+            <div style="margin-top:4px;padding-top:16px;border-top:1px solid var(--border);">
               <p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Enviar todas las visitas guardadas a Google Sheets:</p>
               <button class="v-btn-syncall" id="cfgSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo ahora</button>
               <p id="cfgSyncMsg" style="font-size:12px;color:var(--muted);margin-top:8px;display:none;"></p>
-            </div>` : ''}
+            </div>
 
             <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border);">
               <button class="v-btn-back" id="cfgBack" type="button">← Volver al historial</button>
@@ -506,31 +315,20 @@ function doGet() {
           </div>
         </div>`;
 
-      document.getElementById('cfgSave').addEventListener('click', () => {
-        const url = document.getElementById('cfgUrl').value.trim();
-        if (url && !url.startsWith('https://script.google.com')) {
-          alert('La URL debe empezar por https://script.google.com/…'); return;
-        }
-        setSheetURL(url);
-        screen = 'history'; render();
+      document.getElementById('cfgBack').addEventListener('click', () => { screen = 'history'; render(); });
+
+      document.getElementById('cfgSyncAll').addEventListener('click', async () => {
+        const syncBtn = document.getElementById('cfgSyncAll');
+        syncBtn.disabled = true;
+        syncBtn.textContent = 'Sincronizando…';
+        const n = await syncAllToSheets();
+        const msg = document.getElementById('cfgSyncMsg');
+        msg.style.display = 'block';
+        msg.style.color = '#4ade80';
+        msg.textContent = `✓ ${n} visita${n !== 1 ? 's' : ''} enviada${n !== 1 ? 's' : ''} a Google Sheets.`;
+        syncBtn.disabled = false;
+        syncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar todo ahora';
       });
-
-      document.getElementById('cfgBack')?.addEventListener('click', () => { screen = 'history'; render(); });
-
-      const syncBtn = document.getElementById('cfgSyncAll');
-      if (syncBtn) {
-        syncBtn.addEventListener('click', async () => {
-          syncBtn.disabled = true;
-          syncBtn.textContent = 'Sincronizando…';
-          const n = await syncAllToSheets();
-          const msg = document.getElementById('cfgSyncMsg');
-          msg.style.display = 'block';
-          msg.style.color = '#4ade80';
-          msg.textContent = `✓ ${n} visita${n !== 1 ? 's' : ''} enviada${n !== 1 ? 's' : ''} a Google Sheets.`;
-          syncBtn.disabled = false;
-          syncBtn.innerHTML = '<i class="fa-solid fa-rotate"></i> Sincronizar todo ahora';
-        });
-      }
     }
 
     /* ── STEPS ── */
