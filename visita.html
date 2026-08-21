@@ -158,6 +158,33 @@
     @keyframes vIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
+    /* Toggle vista */
+    .v-view-btn { background: none; border: 1px solid var(--border); border-radius: 7px; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; color: var(--muted); cursor: pointer; transition: all 0.12s; flex-shrink: 0; }
+    .v-view-btn.active { background: var(--lime); color: #101010; border-color: var(--lime); }
+    .v-view-btn:not(.active):hover { color: var(--ink); border-color: #444; }
+
+    /* Kanban */
+    .v-kanban-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 40px; }
+    .v-kanban { display: flex; gap: 10px; padding: 0 16px; width: max-content; min-width: 100%; }
+    .v-kanban-col { width: 200px; flex-shrink: 0; display: flex; flex-direction: column; }
+    .v-kanban-col-hd { padding: 7px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .v-kanban-col-body { flex: 1; min-height: 80px; border-radius: 8px; padding: 3px; border: 1.5px dashed transparent; transition: border-color 0.15s, background 0.15s; }
+    .v-kanban-col-body.drag-over { border-color: var(--lime); background: rgba(203,255,61,0.05); }
+    .v-kcard { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 11px; margin-bottom: 6px; cursor: grab; user-select: none; transition: border-color 0.12s, box-shadow 0.12s; position: relative; }
+    .v-kcard:hover { border-color: #3a3a3a; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .v-kcard.dragging { opacity: 0.25; cursor: grabbing; }
+    .v-kcard-name { font-weight: 700; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 22px; }
+    .v-kcard-biz { font-size: 11px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .v-kcard-foot { display: flex; align-items: center; gap: 5px; margin-top: 7px; flex-wrap: wrap; }
+    .v-kcard-edit { position: absolute; top: 8px; right: 8px; background: none; border: none; color: var(--muted); cursor: pointer; padding: 2px; font-size: 10px; opacity: 0; transition: opacity 0.12s; }
+    .v-kcard:hover .v-kcard-edit { opacity: 1; }
+
+    /* Quick-status popup */
+    .v-status-wrap { position: relative; display: inline-flex; }
+    .v-qpopup { position: absolute; top: 18px; left: 0; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 5px; z-index: 60; min-width: 175px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+    .v-qpopup button { display: flex; align-items: center; gap: 7px; width: 100%; text-align: left; background: none; border: none; color: var(--ink); font-size: 12px; font-weight: 500; padding: 6px 8px; border-radius: 6px; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .v-qpopup button:hover { background: var(--surface2); }
+
     @media (max-width: 480px) {
       .v-card { margin: 10px; border-radius: 12px; }
       .v-body { padding: 16px; }
@@ -365,6 +392,8 @@
     let lastSynced = false;
     let expandedId = null;
     let filterPaso = 'todos';
+    let viewMode   = localStorage.getItem('v_view') || 'list';
+    let dragId     = null;
     let draft      = freshDraft();
 
     function freshDraft() {
@@ -755,7 +784,14 @@
       'Descartado':          'Descartado',
     };
 
+    const ICON_LIST   = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`;
+    const ICON_KANBAN = `<svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="5" height="11" rx="1"/><rect x="9.5" y="3" width="5" height="7" rx="1"/><rect x="16" y="3" width="5" height="14" rx="1"/></svg>`;
+
+    function setView(m) { viewMode = m; localStorage.setItem('v_view', m); }
+
     function renderHistory() {
+      if (viewMode === 'kanban') { renderKanban(); return; }
+
       const all    = loadAll();
       const today_ = today();
       const CLOSED = ['Cliente activo','Descartado','Cliente descartado'];
@@ -773,7 +809,7 @@
 
           ${alerts.length > 0 ? `
           <div style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.3);border-radius:10px;padding:10px 14px;margin-bottom:12px;font-size:12px;color:#f87171;display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-            <i class="fa-solid fa-bell"></i>
+            <span>🔔</span>
             <span>${alerts.length} seguimiento${alerts.length>1?'s':''} pendiente${alerts.length>1?'s':''}:</span>
             <strong>${alerts.map(v=>esc(v.cliente.nombre)).join(', ')}</strong>
           </div>` : ''}
@@ -783,17 +819,23 @@
               <i class="fa-solid fa-magnifying-glass v-search-icon" aria-hidden="true"></i>
               <input class="v-search" id="vSearch" type="search" placeholder="Buscar…" value="${esc(searchVal)}">
             </div>
-            <div class="v-filter-btns">
-              ${Object.entries(FILTER_LABELS).map(([k, label]) => `
-                <button class="v-filter${filterPaso===k?' active':''}" data-f="${esc(k)}" type="button">
-                  ${k!=='todos'?`<span style="width:6px;height:6px;border-radius:50%;background:${PASO_COLOR[k]||'var(--muted)'};display:inline-block;margin-right:3px;vertical-align:middle;"></span>`:''}${esc(label)}
-                </button>`).join('')}
+            <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+              <div class="v-filter-btns">
+                ${Object.entries(FILTER_LABELS).map(([k, label]) => `
+                  <button class="v-filter${filterPaso===k?' active':''}" data-f="${esc(k)}" type="button">
+                    ${k!=='todos'?`<span style="width:6px;height:6px;border-radius:50%;background:${PASO_COLOR[k]||'var(--muted)'};display:inline-block;margin-right:3px;vertical-align:middle;"></span>`:''}${esc(label)}
+                  </button>`).join('')}
+              </div>
+              <div style="display:flex;gap:3px;margin-left:4px;">
+                <button class="v-view-btn active" id="hBtnList"   title="Lista"   type="button">${ICON_LIST}</button>
+                <button class="v-view-btn"         id="hBtnKanban" title="Kanban" type="button">${ICON_KANBAN}</button>
+              </div>
             </div>
           </div>
 
           <div class="v-sync-bar">
-            <span><span class="v-sync-dot ok"></span> Google Sheets conectado · ${all.length} visita${all.length!==1?'s':''}</span>
-            <button class="v-btn-syncall" id="hSyncAll" type="button"><i class="fa-solid fa-rotate"></i> Sincronizar todo</button>
+            <span><span class="v-sync-dot ok"></span> ${all.length} visita${all.length!==1?'s':''}</span>
+            <button class="v-btn-syncall" id="hSyncAll" type="button">↑ Sincronizar</button>
           </div>
 
           ${shown.length === 0
@@ -805,17 +847,43 @@
       document.querySelectorAll('.v-filter').forEach(btn => {
         btn.addEventListener('click', () => { filterPaso = btn.dataset.f; renderHistory(); });
       });
+      document.getElementById('hBtnList').addEventListener('click', () => { setView('list'); renderHistory(); });
+      document.getElementById('hBtnKanban').addEventListener('click', () => { setView('kanban'); renderKanban(); });
       document.getElementById('hSyncAll')?.addEventListener('click', async () => {
         const btn = document.getElementById('hSyncAll');
-        btn.disabled = true; btn.textContent = 'Sincronizando…';
+        btn.disabled = true; btn.textContent = 'Enviando…';
         const n = await syncAllToSheets();
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-rotate"></i> Sincronizar todo`;
+        btn.disabled = false; btn.textContent = '↑ Sincronizar';
         alert(`✓ ${n} visita${n!==1?'s':''} enviada${n!==1?'s':''} a Google Sheets.`);
       });
+
+      document.querySelectorAll('.v-status-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          document.querySelector('.v-qpopup')?.remove();
+          const id = btn.dataset.id;
+          const popup = document.createElement('div');
+          popup.className = 'v-qpopup';
+          popup.innerHTML = PASOS.map(p => `
+            <button data-paso="${esc(p)}" type="button">
+              <span style="width:8px;height:8px;border-radius:50%;background:${PASO_COLOR[p]||'var(--muted)'};flex-shrink:0;display:inline-block;"></span>${esc(p)}
+            </button>`).join('');
+          btn.closest('.v-status-wrap').appendChild(popup);
+          popup.querySelectorAll('button').forEach(b => {
+            b.addEventListener('click', ev => {
+              ev.stopPropagation();
+              const all = loadAll(), v = all.find(x => x.id === id);
+              if (v) { v.acuerdo.proximoPaso = b.dataset.paso; saveAll(all); }
+              popup.remove(); renderHistory();
+            });
+          });
+          setTimeout(() => document.addEventListener('click', () => { popup.remove(); }, { once: true }), 0);
+        });
+      });
+
       document.querySelectorAll('.v-visit-card').forEach(card => {
         card.addEventListener('click', e => {
-          if (e.target.closest('.v-visit-actions')) return;
+          if (e.target.closest('.v-visit-actions') || e.target.closest('.v-status-wrap')) return;
           const id = card.dataset.id;
           expandedId = expandedId === id ? null : id;
           renderHistory();
@@ -837,6 +905,153 @@
       });
     }
 
+    /* ── KANBAN ── */
+    function renderKanban() {
+      const all    = loadAll();
+      const today_ = today();
+
+      mainEl.innerHTML = `
+        <div class="v-screen" style="padding-bottom:40px;">
+          <div style="padding:0 16px 10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;max-width:none;">
+            <span style="font-size:12px;color:var(--muted);">${all.length} visita${all.length!==1?'s':''} · arrastra para mover</span>
+            <div style="display:flex;gap:3px;">
+              <button class="v-view-btn"         id="kBtnList"   title="Lista"   type="button">${ICON_LIST}</button>
+              <button class="v-view-btn active"   id="kBtnKanban" title="Kanban" type="button">${ICON_KANBAN}</button>
+            </div>
+          </div>
+          <div class="v-kanban-wrap">
+            <div class="v-kanban">
+              ${PASOS.map(paso => {
+                const cards  = all.filter(v => v.acuerdo.proximoPaso === paso);
+                const color  = PASO_COLOR[paso] || '#6B7280';
+                return `
+                  <div class="v-kanban-col">
+                    <div class="v-kanban-col-hd" style="background:${color}22;color:${color};">
+                      <span>${esc(paso)}</span><span>${cards.length}</span>
+                    </div>
+                    <div class="v-kanban-col-body" data-paso="${esc(paso)}">
+                      ${cards.length === 0
+                        ? `<div style="text-align:center;padding:14px 8px;color:var(--muted);font-size:11px;">—</div>`
+                        : cards.map(v => kanbanCardHTML(v, today_)).join('')}
+                    </div>
+                  </div>`;
+              }).join('')}
+            </div>
+          </div>
+        </div>`;
+
+      document.getElementById('kBtnList').addEventListener('click', () => { setView('list'); renderHistory(); });
+      document.getElementById('kBtnKanban').addEventListener('click', () => {});
+      initDragDrop();
+
+      document.querySelectorAll('.v-kcard-edit').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.stopPropagation();
+          const v = loadAll().find(x => x.id === btn.dataset.id);
+          if (!v) return;
+          draft = { ...v, cuestionario: v.cuestionario || { answers: new Array(QUESTIONS.length).fill(null), winnerLevel: null } };
+          step = 1; screen = 'new'; render();
+        });
+      });
+    }
+
+    function kanbanCardHTML(v, today_) {
+      const resLabel  = v.cuestionario?.winnerLevel ? RESULTS[v.cuestionario.winnerLevel]?.label : null;
+      const segPast   = isPast(v.acuerdo.fechaSeg);
+      const segToday  = isToday(v.acuerdo.fechaSeg);
+      return `
+        <div class="v-kcard" draggable="true" data-id="${esc(v.id)}">
+          <button class="v-kcard-edit" data-id="${esc(v.id)}" type="button" title="Editar">✏️</button>
+          <div class="v-kcard-name">${esc(v.cliente.nombre)}</div>
+          <div class="v-kcard-biz">${esc(v.cliente.negocio)}</div>
+          <div class="v-kcard-foot">
+            ${resLabel ? `<span style="background:rgba(203,255,61,0.12);color:var(--lime);font-size:9px;font-weight:700;padding:2px 6px;border-radius:999px;">${esc(resLabel)}</span>` : ''}
+            ${v.acuerdo.fechaSeg ? `<span style="font-size:10px;color:${segPast||segToday?'#f87171':'var(--muted)'};">${segToday?'Hoy':segPast?'Vencido':fmtDate(v.acuerdo.fechaSeg)}</span>` : ''}
+          </div>
+        </div>`;
+    }
+
+    function moveCard(id, newPaso) {
+      if (!id || !newPaso) return;
+      const all = loadAll();
+      const v   = all.find(x => x.id === id);
+      if (!v || v.acuerdo.proximoPaso === newPaso) return;
+      v.acuerdo.proximoPaso = newPaso;
+      saveAll(all);
+      renderKanban();
+    }
+
+    function initDragDrop() {
+      let ghost = null, touchStartX = 0, touchStartY = 0, startTop = 0, startLeft = 0, touchCard = null;
+
+      document.querySelectorAll('.v-kcard').forEach(card => {
+        /* ── Desktop ── */
+        card.addEventListener('dragstart', e => {
+          dragId = card.dataset.id;
+          card.classList.add('dragging');
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        card.addEventListener('dragend', () => {
+          card.classList.remove('dragging');
+          document.querySelectorAll('.v-kanban-col-body').forEach(c => c.classList.remove('drag-over'));
+        });
+
+        /* ── Touch ── */
+        card.addEventListener('touchstart', e => {
+          touchCard = card;
+          dragId    = card.dataset.id;
+          const t   = e.touches[0];
+          touchStartX = t.clientX; touchStartY = t.clientY;
+          const rect  = card.getBoundingClientRect();
+          startTop = rect.top; startLeft = rect.left;
+          ghost = card.cloneNode(true);
+          ghost.style.cssText = `position:fixed;top:${startTop}px;left:${startLeft}px;width:${rect.width}px;opacity:0.85;pointer-events:none;z-index:1000;transition:none;box-shadow:0 8px 24px rgba(0,0,0,0.5);`;
+          document.body.appendChild(ghost);
+          setTimeout(() => { if (touchCard) card.classList.add('dragging'); }, 80);
+        }, { passive: true });
+
+        card.addEventListener('touchmove', e => {
+          if (!ghost) return;
+          e.preventDefault();
+          const t = e.touches[0];
+          ghost.style.top  = (startTop  + t.clientY - touchStartY) + 'px';
+          ghost.style.left = (startLeft + t.clientX - touchStartX) + 'px';
+          ghost.style.visibility = 'hidden';
+          const el  = document.elementFromPoint(t.clientX, t.clientY);
+          ghost.style.visibility = 'visible';
+          document.querySelectorAll('.v-kanban-col-body').forEach(c => c.classList.remove('drag-over'));
+          el?.closest?.('.v-kanban-col-body')?.classList.add('drag-over');
+        }, { passive: false });
+
+        card.addEventListener('touchend', e => {
+          if (!touchCard) return;
+          const t = e.changedTouches[0];
+          if (ghost) {
+            ghost.style.visibility = 'hidden';
+            const el  = document.elementFromPoint(t.clientX, t.clientY);
+            ghost.style.visibility = 'visible';
+            document.body.removeChild(ghost); ghost = null;
+            const col = el?.closest?.('.v-kanban-col-body');
+            if (col) moveCard(dragId, col.dataset.paso);
+          }
+          document.querySelectorAll('.v-kanban-col-body').forEach(c => c.classList.remove('drag-over'));
+          card.classList.remove('dragging');
+          touchCard = null; dragId = null;
+        }, { passive: true });
+      });
+
+      /* ── Drop zones ── */
+      document.querySelectorAll('.v-kanban-col-body').forEach(col => {
+        col.addEventListener('dragover',  e => { e.preventDefault(); col.classList.add('drag-over'); });
+        col.addEventListener('dragleave', ()  => col.classList.remove('drag-over'));
+        col.addEventListener('drop',      e  => {
+          e.preventDefault();
+          col.classList.remove('drag-over');
+          moveCard(dragId, col.dataset.paso);
+        });
+      });
+    }
+
     function visitCardHTML(v, today_) {
       const color    = PASO_COLOR[v.acuerdo.proximoPaso] || 'var(--muted)';
       const waPhone  = (v.cliente.telefono||'').replace(/\D/g,'');
@@ -849,7 +1064,9 @@
       return `
         <div class="v-visit-card${isExp?' expanded':''}" data-id="${esc(v.id)}" data-nombre="${esc(v.cliente.nombre)}">
           <div class="v-visit-head">
-            <div class="v-status-dot" style="background:${color}" title="${esc(v.acuerdo.proximoPaso||'Sin definir')}"></div>
+            <div class="v-status-wrap">
+              <button class="v-status-dot v-status-btn" style="background:${color}" title="${esc(v.acuerdo.proximoPaso||'Sin definir')}" data-id="${esc(v.id)}" type="button" aria-label="Cambiar estado"></button>
+            </div>
             <div class="v-visit-main">
               <div class="v-visit-name">${esc(v.cliente.nombre)} · <span style="font-weight:500">${esc(v.cliente.negocio)}</span></div>
               <div class="v-visit-sub" style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;">
